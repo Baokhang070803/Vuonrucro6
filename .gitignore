@@ -1,0 +1,12 @@
+# Ignore large files
+*.rar
+*.zip
+*.7z
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
