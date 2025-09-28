@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vườn Rực Rỡ - Game Nông Trại Thần Kỳ</title>
+    <meta name="description" content="Khám phá thế giới thần kỳ của Vườn Rực Rỡ - game nông trại với cốt truyện sâu sắc về sự tha thứ và hồi sinh">
+    <meta name="keywords" content="game nông trại, vườn rực rỡ, unity game, farming game, vietnam game">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Vườn Rực Rỡ - Game Nông Trại Thần Kỳ">
+    <meta property="og:description" content="Khám phá thế giới thần kỳ của Vườn Rực Rỡ với cốt truyện sâu sắc về sự tha thứ và hồi sinh">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="images/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/landing-styles.css">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Background Music -->
+    <audio id="backgroundMusic" preload="auto" loop>
+        <source src="music/Bóng Tối Tham Lam.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Music Control Button -->
+    <div class="music-control">
+        <button id="musicToggle" class="music-btn" onclick="toggleMusic()" title="Bật/Tắt nhạc nền">
+            <i class="fas fa-volume-up" id="musicIcon"></i>
+        </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Vườn Rực Rỡ Logo">
+                <span>Vườn Rực Rỡ</span>
+            </div>
+            <ul class="nav-menu">
+                <!-- <li><a href="#home" class="nav-link">Trang chủ</a></li>
+                <li><a href="#story" class="nav-link">Cốt truyện</a></li>
+                <li><a href="#features" class="nav-link">Tính năng</a></li>
+                <li><a href="#gallery" class="nav-link">Hình ảnh</a></li>
+                <li><a href="#gameplay" class="nav-link">Hướng dẫn</a></li> -->
+                <!-- <li><a href="#download" class="nav-link">Tải game</a></li> -->
+                <!-- <li><a href="#contact" class="nav-link">Liên hệ</a></li> -->
+                <li class="nav-login">
+                    <button class="login-btn" onclick="openLoginModal()">
+                        <i class="fas fa-user"></i>
+                        Đăng nhập
+                    </button>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <video autoplay muted loop playsinline class="hero-video" style="background: red;" onloadstart="console.log('Video loading...')" oncanplay="console.log('Video can play')" onerror="console.log('Video error')">
+                <source src="video/lv_0_20250915023633.mp4" type="video/mp4">
+                <source src="video/0911.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-main">Vườn Rực Rỡ</span>
+                    <span class="title-sub">Game Nông Trại Thần Kỳ</span>
+                </h1>
+                <p class="hero-description">
+                    Khám phá thế giới thần kỳ nơi màu sắc và hạnh phúc được hồi sinh. 
+                    Cùng Tí Tẹo gieo trồng, chăm sóc và mang lại ánh sáng cho Làng Hoa Rực.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="downloadGame(); trackEvent('download_click', 'hero_section')">
+                        <i class="fab fa-windows"></i>
+                        <!-- <i class="fas fa-download"></i> -->
+                        Tải Game Miễn Phí
+                    </button>
+                    <button class="btn btn-secondary" onclick="openVideoModal(); trackEvent('trailer_click', 'hero_section')">
+                        <i class="fas fa-play"></i>
+                        Xem Trailer
+                    </button>
+                </div>
+                <!-- <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Người chơi</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.8</span>
+                        <span class="stat-label">Đánh giá</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Loại hoa</span>
+                    </div>
+                </div> -->
+            </div>
+            <div class="hero-image">
+                <div class="game-preview">
+                    <div class="advanced-carousel">
+                        <div class="carousel-wrapper">
+                            <div class="carousel-track" id="carouselTrack">
+                                <div class="carousel-item active" data-index="0">
+                                    <img src="images/mụ thảo.png" alt="Mụ Thảo" class="carousel-img">
+                                    <div class="item-overlay">
+                                        <h4>Mụ Thảo</h4>
+                                        <p>Già làng</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" data-index="1">
+                                    <img src="images/tí nị nữ.png" alt="Tí Nị Nữ" class="carousel-img">
+                                    <div class="item-overlay">
+                                        <h4>Tí Nị Nữ</h4>
+                                        <p>Nhân vật chính</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" data-index="2">
+                                    <img src="images/tinh linh.png" alt="Tinh Linh" class="carousel-img">
+                                    <div class="item-overlay">
+                                        <h4>Tinh Linh</h4>
+                                        <p>Tinh linh cây pha lê</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" data-index="3">
+                                    <img src="images/mụ xám.png" alt="Mụ Xám" class="carousel-img">
+                                    <div class="item-overlay">
+                                        <h4>Mụ Xám</h4>
+                                        <p>Phù thủy tài năng</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" data-index="4">
+                                    <img src="img/z7056398979903_dffe5cadf073b176003b5973aaa62961.jpg" alt="Scylla Cambell" class="carousel-img">
+                                    <div class="item-overlay">
+                                        <h4>Scylla Cambell</h4>
+                                        <p>Chủ hiệp hôi mạo hiểm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation Controls -->
+                        <div class="carousel-controls">
+                            <button class="carousel-nav prev" id="prevBtn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel-nav next" id="nextBtn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="carousel-progress">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        
+                        <!-- Dots Indicator -->
+                        <div class="carousel-dots" id="carouselDots">
+                            <span class="dot active" data-slide="0"></span>
+                            <span class="dot" data-slide="1"></span>
+                            <span class="dot" data-slide="2"></span>
+                            <span class="dot" data-slide="3"></span>
+                            <span class="dot" data-slide="4"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="floating-elements">
+                        <div class="floating-flower flower-1">🌸</div>
+                        <div class="floating-flower flower-2">🌺</div>
+                        <div class="floating-flower flower-3">🌻</div>
+                        <div class="floating-flower flower-4">🌷</div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Trailer Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-overlay" onclick="closeVideoModal()"></div>
+        <div class="video-modal-content">
+            <button class="video-close-btn" onclick="closeVideoModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="video-container">
+                <video id="trailerVideo" controls preload="metadata">
+                    <source src="video/0911.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="video-info">
+                <h3>Game Trailer - Vườn Rực Rỡ</h3>
+                <p>Khám phá thế giới thần kỳ đầy màu sắc và phép thuật</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-modal-overlay" onclick="closeLoginModal()"></div>
+        <div class="login-modal-content">
+            <button class="login-close-btn" onclick="closeLoginModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="login-container">
+                <div class="login-header">
+                    <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Logo" class="login-logo">
+                    <h2>Đăng nhập</h2>
+                    <p>Chào mừng trở lại với Vườn Rực Rỡ!</p>
+                </div>
+                <form class="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="username">Email:</label>
+                        <input type="email" id="username" name="username" required placeholder="example@email.com">
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu:</label>
+                        <input type="password" id="password" name="password" required>
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" onclick="togglePassword()"></i>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="remember">
+                            <span class="checkmark"></span>
+                            Ghi nhớ đăng nhập
+                        </label>
+                        <a href="#" class="forgot-password" onclick="openForgotPasswordModal()">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="login-submit-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Đăng nhập
+                    </button>
+                </form>
+                <div class="login-divider">
+                    <span>hoặc</span>
+                </div>
+                <div class="social-login">
+                    <button class="social-btn google-btn" onclick="loginWithGoogle()">
+                        <i class="fab fa-google"></i>
+                        Đăng nhập với Google
+                    </button>
+                </div>
+                <div class="login-footer">
+                    <p>Chưa có tài khoản? <a href="#" onclick="openRegisterModal()">Đăng ký ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="login-modal">
+        <div class="login-modal-overlay" onclick="closeRegisterModal()"></div>
+        <div class="login-modal-content">
+            <button class="login-close-btn" onclick="closeRegisterModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="login-container">
+                <div class="login-header">
+                    <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Logo" class="login-logo">
+                    <h2>Đăng ký tài khoản</h2>
+                    <p>Tạo tài khoản để khám phá Vườn Rực Rỡ!</p>
+                </div>
+                <form class="login-form" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="reg-fullname">Họ và tên:</label>
+                        <input type="text" id="reg-fullname" name="fullname" required>
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email:</label>
+                        <input type="email" id="reg-email" name="email" required>
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-username">Tên đăng nhập:</label>
+                        <input type="text" id="reg-username" name="username" required>
+                        <i class="fas fa-user-circle input-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Mật khẩu:</label>
+                        <input type="password" id="reg-password" name="password" required>
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" onclick="toggleRegisterPassword()"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-confirm-password">Xác nhận mật khẩu:</label>
+                        <input type="password" id="reg-confirm-password" name="confirmPassword" required>
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" onclick="toggleConfirmPassword()"></i>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agree-terms" required>
+                            <span class="checkmark"></span>
+                            Tôi đồng ý với <a href="#" onclick="openTermsModal()">Điều khoản sử dụng</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="login-submit-btn">
+                        <i class="fas fa-user-plus"></i>
+                        Tạo tài khoản
+                    </button>
+                </form>
+                <div class="login-divider">
+                    <span>hoặc</span>
+                </div>
+                <div class="social-login">
+                    <button class="social-btn google-btn" onclick="registerWithGoogle()">
+                        <i class="fab fa-google"></i>
+                        Đăng ký với Google
+                    </button>
+                </div>
+                <div class="login-footer">
+                    <p>Đã có tài khoản? <a href="#" onclick="openLoginFromRegister()">Đăng nhập ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="login-modal">
+        <div class="login-modal-overlay" onclick="closeForgotPasswordModal()"></div>
+        <div class="login-modal-content">
+            <button class="login-close-btn" onclick="closeForgotPasswordModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="login-container">
+                <div class="login-header">
+                    <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Logo" class="login-logo">
+                    <h2>Quên mật khẩu</h2>
+                    <p>Nhập email để khôi phục mật khẩu của bạn</p>
+                </div>
+                <form class="login-form" onsubmit="handleForgotPassword(event)">
+                    <div class="form-group">
+                        <label for="forgot-email">Email của bạn:</label>
+                        <input type="email" id="forgot-email" name="email" required placeholder="example@email.com">
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                    <button type="submit" class="login-submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Gửi link khôi phục
+                    </button>
+                </form>
+                <div class="login-footer" style="border-top: none; padding-top: 15px;">
+                    <p>Nhớ lại mật khẩu? <a href="#" onclick="openLoginFromForgot()">Đăng nhập</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Reset Success Modal -->
+    <div id="resetSuccessModal" class="login-modal">
+        <div class="login-modal-overlay" onclick="closeResetSuccessModal()"></div>
+        <div class="login-modal-content">
+            <button class="login-close-btn" onclick="closeResetSuccessModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="login-container">
+                <div class="login-header">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Email đã được gửi!</h2>
+                    <p>Vui lòng kiểm tra email của bạn để nhận link khôi phục mật khẩu</p>
+                </div>
+                <div class="success-content">
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>Lưu ý:</strong>
+                            <ul>
+                                <li>Kiểm tra cả thư mục spam/junk</li>
+                                <li>Link sẽ hết hạn sau 1 giờ</li>
+                                <li>Nếu không nhận được email, thử lại sau 5 phút</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="login-footer" style="border-top: none;">
+                    <button class="login-submit-btn" onclick="closeResetSuccessModal()">
+                        <i class="fas fa-arrow-left"></i>
+                        Quay lại đăng nhập
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase SDK from CDN
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut,
+            sendPasswordResetEmail,
+            GoogleAuthProvider,
+            signInWithPopup,
+            updateProfile,
+            onAuthStateChanged
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc,
+            collection,
+            query,
+            where,
+            getDocs
+        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDA2nXjMUZu7IcTmQIg3uNgJdb8PBWy618",
+            authDomain: "trangtrai-2769b.firebaseapp.com",
+            databaseURL: "https://trangtrai-2769b-default-rtdb.firebaseio.com",
+            projectId: "trangtrai-2769b",
+            storageBucket: "trangtrai-2769b.firebasestorage.app",
+            messagingSenderId: "455581137012",
+            appId: "1:455581137012:web:4f3c2a5c8fe7d1a4b3b921",
+            measurementId: "G-3RWSR0ZC1G"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Make Firebase available globally
+        window.firebaseApp = app;
+        window.firebaseAuth = auth;
+        window.firebaseDb = db;
+        
+        console.log('🔥 Firebase initialized successfully!');
+    </script>
+    <script type="module" src="js/firebase-auth.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/landing-script.js"></script>
+    
+    <!-- Debug Script for Carousel -->
+    <script>
+        // Kiểm tra carousel sau khi page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                console.log('🔍 Kiểm tra carousel status...');
+                const carouselItems = document.querySelectorAll('.carousel-item');
+                const dots = document.querySelectorAll('.dot');
+                
+                console.log('Carousel items found:', carouselItems.length);
+                console.log('Dots found:', dots.length);
+                console.log('Carousel instance:', window.advancedHeroCarousel);
+                
+                if (window.advancedHeroCarousel) {
+                    console.log('✅ Carousel hoạt động:', window.advancedHeroCarousel.isAutoPlaying);
+                } else {
+                    console.warn('❌ Carousel chưa được khởi tạo!');
+                }
+            }, 2000);
+        });
+        
+        // Manual controls for debugging
+        function debugCarousel() {
+            if (window.advancedHeroCarousel) {
+                console.log('Current index:', window.advancedHeroCarousel.currentIndex);
+                console.log('Total items:', window.advancedHeroCarousel.totalItems);
+                console.log('AutoPlay status:', window.advancedHeroCarousel.isAutoPlaying);
+                window.advancedHeroCarousel.nextSlide();
+            }
+        }
+        
+        // Timeline functions removed - no longer needed
+        
+        // SweetAlert2 Helper Functions
+        function showSuccessAlert(title, text, callback) {
+            Swal.fire({
+                icon: 'success',
+                title: title,
+                text: text,
+                confirmButtonText: 'Tuyệt vời!',
+                confirmButtonColor: '#4a90e2',
+                background: '#ffffff',
+                color: '#333333',
+                showConfirmButton: true,
+                timer: 3000,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    confirmButton: 'custom-swal-button'
+                }
+            }).then((result) => {
+                if (callback) callback(result);
+            });
+        }
+        
+        function showErrorAlert(title, text, callback) {
+            Swal.fire({
+                icon: 'error',
+                title: title,
+                text: text,
+                confirmButtonText: 'Thử lại',
+                confirmButtonColor: '#ff6b6b',
+                background: '#ffffff',
+                color: '#333333',
+                showConfirmButton: true,
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    confirmButton: 'custom-swal-button-error'
+                }
+            }).then((result) => {
+                if (callback) callback(result);
+            });
+        }
+        
+        function showWarningAlert(title, text, callback) {
+            Swal.fire({
+                icon: 'warning',
+                title: title,
+                text: text,
+                confirmButtonText: 'Đã hiểu',
+                confirmButtonColor: '#ffa726',
+                background: '#ffffff',
+                color: '#333333',
+                showConfirmButton: true,
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    confirmButton: 'custom-swal-button-warning'
+                }
+            }).then((result) => {
+                if (callback) callback(result);
+            });
+        }
+        
+        function showInfoAlert(title, text, callback) {
+            Swal.fire({
+                icon: 'info',
+                title: title,
+                text: text,
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#4a90e2',
+                background: '#ffffff',
+                color: '#333333',
+                showConfirmButton: true,
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    confirmButton: 'custom-swal-button'
+                }
+            }).then((result) => {
+                if (callback) callback(result);
+            });
+        }
+        
+        function showConfirmAlert(title, text, confirmCallback, cancelCallback) {
+            Swal.fire({
+                icon: 'question',
+                title: title,
+                text: text,
+                showCancelButton: true,
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy bỏ',
+                confirmButtonColor: '#4a90e2',
+                cancelButtonColor: '#6c757d',
+                background: '#ffffff',
+                color: '#333333',
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    confirmButton: 'custom-swal-button',
+                    cancelButton: 'custom-swal-button-cancel'
+                }
+            }).then((result) => {
+                if (result.isConfirmed && confirmCallback) {
+                    confirmCallback(result);
+                } else if (result.isDismissed && cancelCallback) {
+                    cancelCallback(result);
+                }
+            });
+        }
+        
+        function showLoadingAlert(title, text) {
+            Swal.fire({
+                title: title,
+                text: text,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                background: '#ffffff',
+                color: '#333333',
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title'
+                }
+            });
+        }
+        
+        function closeLoadingAlert() {
+            Swal.close();
+        }
+        
+        // Download Game Function
+        function downloadGame() {
+            // Show loading alert
+            showLoadingAlert('Đang chuẩn bị tải xuống...', 'Vui lòng chờ trong giây lát...');
+            
+            // Simulate preparation time (2 seconds)
+            setTimeout(() => {
+                closeLoadingAlert();
+                
+                // Show download confirmation with file info
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Tải xuống Vườn Rực Rỡ',
+                    html: `
+                        <div style="text-align: left; margin: 20px 0;">
+                            <p><strong>Tên file:</strong> vuonrucro.rar</p>
+                            <p><strong>Kích thước:</strong> ~500MB</p>
+                            <p><strong>Hệ điều hành:</strong> Windows 10/11</p>
+                            <p><strong>Yêu cầu:</strong> DirectX 11, RAM 4GB</p>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <small><i class="fas fa-info-circle"></i> Tải xuống sẽ bắt đầu tự động sau khi bấm "Tải ngay"</small>
+                        </div>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="fas fa-download"></i> Tải ngay',
+                    cancelButtonText: 'Hủy',
+                    confirmButtonColor: '#4a90e2',
+                    cancelButtonColor: '#6c757d',
+                    customClass: {
+                        popup: 'custom-swal-popup',
+                        title: 'custom-swal-title',
+                        confirmButton: 'custom-swal-button',
+                        cancelButton: 'custom-swal-button-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Start actual download
+                        startDownload();
+                    }
+                });
+            }, 2000);
+        }
+        
+        function startDownload() {
+            try {
+                // Create download link
+                const link = document.createElement('a');
+                link.href = 'game/vuonrucro.rar'; // Path to your game file
+                link.download = 'vuonrucro.rar';
+                link.style.display = 'none';
+                
+                // Add to DOM, click, and remove
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Show success message
+                showSuccessAlert(
+                    'Tải xuống đã bắt đầu!', 
+                    'File vuonrucro.rar đang được tải về máy tính của bạn. Kiểm tra thư mục Downloads để giải nén và cài đặt game.',
+                    () => {
+                        // Show installation guide
+                        showInstallationGuide();
+                    }
+                );
+                
+                // Track download event
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'download', {
+                        event_category: 'Game',
+                        event_label: 'vuonrucro.rar',
+                        value: 1
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                showErrorAlert(
+                    'Lỗi tải xuống!', 
+                    'Không thể tải file. Vui lòng thử lại sau hoặc liên hệ hỗ trợ.'
+                );
+            }
+        }
+        
+        function showInstallationGuide() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Hướng dẫn cài đặt',
+                html: `
+                    <div style="text-align: left; margin: 20px 0;">
+                        <h4>Các bước cài đặt:</h4>
+                        <ol style="margin: 15px 0; padding-left: 20px;">
+                            <li>Tìm file <strong>vuonrucro.rar</strong> trong thư mục Downloads</li>
+                            <li>Giải nén file bằng WinRAR hoặc 7-Zip</li>
+                            <li>Chạy file <strong>VuonRucRo.exe</strong> với quyền Administrator</li>
+                            <li>Làm theo hướng dẫn cài đặt</li>
+                            <li>Thưởng thức game!</li>
+                        </ol>
+                        
+                        <h4>Lưu ý:</h4>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>Đảm bảo máy tính có DirectX 11</li>
+                            <li>RAM tối thiểu 4GB</li>
+                            <li>Dung lượng trống ít nhất 2GB</li>
+                        </ul>
+                    </div>
+                `,
+                confirmButtonText: 'Đã hiểu',
+                confirmButtonColor: '#4a90e2',
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    confirmButton: 'custom-swal-button'
+                }
+            });
+        }
+        
+        // Login Modal Functions
+        function openLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            // Focus on username field
+            setTimeout(() => {
+                document.getElementById('username').focus();
+            }, 100);
+        }
+        
+        function closeLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Reset form
+            document.querySelector('.login-form').reset();
+        }
+        
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('username').value; // Changed to email
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const submitBtn = event.target.querySelector('.login-submit-btn');
+            
+            // Basic validation
+            if (!email || !password) {
+                showError('Vui lòng điền đầy đủ thông tin!', 'loginModal');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('Vui lòng nhập email hợp lệ!', 'loginModal');
+                return;
+            }
+            
+            showLoading(submitBtn);
+            
+            try {
+                const result = await window.firebaseAuth.login(email, password);
+                
+                if (result.success) {
+                    showSuccessAlert('Đăng nhập thành công!', 'Chào mừng bạn quay trở lại với Vườn Rực Rỡ!', () => {
+                        closeLoginModal();
+                    });
+                } else {
+                    showErrorAlert('Đăng nhập thất bại!', result.message);
+                }
+            } catch (error) {
+                showErrorAlert('Lỗi hệ thống!', 'Đã có lỗi xảy ra! Vui lòng thử lại sau.');
+                console.error('Login error:', error);
+            } finally {
+                hideLoading(submitBtn);
+            }
+        }
+        
+        async function loginWithGoogle() {
+            try {
+                const result = await window.firebaseAuth.loginWithGoogle();
+                
+                if (result.success) {
+                    showSuccessAlert('Đăng nhập Google thành công!', 
+                        'Chào mừng bạn đến với Vườn Rực Rỡ!', 
+                        () => {
+                            closeLoginModal();
+                        });
+                } else {
+                    showErrorAlert('Đăng nhập Google thất bại!', result.message);
+                }
+            } catch (error) {
+                showErrorAlert('Lỗi Google Authentication!', 'Đã có lỗi xảy ra khi đăng nhập với Google! Vui lòng thử lại.');
+                console.error('Google login error:', error);
+            }
+        }
+        
+        // Register Modal Functions
+        function openRegisterModal() {
+            closeLoginModal();
+            const modal = document.getElementById('registerModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                document.getElementById('reg-fullname').focus();
+            }, 100);
+        }
+        
+        function closeRegisterModal() {
+            const modal = document.getElementById('registerModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.querySelector('#registerModal .login-form').reset();
+        }
+        
+        function openLoginFromRegister() {
+            closeRegisterModal();
+            openLoginModal();
+        }
+        
+        function toggleRegisterPassword() {
+            const passwordInput = document.getElementById('reg-password');
+            const toggleIcon = passwordInput.parentElement.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        function toggleConfirmPassword() {
+            const passwordInput = document.getElementById('reg-confirm-password');
+            const toggleIcon = passwordInput.parentElement.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        async function handleRegister(event) {
+            event.preventDefault();
+            const fullname = document.getElementById('reg-fullname').value;
+            const email = document.getElementById('reg-email').value;
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const agreeTerms = document.getElementById('agree-terms').checked;
+            const submitBtn = event.target.querySelector('.login-submit-btn');
+            
+            // Validation
+            if (!fullname || !email || !username || !password || !confirmPassword) {
+                showWarningAlert('Thông tin chưa đầy đủ!', 'Vui lòng điền đầy đủ tất cả các trường thông tin.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showWarningAlert('Email không hợp lệ!', 'Vui lòng nhập địa chỉ email đúng định dạng.');
+                return;
+            }
+            
+            // Username validation
+            if (username.length < 3) {
+                showWarningAlert('Tên đăng nhập quá ngắn!', 'Tên đăng nhập phải có ít nhất 3 ký tự.');
+                return;
+            }
+            
+            // Password validation
+            if (password.length < 6) {
+                showWarningAlert('Mật khẩu quá yếu!', 'Mật khẩu phải có ít nhất 6 ký tự để đảm bảo bảo mật.');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showWarningAlert('Mật khẩu không khớp!', 'Vui lòng kiểm tra và nhập lại mật khẩu cho chính xác.');
+                return;
+            }
+            
+            if (!agreeTerms) {
+                showWarningAlert('Chưa đồng ý điều khoản!', 'Bạn cần đồng ý với điều khoản sử dụng để tiếp tục đăng ký.');
+                return;
+            }
+            
+            showLoading(submitBtn);
+            
+            try {
+                const result = await window.firebaseAuth.register(email, password, fullname, username);
+                
+                if (result.success) {
+                    showSuccessAlert('Đăng ký thành công!', 
+                        `Chào mừng ${fullname} đến với Vườn Rực Rỡ! Hãy bắt đầu khám phá thế giới thần kỳ của chúng ta.`, 
+                        () => {
+                            closeRegisterModal();
+                        });
+                } else {
+                    showErrorAlert('Đăng ký thất bại!', result.message);
+                }
+            } catch (error) {
+                showErrorAlert('Lỗi hệ thống!', 'Đã có lỗi xảy ra trong quá trình đăng ký! Vui lòng thử lại sau.');
+                console.error('Register error:', error);
+            } finally {
+                hideLoading(submitBtn);
+            }
+        }
+        
+        async function registerWithGoogle() {
+            try {
+                const result = await window.firebaseAuth.loginWithGoogle();
+                
+                if (result.success) {
+                    showSuccessAlert('Đăng ký Google thành công!', 
+                        'Tài khoản của bạn đã được tạo thành công! Chào mừng đến với Vườn Rực Rỡ!', 
+                        () => {
+                            closeRegisterModal();
+                        });
+                } else {
+                    showErrorAlert('Đăng ký Google thất bại!', result.message);
+                }
+            } catch (error) {
+                showErrorAlert('Lỗi Google Authentication!', 'Đã có lỗi xảy ra khi đăng ký với Google! Vui lòng thử lại.');
+                console.error('Google register error:', error);
+            }
+        }
+        
+        function openTermsModal() {
+            showInfoAlert('Điều khoản sử dụng', 
+                'Bằng việc sử dụng Vườn Rực Rỡ, bạn đồng ý tuân thủ các quy định về bảo mật thông tin và sử dụng dịch vụ một cách có trách nhiệm. Chi tiết đầy đủ sẽ được cập nhật sớm.');
+        }
+        
+        // Forgot Password Modal Functions
+        function openForgotPasswordModal() {
+            closeLoginModal();
+            const modal = document.getElementById('forgotPasswordModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                document.getElementById('forgot-email').focus();
+            }, 100);
+        }
+        
+        function closeForgotPasswordModal() {
+            const modal = document.getElementById('forgotPasswordModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.querySelector('#forgotPasswordModal .login-form').reset();
+        }
+        
+        function openLoginFromForgot() {
+            closeForgotPasswordModal();
+            openLoginModal();
+        }
+        
+        async function handleForgotPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('forgot-email').value;
+            const submitBtn = event.target.querySelector('.login-submit-btn');
+            
+            if (!email) {
+                showWarningAlert('Thiếu thông tin!', 'Vui lòng nhập địa chỉ email của bạn.');
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showWarningAlert('Email không hợp lệ!', 'Vui lòng nhập địa chỉ email đúng định dạng.');
+                return;
+            }
+            
+            showLoading(submitBtn);
+            
+            try {
+                const result = await window.firebaseAuth.resetPassword(email);
+                
+                if (result.success) {
+                    showSuccessAlert('Email đã được gửi!', 
+                        'Chúng tôi đã gửi link khôi phục mật khẩu đến email của bạn. Vui lòng kiểm tra hộp thư (kể cả thư mục spam).', 
+                        () => {
+                            closeForgotPasswordModal();
+                        });
+                } else {
+                    showErrorAlert('Gửi email thất bại!', result.message);
+                }
+            } catch (error) {
+                showErrorAlert('Lỗi hệ thống!', 'Đã có lỗi xảy ra! Vui lòng thử lại sau.');
+                console.error('Forgot password error:', error);
+            } finally {
+                hideLoading(submitBtn);
+            }
+        }
+        
+        // Reset Success Modal Functions
+        function openResetSuccessModal() {
+            const modal = document.getElementById('resetSuccessModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeResetSuccessModal() {
+            const modal = document.getElementById('resetSuccessModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            openLoginModal();
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const loginModal = document.getElementById('loginModal');
+            const registerModal = document.getElementById('registerModal');
+            const forgotModal = document.getElementById('forgotPasswordModal');
+            const successModal = document.getElementById('resetSuccessModal');
+            
+            if (event.target === loginModal) {
+                closeLoginModal();
+            } else if (event.target === registerModal) {
+                closeRegisterModal();
+            } else if (event.target === forgotModal) {
+                closeForgotPasswordModal();
+            } else if (event.target === successModal) {
+                closeResetSuccessModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const loginModal = document.getElementById('loginModal');
+                const registerModal = document.getElementById('registerModal');
+                const forgotModal = document.getElementById('forgotPasswordModal');
+                const successModal = document.getElementById('resetSuccessModal');
+                
+                if (loginModal.style.display === 'block') {
+                    closeLoginModal();
+                } else if (registerModal.style.display === 'block') {
+                    closeRegisterModal();
+                } else if (forgotModal.style.display === 'block') {
+                    closeForgotPasswordModal();
+                } else if (successModal.style.display === 'block') {
+                    closeResetSuccessModal();
+                }
+            }
+        });
+        
+        // Make functions globally available
+        window.openLoginModal = openLoginModal;
+        window.closeLoginModal = closeLoginModal;
+        window.togglePassword = togglePassword;
+        window.handleLogin = handleLogin;
+        window.loginWithGoogle = loginWithGoogle;
+        
+        // Register functions
+        window.openRegisterModal = openRegisterModal;
+        window.closeRegisterModal = closeRegisterModal;
+        window.openLoginFromRegister = openLoginFromRegister;
+        window.toggleRegisterPassword = toggleRegisterPassword;
+        window.toggleConfirmPassword = toggleConfirmPassword;
+        window.handleRegister = handleRegister;
+        window.registerWithGoogle = registerWithGoogle;
+        window.openTermsModal = openTermsModal;
+        
+        // Forgot password functions
+        window.openForgotPasswordModal = openForgotPasswordModal;
+        window.closeForgotPasswordModal = closeForgotPasswordModal;
+        window.openLoginFromForgot = openLoginFromForgot;
+        window.handleForgotPassword = handleForgotPassword;
+        window.openResetSuccessModal = openResetSuccessModal;
+        window.closeResetSuccessModal = closeResetSuccessModal;
+        
+        // Expose debug functions globally
+        window.debugCarousel = debugCarousel;
+        
+        // Make SweetAlert2 functions globally available
+        window.showSuccessAlert = showSuccessAlert;
+        window.showErrorAlert = showErrorAlert;
+        window.showWarningAlert = showWarningAlert;
+        window.showInfoAlert = showInfoAlert;
+        window.showConfirmAlert = showConfirmAlert;
+        window.showLoadingAlert = showLoadingAlert;
+        window.closeLoadingAlert = closeLoadingAlert;
+        
+        // Download functions
+        window.downloadGame = downloadGame;
+        window.startDownload = startDownload;
+        window.showInstallationGuide = showInstallationGuide;
+        
+        // Test functions
+        console.log('💡 Available Commands:');
+        console.log('- debugCarousel() - Check carousel status');
+        console.log('- openLoginModal() - Open login modal');
+        console.log('- downloadGame() - Test download game function');
+        console.log('- showSuccessAlert() - Show success notification');
+        console.log('- showErrorAlert() - Show error notification');
+        console.log('- showWarningAlert() - Show warning notification');
+    </script>
+</body>
+</html>
