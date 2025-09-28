@@ -5,6 +5,29 @@
     box-sizing: border-box;
 }
 
+/* Force hide carousel on mobile - CRITICAL RULE */
+@media screen and (max-width: 768px) {
+    .hero-image,
+    div.hero-image,
+    .hero-content .hero-image,
+    .game-preview,
+    .advanced-carousel,
+    .carousel-wrapper,
+    .carousel-track,
+    .carousel-item {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+        top: -9999px !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        z-index: -9999 !important;
+    }
+}
+
 /* Loading Screen */
 .loading-screen {
     position: fixed;
@@ -660,8 +683,52 @@ body {
     transform: scale(1.3);
 }
 
+/* Ẩn carousel trên tất cả thiết bị mobile và tablet */
+@media screen and (max-width: 1024px) {
+    .hero-content .hero-image {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Ẩn phần carousel 5 nhân vật trên mobile */
+    .hero-image,
+    .hero-image *,
+    .game-preview,
+    .advanced-carousel {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    /* Đảm bảo video hiển thị đầy đủ trên mobile */
+    .hero-video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+    }
+    
+    /* Di chuyển nút "Khám phá thêm" xuống dưới trên mobile */
+    .scroll-indicator {
+        bottom: auto !important;
+        position: relative !important;
+        margin: 40px auto 0 auto !important;
+        transform: none !important;
+        left: auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    
     .advanced-carousel {
         height: 400px;
         padding: 20px 10px;
@@ -1991,7 +2058,8 @@ kbd {
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 40px;
+        gap: 20px;
+        padding: 0 15px;
     }
     
     .title-main {
@@ -4426,7 +4494,20 @@ kbd {
     }
     
     .scroll-indicator {
-        bottom: 20px;
+        bottom: auto !important;
+        position: relative !important;
+        margin: 50px auto 0 auto !important;
+        transform: none !important;
+        left: auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+    
+    .scroll-button {
+        margin: 0 auto !important;
+        display: block !important;
     }
     
     .scroll-button {
@@ -4871,6 +4952,16 @@ kbd {
 }
 
 @media (max-width: 480px) {
+    /* Ẩn carousel trên màn hình rất nhỏ */
+    .hero-image,
+    .hero-image *,
+    .game-preview,
+    .advanced-carousel {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
     .footer-logo {
         flex-direction: column;
         gap: 15px;

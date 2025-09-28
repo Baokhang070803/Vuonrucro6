@@ -145,7 +145,7 @@
                     </div>
                 </div> -->
             </div>
-            <div class="hero-image">
+            <div class="hero-image" style="display: none !important;">
                 <div class="game-preview">
                     <div class="advanced-carousel">
                         <div class="carousel-wrapper">
@@ -719,6 +719,48 @@
     <script>
         // Kiểm tra carousel sau khi page load
         window.addEventListener('load', () => {
+            // Force hide carousel on mobile
+            function hideCarouselOnMobile() {
+                if (window.innerWidth <= 768) {
+                    const heroImage = document.querySelector('.hero-image');
+                    const gamePreview = document.querySelector('.game-preview');
+                    const carousel = document.querySelector('.advanced-carousel');
+                    
+                    if (heroImage) {
+                        heroImage.style.display = 'none';
+                        heroImage.style.visibility = 'hidden';
+                        heroImage.style.opacity = '0';
+                        heroImage.style.position = 'absolute';
+                        heroImage.style.left = '-9999px';
+                        heroImage.style.top = '-9999px';
+                        heroImage.style.width = '0';
+                        heroImage.style.height = '0';
+                        heroImage.style.overflow = 'hidden';
+                        heroImage.style.zIndex = '-9999';
+                    }
+                    
+                    if (gamePreview) {
+                        gamePreview.style.display = 'none';
+                        gamePreview.style.visibility = 'hidden';
+                    }
+                    
+                    if (carousel) {
+                        carousel.style.display = 'none';
+                        carousel.style.visibility = 'hidden';
+                    }
+                    
+                    console.log('🚫 Carousel hidden on mobile!');
+                } else {
+                    console.log('💻 Desktop - Carousel visible');
+                }
+            }
+            
+            // Hide immediately
+            hideCarouselOnMobile();
+            
+            // Hide on resize
+            window.addEventListener('resize', hideCarouselOnMobile);
+            
             setTimeout(() => {
                 console.log('🔍 Kiểm tra carousel status...');
                 const carouselItems = document.querySelectorAll('.carousel-item');
