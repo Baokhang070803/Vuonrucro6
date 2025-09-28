@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vườn Rực Rỡ - Game Nông Trại Thần Kỳ</title>
-    <meta name="description" content="Khám phá thế giới thần kỳ của Vườn Rực Rỡ - game nông trại với cốt truyện sâu sắc về sự tha thứ và hồi sinh">
-    <meta name="keywords" content="game nông trại, vườn rực rỡ, unity game, farming game, vietnam game">
+    <title>Làng Hoa Rực - Game Nông Trại Thần Kỳ</title>
+    <meta name="description" content="Khám phá thế giới thần kỳ của Làng Hoa Rực - game nông trại với cốt truyện sâu sắc về sự tha thứ và hồi sinh">
+    <meta name="keywords" content="game nông trại, làng hoa rực, unity game, farming game, vietnam game">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Vườn Rực Rỡ - Game Nông Trại Thần Kỳ">
-    <meta property="og:description" content="Khám phá thế giới thần kỳ của Vườn Rực Rỡ với cốt truyện sâu sắc về sự tha thứ và hồi sinh">
+    <meta property="og:title" content="Làng Hoa Rực - Game Nông Trại Thần Kỳ">
+    <meta property="og:description" content="Khám phá thế giới thần kỳ của Làng Hoa Rực với cốt truyện sâu sắc về sự tha thứ và hồi sinh">
     <meta property="og:type" content="website">
     <meta property="og:url" content="">
     <meta property="og:image" content="images/og-image.jpg">
@@ -24,6 +24,9 @@
     <!-- SweetAlert2 -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
     
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <!-- Styles -->
     <link rel="stylesheet" href="css/landing-styles.css">
     
@@ -37,6 +40,14 @@
     </script>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <video id="introVideo" autoplay muted playsinline>
+            <source src="video/4k_cinematic_intro_202509290210 (online-video-cutter.com).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
     
@@ -57,23 +68,23 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Vườn Rực Rỡ Logo">
-                <span>Vườn Rực Rỡ</span>
+                <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Làng Hoa Rực Logo">
+                <span>Làng Hoa Rực</span>
             </div>
             <ul class="nav-menu">
-                <!-- <li><a href="#home" class="nav-link">Trang chủ</a></li>
-                <li><a href="#story" class="nav-link">Cốt truyện</a></li>
+                <!-- <li><a href="#home" class="nav-link">Trang chủ</a></li> -->
+                <!-- <li><a href="#story" class="nav-link">Cốt truyện</a></li>
                 <li><a href="#features" class="nav-link">Tính năng</a></li>
                 <li><a href="#gallery" class="nav-link">Hình ảnh</a></li>
                 <li><a href="#gameplay" class="nav-link">Hướng dẫn</a></li> -->
                 <!-- <li><a href="#download" class="nav-link">Tải game</a></li> -->
                 <!-- <li><a href="#contact" class="nav-link">Liên hệ</a></li> -->
-                <!-- <li class="nav-login">
+                <li class="nav-login">
                     <button class="login-btn" onclick="openLoginModal()">
                         <i class="fas fa-user"></i>
                         Đăng nhập
                     </button>
-                </li> -->
+                </li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -86,8 +97,8 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-background">
-            <video autoplay muted loop playsinline class="hero-video" style="background: red;" onloadstart="console.log('Video loading...')" oncanplay="console.log('Video can play')" onerror="console.log('Video error')">
-                <source src="video/lv_0_20250915023633.mp4" type="video/mp4">
+            <video autoplay muted loop playsinline class="hero-video" style="background: rgb(255, 255, 255);" onloadstart="console.log('Video loading...')" oncanplay="console.log('Video can play')" onerror="console.log('Video error')">
+                <source src="video/Fixed_camera_cinematic_202509290124.mp4" type="video/mp4">
                 <source src="video/0911.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -95,12 +106,12 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1 class="hero-title">
-                    <span class="title-main">Vườn Rực Rỡ</span>
+                    <span class="title-main">Làng Hoa Rực</span>
                     <span class="title-sub">Game Nông Trại Thần Kỳ</span>
                 </h1>
                 <p class="hero-description">
-                    Khám phá thế giới thần kỳ nơi màu sắc và hạnh phúc được hồi sinh. 
-                    Cùng Tí Tẹo gieo trồng, chăm sóc và mang lại ánh sáng cho Làng Hoa Rực.
+                    Một hành trình đầy màu sắc về sự tha thứ, hồi sinh và tình yêu thiên nhiên. 
+                    Cùng Tí Nị khám phá thế giới thần kỳ và mang lại ánh sáng cho Làng Hoa Rực.
                 </p>
                 <div class="hero-buttons">
                     <button class="btn btn-primary" onclick="downloadGame(); trackEvent('download_click', 'hero_section')">
@@ -111,6 +122,12 @@
                     <button class="btn btn-secondary" onclick="openVideoModal(); trackEvent('trailer_click', 'hero_section')">
                         <i class="fas fa-play"></i>
                         Xem Trailer
+                    </button>
+                </div>
+                <div class="scroll-indicator">
+                    <button class="scroll-button" onclick="scrollToSection('about')">
+                        <i class="fas fa-chevron-down"></i>
+                        <span>Khám phá thêm</span>
                     </button>
                 </div>
                 <!-- <div class="hero-stats">
@@ -207,6 +224,228 @@
         </div>
     </section>
 
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-header">
+                    <span class="section-tag">Câu chuyện</span>
+                    <h2 class="section-title">Khám phá thế giới Làng Hoa Rực</h2>
+                    <p class="section-subtitle">
+                        Một hành trình đầy màu sắc về sự tha thứ, hồi sinh và tình yêu thiên nhiên
+                    </p>
+                </div>
+                
+                <div class="about-grid">
+                    <div class="about-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="about-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Gieo trồng hy vọng</h3>
+                        <p>Cùng Tí Tẹo gieo những hạt giống hy vọng, mang màu sắc trở lại cho thế giới đã mất đi sự rực rỡ.</p>
+                    </div>
+                    
+                    <div class="about-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="about-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Sức mạnh tình yêu</h3>
+                        <p>Khám phá câu chuyện cảm động về sự tha thứ và tình yêu có thể chữa lành mọi vết thương.</p>
+                    </div>
+                    
+                    <div class="about-item" data-aos="fade-up" data-aos-delay="300">
+                        <div class="about-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>Phép màu thiên nhiên</h3>
+                        <p>Trải nghiệm thế giới thần kỳ nơi mỗi cây hoa đều mang trong mình một câu chuyện riêng.</p>
+                    </div>
+                </div>
+                
+                <div class="story-container">
+                    <!-- Chapter Selector -->
+                    <div class="chapter-selector" data-aos="fade-up">
+                        <h3>📖 Cốt Truyện "Làng Hoa Rực"</h3>
+                        <div class="chapter-tabs">
+                            <button class="chapter-tab active" onclick="showChapter(1)">Chương 1</button>
+                            <button class="chapter-tab" onclick="showChapter(2)">Chương 2</button>
+                            <button class="chapter-tab" onclick="showChapter(3)">Chương 3</button>
+                            <button class="chapter-tab" onclick="showChapter(4)">Chương 4</button>
+                            <button class="chapter-tab" onclick="showChapter(5)">Chương 5</button>
+                            <button class="chapter-tab" onclick="showChapter(6)">Chương 6</button>
+                        </div>
+                    </div>
+
+                    <!-- Story Content -->
+                    <div class="about-story">
+                        <div class="story-text" data-aos="fade-right">
+                            <!-- Chapter 1 -->
+                            <div class="story-chapter active" id="chapter-1">
+                                <h4>Chương 1 – Hạt Mầm Hy Vọng</h4>
+                                <p>
+                                    Mười năm sau khi Cây Pha Lê vỡ vụn bởi lời nguyền của Mụ Xám, <strong>Tí Nị</strong> – cư dân mới – đến làng Hoa Rực. 
+                                    Cậu trồng những bông hoa đầu tiên, sắc màu dần trở lại. <em>Tinh Linh Nông Trại</em> xuất hiện đồng hành cùng cậu.
+                                </p>
+                            </div>
+
+                            <!-- Chapter 2 -->
+                            <div class="story-chapter" id="chapter-2">
+                                <h4>Chương 2 – Gắn Kết Niềm Tin</h4>
+                                <p>
+                                    Tí Nị giúp dân làng làm việc, sửa công cụ, làm bánh. Niềm tin được xây dựng lại, dân làng bắt đầu mở lòng. 
+                                    Tí Nị nhận thêm <span class="highlight-text">mảnh pha lê</span> và biết rõ hơn về truyền thuyết Cây Pha Lê.
+                                </p>
+                            </div>
+
+                            <!-- Chapter 3 -->
+                            <div class="story-chapter" id="chapter-3">
+                                <h4>Chương 3 – Gió Hát Trên Cối Xay</h4>
+                                <p>
+                                    Cối xay gió được dựng lại, lúa vàng trổ bông, âm thanh lao động tràn về. Làng dần khởi sắc, 
+                                    ký ức về thời hoàng kim ùa về. Tí Nị nhặt được thêm <span class="highlight-text">mảnh pha lê</span>.
+                                </p>
+                            </div>
+
+                            <!-- Chapter 4 -->
+                            <div class="story-chapter" id="chapter-4">
+                                <h4>Chương 4 – Sắc Hoa Trở Lại</h4>
+                                <p>
+                                    Hoa rực rỡ nở khắp nơi, <strong>Lễ Hội Hoa Rực</strong> lần đầu được tổ chức lại. Trong niềm vui, 
+                                    <em>Mụ Xám</em> thoáng xuất hiện, để lại sự hoang mang và lời thì thầm về quá khứ bà từng là nghệ nhân hoa tài hoa.
+                                </p>
+                            </div>
+
+                            <!-- Chapter 5 -->
+                            <div class="story-chapter" id="chapter-5">
+                                <h4>Chương 5 – Lời Thì Thầm Xám</h4>
+                                <p>
+                                    Tí Nị dần phát hiện ra nỗi cô đơn và khao khát được công nhận của Mụ Xám. Dân làng kể rằng bà từng giúp ích, 
+                                    nhưng bị bóng tối nuốt chửng. Khi thu thập đủ <span class="highlight-text">hạt giống kỳ diệu</span> và mảnh pha lê, 
+                                    Tí Nị mở đường đến Đồi Pha Lê.
+                                </p>
+                            </div>
+
+                            <!-- Chapter 6 -->
+                            <div class="story-chapter" id="chapter-6">
+                                <h4>Chương 6 – Cây Pha Lê</h4>
+                                <p>
+                                    Tí Nị cùng dân làng trồng lại <strong>Cây Pha Lê</strong>. Mụ Xám xuất hiện định ngăn cản, 
+                                    nhưng thay vì chiến đấu, dân làng trao cho bà vòng hoa từ tấm lòng mọi người. 
+                                    Nước mắt bà rơi xuống, lời nguyền tan biến, Cây Pha Lê bừng sáng, sắc màu lan tỏa khắp làng.
+                                </p>
+                                <p class="story-ending">
+                                    <em>Mụ Xám không biến mất, vẫn sống lặng lẽ ngoài rìa, thỉnh thoảng mang đến giống hoa hiếm – 
+                                    như một cách chuộc lỗi thầm lặng.</em>
+                                </p>
+                            </div>
+
+                            <!-- Chapter Navigation -->
+                            <div class="chapter-nav">
+                                <button class="nav-button" id="prevBtn" onclick="previousChapter()">
+                                    <i class="fas fa-chevron-left"></i>
+                                    Chương trước
+                                </button>
+                                <button class="nav-button" id="nextBtn" onclick="nextChapter()">
+                                    Chương tiếp
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="story-features">
+                                <div class="feature">
+                                    <span class="feature-number">6</span>
+                                    <span class="feature-text">Chương hấp dẫn</span>
+                                </div>
+                                <div class="feature">
+                                    <span class="feature-number">5</span>
+                                    <span class="feature-text">Nhân vật chính</span>
+                                </div>
+                                <div class="feature">
+                                    <span class="feature-number">10+</span>
+                                    <span class="feature-text">Giờ gameplay</span>
+                                </div>
+                            </div>
+
+                          
+                        </div>
+                    <div class="story-image">
+                        <img src="img/muxam.png" alt="Tí Tẹo - Nhân vật chính">
+                        <!-- <div class="story-decoration">
+                            <div class="deco-flower deco-1">🌸</div>
+                            <div class="deco-flower deco-2">🌺</div>
+                            <div class="deco-flower deco-3">🌻</div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Làng Hoa Rực Logo" class="logo-img">
+                            <div class="logo-text">
+                                <h3>Làng Hoa Rực</h3>
+                                <p>Game Nông Trại Thần Kỳ</p>
+                            </div>
+                        </div>
+                        <div class="footer-description">
+                            <p>Khám phá thế giới đầy màu sắc và phép thuật, nơi tình yêu và sự tha thứ có thể chữa lành mọi vết thương.</p>
+                        </div>
+                    </div>
+                    
+                   
+                
+                <div class="footer-bottom">
+                    <div class="footer-links">
+                        <a href="#hero">
+                            <i class="fas fa-home"></i>
+                            Trang chủ
+                        </a>
+                        <a href="#about">
+                            <i class="fas fa-info-circle"></i>
+                            Giới thiệu
+                        </a>
+                        <a href="#" onclick="openLoginModal()">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Đăng nhập
+                        </a>
+                        <a href="#" onclick="downloadGame()">
+                            <i class="fas fa-download"></i>
+                            Tải game
+                        </a>
+                    </div>
+                    <div class="footer-divider"></div>
+                    
+                    <!-- Team Section -->
+                    <div class="footer-team-section">
+                        <h4>Nhóm Phát Triển</h4>
+                        <div class="team-badge-wrapper">
+                            <span class="team-badge">Nhóm 6</span>
+                        </div>
+                        <div class="team-members-horizontal">
+                            <div class="member-item">Nguyễn Tiến Chức</div>
+                            <div class="member-item">Trần Nguyễn Kiều Duyên</div>
+                            <div class="member-item">Võ Trần Hoàng Bảo Khang</div>
+                            <div class="member-item">Phạm Hồng Quân</div>
+                            <div class="member-item">Đỗ Nhật Hào</div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-copyright">
+                        <p>&copy; 2025 Làng Hoa Rực - Nhóm 6. Tất cả quyền được bảo lưu.</p>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <!-- Video Trailer Modal -->
     <div id="videoModal" class="video-modal">
         <div class="video-modal-overlay" onclick="closeVideoModal()"></div>
@@ -238,7 +477,7 @@
                 <div class="login-header">
                     <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Logo" class="login-logo">
                     <h2>Đăng nhập</h2>
-                    <p>Chào mừng trở lại với Vườn Rực Rỡ!</p>
+                    <p>Chào mừng trở lại với Làng Hoa Rực!</p>
                 </div>
                 <form class="login-form" onsubmit="handleLogin(event)">
                     <div class="form-group">
@@ -249,7 +488,6 @@
                     <div class="form-group">
                         <label for="password">Mật khẩu:</label>
                         <input type="password" id="password" name="password" required>
-                        <i class="fas fa-lock input-icon"></i>
                         <i class="fas fa-eye password-toggle" onclick="togglePassword()"></i>
                     </div>
                     <div class="form-options">
@@ -292,7 +530,7 @@
                 <div class="login-header">
                     <img src="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png" alt="Logo" class="login-logo">
                     <h2>Đăng ký tài khoản</h2>
-                    <p>Tạo tài khoản để khám phá Vườn Rực Rỡ!</p>
+                    <p>Tạo tài khoản để khám phá Làng Hoa Rực!</p>
                 </div>
                 <form class="login-form" onsubmit="handleRegister(event)">
                     <div class="form-group">
@@ -313,13 +551,11 @@
                     <div class="form-group">
                         <label for="reg-password">Mật khẩu:</label>
                         <input type="password" id="reg-password" name="password" required>
-                        <i class="fas fa-lock input-icon"></i>
                         <i class="fas fa-eye password-toggle" onclick="toggleRegisterPassword()"></i>
                     </div>
                     <div class="form-group">
                         <label for="reg-confirm-password">Xác nhận mật khẩu:</label>
                         <input type="password" id="reg-confirm-password" name="confirmPassword" required>
-                        <i class="fas fa-lock input-icon"></i>
                         <i class="fas fa-eye password-toggle" onclick="toggleConfirmPassword()"></i>
                     </div>
                     <div class="form-options">
@@ -660,10 +896,19 @@
                     title: 'Tải xuống Vườn Rực Rỡ',
                     html: `
                         <div style="text-align: left; margin: 20px 0;">
-                            <p><strong>Tên file:</strong> vuonrucro.rar</p>
-                            <p><strong>Kích thước:</strong> ~500MB</p>
+                            <p><strong>Tên file:</strong> Vuonrucro6-1.0.0.zip</p>
+                            <p><strong>Phiên bản:</strong> v1.0.0</p>
+                            <p><strong>Nguồn:</strong> GitHub Repository</p>
                             <p><strong>Hệ điều hành:</strong> Windows 10/11</p>
-                            <p><strong>Yêu cầu:</strong> DirectX 11, RAM 4GB</p>
+                            <div style="margin-top: 15px;">
+                                <strong>Yêu cầu hệ thống:</strong>
+                                <ul style="margin: 8px 0; padding-left: 20px;">
+                                    <li><strong>GPU:</strong> GTX 1070 / RX 580 or better</li>
+                                    <li><strong>RAM:</strong> 8GB or more</li>
+                                    <li><strong>CPU:</strong> Intel i5-8400 / AMD Ryzen 5 2600 or better</li>
+                                    <li><strong>DirectX:</strong> Version 11</li>
+                                </ul>
+                            </div>
                         </div>
                         <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
                             <small><i class="fas fa-info-circle"></i> Tải xuống sẽ bắt đầu tự động sau khi bấm "Tải ngay"</small>
@@ -693,8 +938,9 @@
             try {
                 // Create download link
                 const link = document.createElement('a');
-                link.href = 'game/vuonrucro.rar'; // Path to your game file
-                link.download = 'vuonrucro.rar';
+                link.href = 'https://github.com/Baokhang070803/Vuonrucro6/archive/refs/tags/v1.0.0.zip'; // GitHub download URL
+                link.download = 'Vuonrucro6-1.0.0.zip';
+                link.target = '_blank';
                 link.style.display = 'none';
                 
                 // Add to DOM, click, and remove
@@ -705,7 +951,7 @@
                 // Show success message
                 showSuccessAlert(
                     'Tải xuống đã bắt đầu!', 
-                    'File vuonrucro.rar đang được tải về máy tính của bạn. Kiểm tra thư mục Downloads để giải nén và cài đặt game.',
+                    'File Vuonrucro6-1.0.0.zip đang được tải về máy tính của bạn. Kiểm tra thư mục Downloads để giải nén và cài đặt game.',
                     () => {
                         // Show installation guide
                         showInstallationGuide();
@@ -716,7 +962,7 @@
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'download', {
                         event_category: 'Game',
-                        event_label: 'vuonrucro.rar',
+                        event_label: 'Vuonrucro6-1.0.0.zip',
                         value: 1
                     });
                 }
@@ -738,18 +984,21 @@
                     <div style="text-align: left; margin: 20px 0;">
                         <h4>Các bước cài đặt:</h4>
                         <ol style="margin: 15px 0; padding-left: 20px;">
-                            <li>Tìm file <strong>vuonrucro.rar</strong> trong thư mục Downloads</li>
-                            <li>Giải nén file bằng WinRAR hoặc 7-Zip</li>
+                            <li>Tìm file <strong>Vuonrucro6-1.0.0.zip</strong> trong thư mục Downloads</li>
+                            <li>Giải nén file ZIP (nhấp chuột phải > Extract All)</li>
+                            <li>Vào thư mục <strong>Vuonrucro6-1.0.0</strong> đã giải nén</li>
                             <li>Chạy file <strong>VuonRucRo.exe</strong> với quyền Administrator</li>
                             <li>Làm theo hướng dẫn cài đặt</li>
                             <li>Thưởng thức game!</li>
                         </ol>
                         
-                        <h4>Lưu ý:</h4>
+                        <h4>Yêu cầu hệ thống:</h4>
                         <ul style="margin: 15px 0; padding-left: 20px;">
-                            <li>Đảm bảo máy tính có DirectX 11</li>
-                            <li>RAM tối thiểu 4GB</li>
-                            <li>Dung lượng trống ít nhất 2GB</li>
+                            <li><strong>GPU:</strong> GTX 1070 / RX 580 or better</li>
+                            <li><strong>RAM:</strong> 8GB or more</li>
+                            <li><strong>CPU:</strong> Intel i5-8400 / AMD Ryzen 5 2600 or better</li>
+                            <li><strong>DirectX:</strong> Version 11</li>
+                            <li><strong>Dung lượng:</strong> Ít nhất 2GB trống</li>
                         </ul>
                     </div>
                 `,
@@ -784,7 +1033,7 @@
         
         function togglePassword() {
             const passwordInput = document.getElementById('password');
-            const toggleIcon = document.querySelector('.password-toggle');
+            const toggleIcon = passwordInput.parentElement.querySelector('.password-toggle');
             
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
@@ -1164,6 +1413,122 @@
         console.log('- showSuccessAlert() - Show success notification');
         console.log('- showErrorAlert() - Show error notification');
         console.log('- showWarningAlert() - Show warning notification');
+        
+        // Scroll to section function
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Current chapter tracker
+        let currentChapter = 1;
+
+        // Show chapter function
+        function showChapter(chapterNumber) {
+            currentChapter = chapterNumber;
+            
+            // Hide all chapters
+            const chapters = document.querySelectorAll('.story-chapter');
+            chapters.forEach(chapter => {
+                chapter.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.chapter-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected chapter
+            const selectedChapter = document.getElementById(`chapter-${chapterNumber}`);
+            if (selectedChapter) {
+                selectedChapter.classList.add('active');
+            }
+
+            // Add active class to selected tab
+            const selectedTab = document.querySelector(`.chapter-tab:nth-child(${chapterNumber})`);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+
+            // Update navigation buttons
+            updateNavButtons();
+        }
+
+        // Previous chapter function
+        function previousChapter() {
+            if (currentChapter > 1) {
+                showChapter(currentChapter - 1);
+            }
+        }
+
+        // Next chapter function
+        function nextChapter() {
+            if (currentChapter < 6) {
+                showChapter(currentChapter + 1);
+            }
+        }
+
+        // Update navigation buttons state
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentChapter === 1;
+            nextBtn.disabled = currentChapter === 6;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavButtons();
+        });
+
+        // Loading Screen Control
+        const loadingScreen = document.getElementById('loadingScreen');
+        const introVideo = document.getElementById('introVideo');
+        
+        // Hide loading screen after video ends
+        introVideo.addEventListener('ended', () => {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 1000);
+        });
+        
+        // Skip loading screen on click
+        loadingScreen.addEventListener('click', () => {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 1000);
+        });
+
+        // Optional: Add scroll effect to navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 100
+        });
     </script>
 </body>
 </html>
