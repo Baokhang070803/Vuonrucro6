@@ -938,9 +938,9 @@
                     title: 'Tải xuống Vườn Rực Rỡ',
                     html: `
                         <div style="text-align: left; margin: 20px 0;">
-                            <p><strong>Tên file:</strong> Vuonrucro6-1.0.0.zip</p>
+                            <p><strong>Tên file:</strong> VuonRucRo-Game.zip</p>
                             <p><strong>Phiên bản:</strong> v1.0.0</p>
-                            <p><strong>Nguồn:</strong> GitHub Repository</p>
+                            <p><strong>Nguồn:</strong> Google Drive</p>
                             <p><strong>Hệ điều hành:</strong> Windows 10/11</p>
                             <div style="margin-top: 15px;">
                                 <strong>Yêu cầu hệ thống:</strong>
@@ -978,10 +978,14 @@
         
         function startDownload() {
             try {
-                // Create download link
+                // Direct download from Google Drive - bypass confirmation page
+                const fileId = '1Bb1WFslblC7a-xOQEUsNBxIYVR-V1YY-';
+                const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=t`;
+                
+                // Method 1: Try direct download first
                 const link = document.createElement('a');
-                link.href = 'https://github.com/Baokhang070803/Vuonrucro6/archive/refs/tags/v1.0.0.zip'; // GitHub download URL
-                link.download = 'Vuonrucro6-1.0.0.zip';
+                link.href = directDownloadUrl;
+                link.download = 'VuonRucRo-Game.zip';
                 link.target = '_blank';
                 link.style.display = 'none';
                 
@@ -990,10 +994,15 @@
                 link.click();
                 document.body.removeChild(link);
                 
+                // Method 2: Fallback - open in new window if direct doesn't work
+                setTimeout(() => {
+                    window.open(directDownloadUrl, '_blank');
+                }, 1000);
+                
                 // Show success message
                 showSuccessAlert(
                     'Tải xuống đã bắt đầu!', 
-                    'File Vuonrucro6-1.0.0.zip đang được tải về máy tính của bạn. Kiểm tra thư mục Downloads để giải nén và cài đặt game.',
+                    'File VuonRucRo-Game.zip sẽ tự động tải về từ Google Drive. Nếu không tự động tải, hãy kiểm tra pop-up blocker hoặc cho phép tải xuống từ trang này.',
                     () => {
                         // Show installation guide
                         showInstallationGuide();
@@ -1004,7 +1013,7 @@
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'download', {
                         event_category: 'Game',
-                        event_label: 'Vuonrucro6-1.0.0.zip',
+                        event_label: 'VuonRucRo-Game.zip',
                         value: 1
                     });
                 }
@@ -1026,9 +1035,9 @@
                     <div style="text-align: left; margin: 20px 0;">
                         <h4>Các bước cài đặt:</h4>
                         <ol style="margin: 15px 0; padding-left: 20px;">
-                            <li>Tìm file <strong>Vuonrucro6-1.0.0.zip</strong> trong thư mục Downloads</li>
+                            <li>Tìm file <strong>VuonRucRo-Game.zip</strong> trong thư mục Downloads</li>
                             <li>Giải nén file ZIP (nhấp chuột phải > Extract All)</li>
-                            <li>Vào thư mục <strong>Vuonrucro6-1.0.0</strong> đã giải nén</li>
+                            <li>Vào thư mục <strong>VuonRucRo-Game</strong> đã giải nén</li>
                             <li>Chạy file <strong>VuonRucRo.exe</strong> với quyền Administrator</li>
                             <li>Làm theo hướng dẫn cài đặt</li>
                             <li>Thưởng thức game!</li>
