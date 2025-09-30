@@ -935,26 +935,25 @@
                 // Show download confirmation with file info
                 Swal.fire({
                     icon: 'info',
-                    title: 'Tải xuống Vườn Rực Rỡ',
+                    title: 'Tải xuống Làng Hoa Rực (Launcher)',
                     html: `
                         <div style="text-align: left; margin: 20px 0;">
-                            <p><strong>Tên file:</strong> VuonRucRo-Game.zip</p>
-                            <p><strong>Phiên bản:</strong> v1.0.0</p>
-                            <p><strong>Nguồn:</strong> Google Drive</p>
-                            <p><strong>Hệ điều hành:</strong> Windows 10/11</p>
+                            <p><strong>Tên file:</strong> LangHoaRucLauncher.exe</p>
+                            <p><strong>Kích thước:</strong> ~84.6 MB</p>
+                            <p><strong>Phiên bản:</strong> v1.0.0 (Launcher)</p>
+                            <p><strong>Nguồn:</strong> Máy chủ chính thức</p>
+                            <p><strong>Hỗ trợ:</strong> Windows 10 / Windows 11</p>
                             <div style="margin-top: 15px;">
-                                <strong>Yêu cầu hệ thống:</strong>
+                                <strong>Yêu cầu tối thiểu:</strong>
                                 <ul style="margin: 8px 0; padding-left: 20px;">
-                                    <li><strong>GPU:</strong> GTX 1070 / RX 580 or better</li>
-                                    <li><strong>RAM:</strong> 8GB or more</li>
-                                    <li><strong>CPU:</strong> Intel i5-8400 / AMD Ryzen 5 2600 or better</li>
-                                    <li><strong>DirectX:</strong> Version 11</li>
+                                    <li>RAM: 4GB+</li>
+                                    <li>CPU: Intel/AMD 64-bit</li>
+                                    <li>Ổ đĩa trống: 500MB+</li>
+                                    <li>Quyền chạy file .exe</li>
                                 </ul>
                             </div>
                         </div>
-                        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                            <small><i class="fas fa-info-circle"></i> Tải xuống sẽ bắt đầu tự động sau khi bấm "Tải ngay"</small>
-                        </div>
+                       
                     `,
                     showCancelButton: true,
                     confirmButtonText: '<i class="fas fa-download"></i> Tải ngay',
@@ -978,46 +977,33 @@
         
         function startDownload() {
             try {
-                // Direct download from Google Drive - bypass confirmation page
-                const fileId = '1Bb1WFslblC7a-xOQEUsNBxIYVR-V1YY-';
-                const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}&confirm=t`;
-                
-                // Method 1: Try direct download first
+                const exeFile = 'LangHoaRucLauncher.exe';
                 const link = document.createElement('a');
-                link.href = directDownloadUrl;
-                link.download = 'VuonRucRo-Game.zip';
-                link.target = '_blank';
+                link.href = exeFile;
+                link.download = 'LangHoaRucLauncher.exe';
+                link.rel = 'noopener';
                 link.style.display = 'none';
-                
-                // Add to DOM, click, and remove
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
-                // Method 2: Fallback - open in new window if direct doesn't work
-                setTimeout(() => {
-                    window.open(directDownloadUrl, '_blank');
-                }, 1000);
-                
-                // Show success message
+
+                // Thông báo
                 showSuccessAlert(
-                    'Tải xuống đã bắt đầu!', 
-                    'File VuonRucRo-Game.zip sẽ tự động tải về từ Google Drive. Nếu không tự động tải, hãy kiểm tra pop-up blocker hoặc cho phép tải xuống từ trang này.',
+                    'Đang tải xuống...', 
+                    'File LangHoaRucLauncher.exe đang được tải về. Nếu trình duyệt chặn, hãy kiểm tra thanh thông báo hoặc bật cho phép tải xuống.',
                     () => {
-                        // Show installation guide
                         showInstallationGuide();
                     }
                 );
-                
-                // Track download event
+
+                // Gửi sự kiện Analytics nếu có
                 if (typeof gtag !== 'undefined') {
-                    gtag('event', 'download', {
-                        event_category: 'Game',
-                        event_label: 'VuonRucRo-Game.zip',
+                    gtag('event', 'download_launcher', {
+                        event_category: 'Launcher',
+                        event_label: 'LangHoaRucLauncher.exe',
                         value: 1
                     });
                 }
-                
             } catch (error) {
                 console.error('Download error:', error);
                 showErrorAlert(
@@ -1033,24 +1019,26 @@
                 title: 'Hướng dẫn cài đặt',
                 html: `
                     <div style="text-align: left; margin: 20px 0;">
-                        <h4>Các bước cài đặt:</h4>
+                        <h4>Các bước chạy launcher:</h4>
                         <ol style="margin: 15px 0; padding-left: 20px;">
-                            <li>Tìm file <strong>VuonRucRo-Game.zip</strong> trong thư mục Downloads</li>
-                            <li>Giải nén file ZIP (nhấp chuột phải > Extract All)</li>
-                            <li>Vào thư mục <strong>VuonRucRo-Game</strong> đã giải nén</li>
-                            <li>Chạy file <strong>VuonRucRo.exe</strong> với quyền Administrator</li>
-                            <li>Làm theo hướng dẫn cài đặt</li>
-                            <li>Thưởng thức game!</li>
+                            <li>Tìm file <strong>LangHoaRucLauncher.exe</strong> trong thư mục Downloads</li>
+                            <li>Nhấp đôi hoặc Chuột phải > Run as administrator (nếu cần)</li>
+                            <li>Nếu Windows cảnh báo SmartScreen: Chọn More info > Run anyway</li>
+                            <li>Launcher sẽ kiểm tra và tải các tài nguyên cần thiết (nếu có)</li>
+                            <li>Sau khi hoàn tất, nhấn Play để vào game</li>
                         </ol>
                         
                         <h4>Yêu cầu hệ thống:</h4>
                         <ul style="margin: 15px 0; padding-left: 20px;">
-                            <li><strong>GPU:</strong> GTX 1070 / RX 580 or better</li>
-                            <li><strong>RAM:</strong> 8GB or more</li>
-                            <li><strong>CPU:</strong> Intel i5-8400 / AMD Ryzen 5 2600 or better</li>
-                            <li><strong>DirectX:</strong> Version 11</li>
-                            <li><strong>Dung lượng:</strong> Ít nhất 2GB trống</li>
+                            <li><strong>RAM:</strong> 4GB (Khuyến nghị 8GB)</li>
+                            <li><strong>CPU:</strong> Intel i3 thế hệ 6+ hoặc tương đương</li>
+                            <li><strong>GPU:</strong> Hỗ trợ DirectX 11</li>
+                            <li><strong>DirectX:</strong> 11+</li>
+                            <li><strong>Dung lượng trống:</strong> 1GB+</li>
                         </ul>
+                        <div style="background:#eef7ff; padding:12px; border-radius:6px; border:1px solid #c3e2ff;">
+                            <small><i class="fas fa-info-circle"></i> Nếu file không mở: Chuột phải > Properties > Unblock (nếu có) > Apply.</small>
+                        </div>
                     </div>
                 `,
                 confirmButtonText: 'Đã hiểu',
