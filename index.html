@@ -230,7 +230,7 @@
             <div class="checkin-header" data-aos="fade-up">
                 <span class="section-tag">Phần thưởng hàng ngày</span>
                 <h2 class="section-title">Điểm Danh Nhận Kim Cương</h2>
-                <p class="section-subtitle">
+                <p class="section-subtitle" id="checkinWelcome">
                     Điểm danh mỗi ngày để nhận kim cương và các phần thưởng hấp dẫn!
                 </p>
             </div>
@@ -238,6 +238,15 @@
             <div class="checkin-content">
                 <!-- User Stats -->
                 <div class="checkin-stats" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="totalGold">0</span>
+                            <span class="stat-label">Vàng</span>
+                        </div>
+                    </div>
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-gem"></i>
@@ -248,7 +257,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div class="stat-info">
@@ -1642,20 +1651,93 @@
             }
         }
         
+        // Load user data from Firebase
+        async function loadUserDataFromFirebase() {
+            try {
+                const user = getCurrentFirebaseUser();
+                if (!user) {
+                    return null;
+                }
+                
+                const rtdb = window.firebaseRTDB;
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                
+                const userRef = ref(rtdb, `Users/${user.uid}`);
+                const snapshot = await get(userRef);
+                
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    let currentData;
+                    
+                    // Parse if data is stored as JSON string
+                    if (typeof userData === 'string') {
+                        currentData = JSON.parse(userData);
+                    } else {
+                        currentData = userData;
+                    }
+                    
+                    return {
+                        name: currentData.Name || 'User',
+                        gold: currentData.Gold || 0,
+                        diamond: currentData.Diamond || 0,
+                        mapInGame: currentData.MapInGame || {}
+                    };
+                }
+                return null;
+            } catch (error) {
+                console.error('Error loading user data from Firebase:', error);
+                return null;
+            }
+        }
+        
         // Update stats display
-        function updateStatsDisplay() {
-            const data = getCheckinData();
+        async function updateStatsDisplay() {
+            const localData = getCheckinData();
             
-            // Safely update elements only if they exist
+            // Get elements
+            const goldEl = document.getElementById('totalGold');
             const diamondsEl = document.getElementById('totalDiamonds');
-            if (diamondsEl) {
-                diamondsEl.textContent = data.totalDiamonds.toLocaleString();
+            const checkinsEl = document.getElementById('totalCheckins');
+            const welcomeEl = document.getElementById('checkinWelcome');
+            
+            // Check if elements exist
+            if (!goldEl || !diamondsEl || !checkinsEl) {
+                return;
             }
             
-            const checkinsEl = document.getElementById('totalCheckins');
-            if (checkinsEl) {
-                checkinsEl.textContent = data.totalCheckins;
+            // If user is logged in, load from Firebase
+            if (isUserLoggedIn()) {
+                const firebaseData = await loadUserDataFromFirebase();
+                
+                if (firebaseData) {
+                    goldEl.textContent = firebaseData.gold.toLocaleString();
+                    diamondsEl.textContent = firebaseData.diamond.toLocaleString();
+                    
+                    // Update welcome message
+                    if (welcomeEl) {
+                        welcomeEl.textContent = `Chào mừng ${firebaseData.name}! Điểm danh mỗi ngày để nhận kim cương và các phần thưởng hấp dẫn!`;
+                    }
+                } else {
+                    // Fallback to localStorage
+                    goldEl.textContent = '0';
+                    diamondsEl.textContent = localData.totalDiamonds.toLocaleString();
+                    
+                    if (welcomeEl) {
+                        welcomeEl.textContent = 'Điểm danh mỗi ngày để nhận kim cương và các phần thưởng hấp dẫn!';
+                    }
+                }
+            } else {
+                // Not logged in - show 0
+                goldEl.textContent = '0';
+                diamondsEl.textContent = '0';
+                
+                if (welcomeEl) {
+                    welcomeEl.textContent = 'Đăng nhập để bắt đầu điểm danh và nhận kim cương!';
+                }
             }
+            
+            // Check-in count from localStorage
+            checkinsEl.textContent = localData.totalCheckins;
         }
         
         // Check if already checked in today
@@ -1939,6 +2021,7 @@
         window.isUserLoggedIn = isUserLoggedIn;
         window.syncDiamondToFirebase = syncDiamondToFirebase;
         window.getDiamondFromFirebase = getDiamondFromFirebase;
+        window.loadUserDataFromFirebase = loadUserDataFromFirebase;
         
         // ==========================================
         // END DAILY CHECK-IN SYSTEM

@@ -382,14 +382,8 @@ function showUserMenu() {
     const menu = document.createElement('div');
     menu.className = 'user-menu';
     menu.innerHTML = `
-        <div class="user-menu-item" onclick="showUserProfile()">
-            <i class="fas fa-user-circle"></i> Thông tin cá nhân
-        </div>
-        <div class="user-menu-item" onclick="showGameStats()">
-            <i class="fas fa-trophy"></i> Thành tích
-        </div>
-        <div class="user-menu-item" onclick="showSettings()">
-            <i class="fas fa-cog"></i> Cài đặt
+        <div class="user-menu-item" onclick="showPromoCodes()">
+            <i class="fas fa-gift"></i> Mã khuyến mãi
         </div>
         <hr>
         <div class="user-menu-item logout" onclick="handleLogout()">
@@ -423,38 +417,155 @@ function closeAllModals() {
 }
 
 // Placeholder functions for user menu items
-function showUserProfile() {
+function showPromoCodes() {
     Swal.fire({
-        icon: 'info',
-        title: 'Thông tin cá nhân',
-        text: 'Tính năng quản lý thông tin cá nhân sẽ sớm có! Bạn sẽ có thể xem và chỉnh sửa profile, avatar và thông tin tài khoản.',
-        confirmButtonText: 'Đã hiểu',
-        confirmButtonColor: '#4a90e2'
+        title: '<div style="font-size: 1.8rem; font-weight: 700; color: #2c3e50; margin-bottom: 10px;">Mã Khuyến Mãi</div>',
+        html: `
+            <div style="margin: 25px 0;">
+                <!-- Description -->
+                <p style="font-size: 1rem; 
+                          color: #5a6c7d; 
+                          margin-bottom: 30px; 
+                          line-height: 1.6;
+                          font-weight: 400;">
+                    Nhập mã để nhận Kim Cương, Vàng và nhiều phần thưởng khác
+                </p>
+                
+                <!-- Input -->
+                <div style="margin: 0 auto 25px; max-width: 420px;">
+                    <input type="text" 
+                           id="promoCodeInput" 
+                           placeholder="NHẬP MÃ TẠI ĐÂY"
+                           style="width: 100%; 
+                                  padding: 16px 20px; 
+                                  font-size: 1.05rem; 
+                                  border: 2px solid #e1e8ed; 
+                                  border-radius: 12px; 
+                                  outline: none;
+                                  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                                  text-transform: uppercase;
+                                  letter-spacing: 3px;
+                                  font-weight: 600;
+                                  color: #2c3e50;
+                                  background: #f8f9fa;
+                                  text-align: center;"
+                           onkeyup="this.value = this.value.toUpperCase()"
+                           onfocus="this.style.borderColor='#667eea'; 
+                                    this.style.background='#ffffff'; 
+                                    this.style.boxShadow='0 0 0 4px rgba(102, 126, 234, 0.1)'"
+                           onblur="this.style.borderColor='#e1e8ed'; 
+                                   this.style.background='#f8f9fa'; 
+                                   this.style.boxShadow='none'">
+                </div>
+                
+                <!-- Note -->
+                <div style="background: #f8f9fa; 
+                            padding: 16px 20px; 
+                            border-radius: 10px; 
+                            border-left: 4px solid #667eea;
+                            margin-top: 25px;">
+                    <p style="margin: 0; 
+                              color: #5a6c7d; 
+                              font-size: 0.92rem; 
+                              line-height: 1.5;">
+                        <span style="color: #667eea; font-weight: 600;">💡 Lưu ý:</span> 
+                        Theo dõi Fanpage và Discord để nhận mã mới nhất
+                    </p>
+                </div>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Nhận Quà',
+        cancelButtonText: 'Đóng',
+        confirmButtonColor: '#667eea',
+        cancelButtonColor: '#95a5a6',
+        buttonsStyling: true,
+        width: '500px',
+        padding: '35px',
+        background: '#ffffff',
+        backdrop: 'rgba(44, 62, 80, 0.4)',
+        customClass: {
+            confirmButton: 'swal2-promo-confirm',
+            cancelButton: 'swal2-promo-cancel',
+            popup: 'swal2-promo-popup'
+        },
+        didOpen: () => {
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .swal2-promo-popup {
+                    border-radius: 16px !important;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+                }
+                .swal2-promo-confirm {
+                    padding: 13px 35px !important;
+                    border-radius: 10px !important;
+                    font-weight: 600 !important;
+                    font-size: 1rem !important;
+                    transition: all 0.3s ease !important;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
+                }
+                .swal2-promo-confirm:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4) !important;
+                }
+                .swal2-promo-cancel {
+                    padding: 13px 30px !important;
+                    border-radius: 10px !important;
+                    font-weight: 500 !important;
+                    font-size: 0.95rem !important;
+                    transition: all 0.3s ease !important;
+                }
+                .swal2-promo-cancel:hover {
+                    background: #7f8c8d !important;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            setTimeout(() => {
+                document.getElementById('promoCodeInput').focus();
+            }, 100);
+        },
+        preConfirm: () => {
+            const code = document.getElementById('promoCodeInput').value.trim();
+            if (!code) {
+                Swal.showValidationMessage('Vui lòng nhập mã khuyến mãi');
+                return false;
+            }
+            return code;
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Đang xử lý...',
+                html: '<div style="color: #667eea; font-size: 2.5rem;">⏳</div>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                timer: 1000,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            }).then(() => {
+                // TODO: Implement promo code validation and reward
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Mã không hợp lệ',
+                    html: `
+                        <p style="font-size: 1rem; color: #5a6c7d; margin: 15px 0; line-height: 1.5;">
+                            Mã <strong style="color: #e74c3c;">${result.value}</strong> không tồn tại hoặc đã hết hạn
+                        </p>
+                    `,
+                    confirmButtonText: 'Đã hiểu',
+                    confirmButtonColor: '#667eea',
+                    width: '450px'
+                });
+            });
+        }
     });
-    document.querySelector('.user-menu').remove();
+    
+    const menu = document.querySelector('.user-menu');
+    if (menu) menu.remove();
 }
 
-function showGameStats() {
-    Swal.fire({
-        icon: 'info',
-        title: 'Thành tích game',
-        text: 'Tính năng xem thành tích và bảng xếp hạng sẽ sớm có! Theo dõi điểm số, level và các thành tựu của bạn.',
-        confirmButtonText: 'Tuyệt vời!',
-        confirmButtonColor: '#4a90e2'
-    });
-    document.querySelector('.user-menu').remove();
-}
-
-function showSettings() {
-    Swal.fire({
-        icon: 'info',
-        title: 'Cài đặt',
-        text: 'Tính năng cài đặt sẽ sớm có! Bạn sẽ có thể tùy chỉnh âm thanh, đồ họa và các tùy chọn game khác.',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#4a90e2'
-    });
-    document.querySelector('.user-menu').remove();
-}
 
 async function handleLogout() {
     Swal.fire({
@@ -503,8 +614,6 @@ window.showError = showError;
 window.showSuccess = showSuccess;
 window.showUserMenu = showUserMenu;
 window.handleLogout = handleLogout;
-window.showUserProfile = showUserProfile;
-window.showGameStats = showGameStats;
-window.showSettings = showSettings;
+window.showPromoCodes = showPromoCodes;
 
 console.log('🔥 Firebase Auth initialized successfully!');
