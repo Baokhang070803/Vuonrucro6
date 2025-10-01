@@ -5017,4 +5017,534 @@ kbd {
     }
 }
 
+/* ==========================================
+   DAILY CHECK-IN SECTION STYLES
+   ========================================== */
+
+.checkin-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.checkin-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.5;
+}
+
+.checkin-header {
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.checkin-header .section-tag {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.checkin-header .section-title {
+    color: #ffffff;
+    font-size: 3rem;
+    margin: 20px 0;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.checkin-header .section-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+}
+
+.checkin-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Stats Cards */
+.checkin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+    align-items: stretch;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    height: 100%;
+    min-height: 120px;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+}
+
+.stat-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+/* Calendar */
+.checkin-calendar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    margin-bottom: 40px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.calendar-header h3 {
+    font-size: 1.8rem;
+    color: #667eea;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reset-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.reset-btn:hover {
+    background: #ef4444;
+    color: white;
+    transform: scale(1.05);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    font-weight: 600;
+    color: #667eea;
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    border-radius: 15px;
+    background: #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: default;
+    padding: 10px;
+}
+
+.calendar-day.empty {
+    background: transparent;
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 5px 20px rgba(251, 191, 36, 0.4);
+    animation: pulse 2s infinite;
+}
+
+.calendar-day.checked {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+}
+
+.calendar-day.missed {
+    background: #e5e7eb;
+    color: #9ca3af;
+    opacity: 0.5;
+}
+
+.calendar-day.future {
+    background: #f9fafb;
+    color: #9ca3af;
+}
+
+.calendar-day.special {
+    border: 3px solid #fbbf24;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+.day-number {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.day-reward {
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    opacity: 0.9;
+}
+
+.day-reward i {
+    font-size: 0.7rem;
+}
+
+.check-mark {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 1.2rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Check-in Action */
+.checkin-action {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.checkin-btn {
+    padding: 20px 60px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.checkin-btn:hover:not(.disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+}
+
+.checkin-btn:active:not(.disabled) {
+    transform: translateY(-1px);
+}
+
+.checkin-btn.disabled {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.checkin-hint {
+    margin-top: 15px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Rewards Info */
+.rewards-info {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+}
+
+.rewards-info h4 {
+    font-size: 1.8rem;
+    color: #667eea;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.reward-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.reward-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.reward-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+}
+
+.reward-icon.day7 {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+}
+
+.reward-icon.day14 {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+}
+
+.reward-icon.day21 {
+    background: linear-gradient(135deg, #ec4899, #db2777);
+    box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+}
+
+.reward-icon.day30 {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+.reward-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.reward-details strong {
+    font-size: 1.2rem;
+    color: #1f2937;
+    margin-bottom: 5px;
+}
+
+.reward-details span {
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .checkin-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .calendar-grid {
+        gap: 10px;
+    }
+    
+    .calendar-day {
+        padding: 8px;
+    }
+    
+    .day-number {
+        font-size: 1.1rem;
+    }
+    
+    .day-reward {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .checkin-section {
+        padding: 60px 0;
+    }
+    
+    .checkin-header .section-title {
+        font-size: 2rem;
+    }
+    
+    .checkin-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .checkin-calendar {
+        padding: 20px;
+    }
+    
+    .calendar-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .calendar-header h3 {
+        font-size: 1.3rem;
+    }
+    
+    .calendar-grid {
+        gap: 8px;
+    }
+    
+    .calendar-day {
+        padding: 5px;
+    }
+    
+    .day-number {
+        font-size: 0.9rem;
+    }
+    
+    .day-reward {
+        font-size: 0.6rem;
+    }
+    
+    .check-mark {
+        width: 20px;
+        height: 20px;
+        font-size: 1rem;
+    }
+    
+    .checkin-btn {
+        padding: 15px 40px;
+        font-size: 1.2rem;
+    }
+    
+    .rewards-info {
+        padding: 25px;
+    }
+    
+    .rewards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    .calendar-day-header {
+        font-size: 0.75rem;
+        padding: 5px;
+    }
+    
+    .calendar-grid {
+        gap: 5px;
+    }
+    
+    .day-number {
+        font-size: 0.8rem;
+    }
+    
+    .day-reward {
+        font-size: 0.55rem;
+    }
+    
+    .checkin-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    
+    .reward-item {
+        padding: 15px;
+    }
+    
+    .reward-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+}
+
+/* ========================================== 
+   END DAILY CHECK-IN SECTION STYLES
+   ========================================== */
+
 
