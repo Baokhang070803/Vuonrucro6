@@ -556,3 +556,4 @@ langhoaruc_cache_{key}: {
 ---
 
 **Tổng kết**: ERD này bao gồm đầy đủ các thực thể, quan hệ và cấu trúc dữ liệu cho dự án "Làng Hoa Rực" - một web game nông trại với hệ thống điểm danh, cốt truyện và quản lý người dùng phức tạp.
+
