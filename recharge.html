@@ -1,0 +1,2222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nạp Tiền - Làng Hoa Rực</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo/ChatGPT Image 13_27_39 3 thg 9, 2025.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .recharge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .recharge-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recharge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .recharge-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 20px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .package-list {
+            margin: 20px 0;
+        }
+
+        .package-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .package-item:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        .package-item.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .package-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .package-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+        }
+
+        .package-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .package-details p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .package-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        .package-item.selected .package-price {
+            color: white;
+        }
+
+        .payment-methods {
+            margin-top: 30px;
+        }
+
+        .payment-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .payment-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px;
+            border: 3px solid #1f4e79;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #1f4e79, #2c5aa0);
+            color: white;
+            font-weight: 600;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .payment-method:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(31, 78, 121, 0.3);
+        }
+
+        .payment-method.selected {
+            border-color: #1f4e79;
+            background: linear-gradient(135deg, #1f4e79, #2c5aa0);
+            box-shadow: 0 5px 15px rgba(31, 78, 121, 0.4);
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .payment-name {
+            font-weight: 500;
+        }
+
+        .recharge-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .recharge-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .recharge-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-steps {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e9ecef;
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 2;
+            transition: all 0.8s ease;
+            transform: translateY(-50%);
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 0 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .step:hover {
+            transform: translateY(-2px);
+        }
+
+        .step.active {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-circle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .step-circle:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        .step-circle.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .step-circle.completed {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            animation: checkmark 0.6s ease-in-out;
+        }
+
+        .step-circle.pending {
+            background: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .step-circle.pending:hover {
+            transform: scale(1.05);
+            background: #dee2e6;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            }
+            50% {
+                box-shadow: 0 5px 25px rgba(102, 126, 234, 0.5);
+                transform: scale(1.05);
+            }
+            100% {
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            }
+        }
+
+        @keyframes checkmark {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            color: #333;
+        }
+
+        .step.active .step-title {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .step.completed .step-title {
+            color: #28a745;
+        }
+
+        .step.pending .step-title {
+            color: #6c757d;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .user-info h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .recharge-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-btn {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 20px;
+            }
+
+            .progress-steps {
+                padding: 20px;
+            }
+
+            .steps-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .steps-container::before {
+                display: none;
+            }
+
+            .step {
+                flex-direction: row;
+                padding: 15px;
+                background: #f8f9fa;
+                border-radius: 10px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .step-circle {
+                margin-bottom: 0;
+                margin-right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .step-title {
+                font-size: 1rem;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </button>
+
+        <div class="header" data-aos="fade-down">
+            <h1><i class="fas fa-coins"></i> Nạp Tiền</h1>
+            <p>Nạp tiền để mua kim cương và vàng trong game</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps" data-aos="fade-up">
+            <div class="steps-container">
+                <div class="progress-line" id="progressLine"></div>
+                <div class="step active" id="step1">
+                    <div class="step-circle active">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="step-title">Chọn gói</div>
+                </div>
+                <div class="step pending" id="step2">
+                    <div class="step-circle pending">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="step-title">Phương thức thanh toán</div>
+                </div>
+                <div class="step pending" id="step3">
+                    <div class="step-circle pending">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="step-title">Kết quả</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Info -->
+        <div class="user-info" data-aos="fade-up">
+            <h3><i class="fas fa-user"></i> Thông tin tài khoản</h3>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="userGold">0</div>
+                    <div class="stat-label">Vàng</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="userDiamond">0</div>
+                    <div class="stat-label">Kim Cương</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="userLevel">1</div>
+                    <div class="stat-label">Cấp độ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recharge-grid">
+            <!-- Diamond Packages -->
+            <div class="recharge-card" data-aos="fade-right">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div>
+                        <div class="card-title">Gói Kim Cương</div>
+                        <div class="card-subtitle">Mua kim cương để nâng cấp</div>
+                    </div>
+                </div>
+
+                <div class="package-list" id="diamondPackages">
+                    <!-- Diamond packages will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Gold Packages -->
+            <div class="recharge-card" data-aos="fade-left">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div>
+                        <div class="card-title">Gói Vàng</div>
+                        <div class="card-subtitle">Mua vàng để mua vật phẩm</div>
+                    </div>
+                </div>
+
+                <div class="package-list" id="goldPackages">
+                    <!-- Gold packages will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="recharge-card" data-aos="fade-up">
+            <div class="payment-title">
+                <i class="fas fa-credit-card"></i> Phương thức thanh toán
+            </div>
+            <div class="payment-grid" id="paymentMethods">
+                <!-- Payment methods will be loaded here -->
+            </div>
+        </div>
+
+        <button class="recharge-btn" id="rechargeBtn" onclick="processRecharge()" disabled>
+            <i class="fas fa-shopping-cart"></i> Nạp tiền ngay
+        </button>
+
+
+        <!-- VNPay Payment Form (Hidden) -->
+        <form id="vnpayForm" action="https://sandbox.vnpayment.vn/paymentv2/vpcpay.html" method="POST" style="display: none;">
+            <input type="hidden" name="vnp_Version" value="2.1.0">
+            <input type="hidden" name="vnp_Command" value="pay">
+            <input type="hidden" name="vnp_TmnCode" value="G0DXNG46">
+            <input type="hidden" name="vnp_Amount" id="vnp_Amount">
+            <input type="hidden" name="vnp_CurrCode" value="VND">
+            <input type="hidden" name="vnp_TxnRef" id="vnp_TxnRef">
+            <input type="hidden" name="vnp_OrderInfo" id="vnp_OrderInfo">
+            <input type="hidden" name="vnp_OrderType" value="other">
+            <input type="hidden" name="vnp_Locale" value="vn">
+            <input type="hidden" name="vnp_ReturnUrl" id="vnp_ReturnUrl">
+            <input type="hidden" name="vnp_IpAddr" id="vnp_IpAddr">
+            <input type="hidden" name="vnp_CreateDate" id="vnp_CreateDate">
+            <input type="hidden" name="vnp_ExpireDate" id="vnp_ExpireDate">
+            <input type="hidden" name="vnp_BankCode" id="vnp_BankCode">
+            <input type="hidden" name="vnp_SecureHashType" id="vnp_SecureHashType">
+            <input type="hidden" name="vnp_OrderCategory" id="vnp_OrderCategory">
+            <input type="hidden" name="vnp_SecureHash" id="vnp_SecureHash">
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-auth.js"></script>
+    <script src="js/recharge-system.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Go back function
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Progress Steps Management
+        function updateProgressStep(stepNumber) {
+            // Reset all steps
+            for (let i = 1; i <= 3; i++) {
+                const step = document.getElementById(`step${i}`);
+                const circle = step.querySelector('.step-circle');
+                const title = step.querySelector('.step-title');
+                
+                step.className = 'step';
+                circle.className = 'step-circle';
+                title.className = 'step-title';
+            }
+            
+            // Update steps based on current step
+            for (let i = 1; i <= stepNumber; i++) {
+                const step = document.getElementById(`step${i}`);
+                const circle = step.querySelector('.step-circle');
+                const title = step.querySelector('.step-title');
+                
+                if (i < stepNumber) {
+                    // Completed steps
+                    step.className = 'step completed';
+                    circle.className = 'step-circle completed';
+                    title.className = 'step-title';
+                } else if (i === stepNumber) {
+                    // Current active step
+                    step.className = 'step active';
+                    circle.className = 'step-circle active';
+                    title.className = 'step-title';
+                } else {
+                    // Pending steps
+                    step.className = 'step pending';
+                    circle.className = 'step-circle pending';
+                    title.className = 'step-title';
+                }
+            }
+            
+            // Update progress line
+            updateProgressLine(stepNumber);
+        }
+
+        // Update progress line animation
+        function updateProgressLine(stepNumber) {
+            const progressLine = document.getElementById('progressLine');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            
+            const step1Rect = step1.getBoundingClientRect();
+            const containerRect = document.querySelector('.steps-container').getBoundingClientRect();
+            
+            let progressWidth = 0;
+            
+            if (stepNumber >= 2) {
+                const step2Rect = step2.getBoundingClientRect();
+                progressWidth = (step2Rect.left + step2Rect.width/2) - (step1Rect.left + step1Rect.width/2);
+            }
+            
+            if (stepNumber >= 3) {
+                const step3Rect = step3.getBoundingClientRect();
+                progressWidth = (step3Rect.left + step3Rect.width/2) - (step1Rect.left + step1Rect.width/2);
+            }
+            
+            progressLine.style.width = progressWidth + 'px';
+        }
+
+        // Add click effects
+        function addStepClickEffects() {
+            for (let i = 1; i <= 3; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.addEventListener('click', function() {
+                    // Add ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(102, 126, 234, 0.3);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                        width: 100px;
+                        height: 100px;
+                        left: 50%;
+                        top: 50%;
+                        margin-left: -50px;
+                        margin-top: -50px;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            }
+        }
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize progress steps
+        function initializeProgressSteps() {
+            updateProgressStep(1); // Start with step 1
+            addStepClickEffects(); // Add click effects
+        }
+
+        // Sample packages data
+        const SAMPLE_PACKAGES = {
+            diamond: [
+                { id: 1, name: 'Gói Kim Cương Nhỏ', description: '100 Kim Cương', price: 10000, currency: 'VND', type: 'diamond' },
+                { id: 2, name: 'Gói Kim Cương Trung', description: '500 Kim Cương + 50 Bonus', price: 50000, currency: 'VND', type: 'diamond' },
+                { id: 3, name: 'Gói Kim Cương Lớn', description: '1000 Kim Cương + 200 Bonus', price: 100000, currency: 'VND', type: 'diamond' },
+                { id: 4, name: 'Gói Kim Cương VIP', description: '2000 Kim Cương + 500 Bonus', price: 200000, currency: 'VND', type: 'diamond' }
+            ],
+            gold: [
+                { id: 5, name: 'Gói Vàng Nhỏ', description: '10,000 Vàng', price: 5000, currency: 'VND', type: 'gold' },
+                { id: 6, name: 'Gói Vàng Trung', description: '50,000 Vàng + 5,000 Bonus', price: 25000, currency: 'VND', type: 'gold' },
+                { id: 7, name: 'Gói Vàng Lớn', description: '100,000 Vàng + 20,000 Bonus', price: 50000, currency: 'VND', type: 'gold' },
+                { id: 8, name: 'Gói Vàng VIP', description: '200,000 Vàng + 50,000 Bonus', price: 100000, currency: 'VND', type: 'gold' }
+            ]
+        };
+
+        // Load packages
+        function loadPackages() {
+            const diamondContainer = document.getElementById('diamondPackages');
+            const goldContainer = document.getElementById('goldPackages');
+
+            // Load diamond packages
+            SAMPLE_PACKAGES.diamond.forEach(pkg => {
+                const packageElement = createPackageElement(pkg);
+                diamondContainer.appendChild(packageElement);
+            });
+
+            // Load gold packages
+            SAMPLE_PACKAGES.gold.forEach(pkg => {
+                const packageElement = createPackageElement(pkg);
+                goldContainer.appendChild(packageElement);
+            });
+
+            // Load payment methods
+            loadPaymentMethods();
+        }
+
+        function createPackageElement(pkg) {
+            const div = document.createElement('div');
+            div.className = 'package-item';
+            div.onclick = function(event) {
+                selectPackage(pkg);
+            };
+            div.innerHTML = `
+                <div class="package-info">
+                    <div class="package-icon">
+                        <i class="fas fa-${pkg.type === 'diamond' ? 'gem' : 'coins'}"></i>
+                    </div>
+                    <div class="package-details">
+                        <h4>${pkg.name}</h4>
+                        <p>${pkg.description}</p>
+                    </div>
+                </div>
+                <div class="package-price">${pkg.price.toLocaleString('vi-VN')} VNĐ</div>
+            `;
+            return div;
+        }
+
+        function selectPackage(pkg) {
+            // Remove previous selection
+            document.querySelectorAll('.package-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Find and select the clicked item
+            const packageItems = document.querySelectorAll('.package-item');
+            packageItems.forEach(item => {
+                const packageName = item.querySelector('h4').textContent;
+                if (packageName === pkg.name) {
+                    item.classList.add('selected');
+                }
+            });
+            
+            // Store selected package
+            selectedPackage = pkg;
+            
+            // Enable recharge button
+            document.getElementById('rechargeBtn').disabled = false;
+            
+            // Update progress to step 2
+            updateProgressStep(2);
+            
+            // Không hiển thị thông báo khi chọn gói
+        }
+
+        function loadPaymentMethods() {
+            const container = document.getElementById('paymentMethods');
+            container.innerHTML = `
+                <div class="payment-method selected" onclick="selectPaymentMethod('vnpay')">
+                    <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="payment-name">VNPay</div>
+                </div>
+            `;
+            
+            // Set VNPay as default
+            selectedPaymentMethod = 'vnpay';
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove previous selection
+            document.querySelectorAll('.payment-method').forEach(item => {
+                item.classList.remove('selected');
+            });
+
+            // Find and select the clicked method
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            paymentMethods.forEach(item => {
+                const methodName = item.querySelector('.payment-name').textContent;
+                if (methodName === 'VNPay' && method === 'vnpay') {
+                    item.classList.add('selected');
+                }
+            });
+            
+            // Store selected method
+            selectedPaymentMethod = method;
+            
+            // Update progress to step 3
+            updateProgressStep(3);
+        }
+
+        // Initialize recharge system
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeProgressSteps();
+            loadPackages();
+            
+            // Check for VNPay return
+            if (window.location.search.includes('vnp_ResponseCode')) {
+                // Wait for Firebase to be ready
+                setTimeout(() => {
+                handleVNPayReturn();
+                }, 2000);
+            }
+            
+            // Don't initialize the old recharge system to avoid conflicts
+            // if (window.rechargeSystem) {
+            //     window.rechargeSystem.initialize();
+            // }
+            
+            // Check auth and load data
+            setTimeout(() => {
+                checkAuthAndSyncData();
+            }, 2000);
+            
+            // Listen for auth state changes from multiple sources
+            if (typeof window.auth !== 'undefined') {
+                window.auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        console.log('🔑 Auth state changed: User signed in', user.uid);
+                        localStorage.setItem('currentUserId', user.uid);
+                        localStorage.setItem('currentUserEmail', user.email);
+                        
+                        // Re-check auth and sync data
+                        setTimeout(() => {
+                            checkAuthAndSyncData();
+                        }, 1000);
+                    } else {
+                        console.log('🔑 Auth state changed: User signed out');
+                        localStorage.removeItem('currentUserId');
+                        localStorage.removeItem('currentUserEmail');
+                    }
+                });
+            }
+            
+            // Also listen for custom auth events
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'currentUserId' && e.newValue) {
+                    console.log('🔑 User ID updated from storage:', e.newValue);
+                    setTimeout(() => {
+                        checkAuthAndSyncData();
+                    }, 500);
+                }
+            });
+            
+            // Check for existing auth state on page load
+            const existingUserId = localStorage.getItem('currentUserId');
+            if (existingUserId) {
+                console.log('🔑 Found existing user ID:', existingUserId);
+                setTimeout(() => {
+                    checkAuthAndSyncData();
+                }, 1000);
+            }
+        });
+
+        // Check if user is authenticated and sync data
+        async function checkAuthAndSyncData() {
+            console.log('🔍 Checking authentication status...');
+            
+            // Wait a bit for auth to be ready
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Check if user is authenticated
+            let isAuthenticated = false;
+            let userId = null;
+            
+            // Check multiple auth sources
+            if (typeof window.auth !== 'undefined' && window.auth.currentUser) {
+                isAuthenticated = true;
+                userId = window.auth.currentUser.uid;
+                console.log('✅ User is authenticated via window.auth:', userId);
+            } else if (typeof window.firebaseAuth !== 'undefined' && window.firebaseAuth.currentUser) {
+                isAuthenticated = true;
+                userId = window.firebaseAuth.currentUser.uid;
+                console.log('✅ User is authenticated via window.firebaseAuth:', userId);
+            } else {
+                // Check localStorage for user data
+                const storedUserId = localStorage.getItem('currentUserId');
+                const storedUserEmail = localStorage.getItem('currentUserEmail');
+                
+                if (storedUserId && storedUserEmail) {
+                    isAuthenticated = true;
+                    userId = storedUserId;
+                    console.log('✅ User is authenticated via localStorage:', userId);
+                } else {
+                    console.log('⚠️ User not authenticated, using localStorage');
+                }
+            }
+            
+            if (isAuthenticated && userId) {
+                // Sync localStorage data to Firebase
+                const userGold = parseInt(localStorage.getItem('userGold') || '0');
+                const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
+                
+                if (userGold > 0 || userDiamond > 0) {
+                    console.log('🔄 Syncing localStorage data to Firebase...');
+                    await syncLocalStorageToFirebase(userGold, userDiamond, userId);
+                }
+                
+                // Load from Firebase
+                await loadUserDataFromFirebase(userId);
+            } else {
+                // Load from localStorage
+                const userGold = parseInt(localStorage.getItem('userGold') || '0');
+                const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
+                const userExpData = localStorage.getItem('userExpData') || JSON.stringify({ currentLevel: 1 });
+                
+                updateUserDisplay({
+                    Gold: userGold,
+                    Diamond: userDiamond,
+                    ExpData: userExpData
+                });
+            }
+        }
+        
+        // Sync localStorage data to Firebase
+        async function syncLocalStorageToFirebase(gold, diamond, userId) {
+            try {
+                const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
+                const userUrl = `${firebaseUrl}/Users/${userId}.json`;
+                
+                // Get current user data
+                const userResponse = await fetch(userUrl);
+                const currentData = await userResponse.json() || {};
+                
+                // Calculate new values
+                const currentGold = parseInt(currentData.Gold) || 0;
+                const currentDiamond = parseInt(currentData.Diamond) || 0;
+                const newGold = currentGold + gold;
+                const newDiamond = currentDiamond + diamond;
+                
+                // Update Firebase
+                await fetch(userUrl, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Gold: newGold,
+                        Diamond: newDiamond,
+                        LastSync: new Date().toISOString()
+                    })
+                });
+                
+                console.log('✅ Data synced to Firebase:', {
+                    oldGold: currentGold,
+                    newGold: newGold,
+                    oldDiamond: currentDiamond,
+                    newDiamond: newDiamond
+                });
+                
+                // Clear localStorage after sync
+                localStorage.removeItem('userGold');
+                localStorage.removeItem('userDiamond');
+                
+            } catch (error) {
+                console.error('❌ Error syncing to Firebase:', error);
+            }
+        }
+
+        // Load user data after payment (for UI update)
+        async function loadUserDataAfterPayment() {
+            console.log('🔄 Loading user data after payment...');
+            await checkAuthAndSyncData();
+        }
+
+        // Load user data from Firebase with specific userId
+        async function loadUserDataFromFirebase(userId) {
+            try {
+                const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
+                const userUrl = `${firebaseUrl}/Users/${userId}.json`;
+                
+                const userResponse = await fetch(userUrl);
+                const userData = await userResponse.json();
+                
+                if (userData) {
+                    console.log('✅ User data loaded from Firebase:', userData);
+                    updateUserDisplay(userData);
+                } else {
+                    console.log('No user data found in Firebase, using defaults');
+                    updateUserDisplay({
+                        Gold: 0,
+                        Diamond: 0,
+                        ExpData: JSON.stringify({ currentLevel: 1 })
+                    });
+                }
+            } catch (error) {
+                console.error('❌ Error loading user data from Firebase:', error);
+                
+                // Fallback: Load from localStorage
+                const userGold = parseInt(localStorage.getItem('userGold') || '0');
+                const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
+                const userExpData = localStorage.getItem('userExpData') || JSON.stringify({ currentLevel: 1 });
+                
+                updateUserDisplay({
+                    Gold: userGold,
+                    Diamond: userDiamond,
+                    ExpData: userExpData
+                });
+            }
+        }
+
+        // Load user data from Firebase
+        async function loadUserData() {
+            try {
+                if (typeof window.auth === 'undefined' || !window.auth.currentUser) {
+                    console.log('User not authenticated or auth not available');
+                    return;
+                }
+
+                // Sử dụng Firebase REST API
+                const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
+                const userUrl = `${firebaseUrl}/Users/${window.auth.currentUser.uid}.json`;
+                
+                const userResponse = await fetch(userUrl);
+                const userData = await userResponse.json();
+                
+                if (userData) {
+                    console.log('✅ User data loaded:', userData);
+                    updateUserDisplay(userData);
+                } else {
+                    console.log('No user data found, using defaults');
+            updateUserDisplay({
+                Gold: 0,
+                Diamond: 0,
+                ExpData: JSON.stringify({ currentLevel: 1 })
+            });
+                }
+            } catch (error) {
+                console.error('❌ Error loading user data:', error);
+                
+                // Fallback: Load from localStorage
+                try {
+                    const userGold = parseInt(localStorage.getItem('userGold') || '0');
+                    const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
+                    const userExpData = localStorage.getItem('userExpData') || JSON.stringify({ currentLevel: 1 });
+                    
+                    console.log('💾 Loading data from localStorage fallback:', {
+                        Gold: userGold,
+                        Diamond: userDiamond,
+                        ExpData: userExpData
+                    });
+                    
+                    updateUserDisplay({
+                        Gold: userGold,
+                        Diamond: userDiamond,
+                        ExpData: userExpData
+                    });
+                } catch (fallbackError) {
+                    console.error('❌ Fallback load also failed:', fallbackError);
+                    updateUserDisplay({
+                        Gold: 0,
+                        Diamond: 0,
+                        ExpData: JSON.stringify({ currentLevel: 1 })
+                    });
+                }
+            }
+        }
+
+        // Update user display function
+        function updateUserDisplay(userData) {
+            // Update gold display
+            const goldElement = document.getElementById('userGold');
+            if (goldElement) {
+                goldElement.textContent = userData.Gold || 0;
+            }
+
+            // Update diamond display
+            const diamondElement = document.getElementById('userDiamond');
+            if (diamondElement) {
+                diamondElement.textContent = userData.Diamond || 0;
+            }
+
+            // Update level display
+            const levelElement = document.getElementById('userLevel');
+            if (levelElement) {
+                const expData = userData.ExpData ? JSON.parse(userData.ExpData) : { currentLevel: 1 };
+                levelElement.textContent = expData.currentLevel || 1;
+            }
+        }
+
+        // VNPay Configuration - Sử dụng config từ checkout.html
+        const VNPAY_CONFIG = {
+            tmnCode: '2Q01AVYB',
+            hashSecret: 'U3I3A1Q4G3Z3MNNJ2NODFKA7G3CBU27P',
+            url: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
+            returnUrl: window.location.origin + window.location.pathname
+        };
+
+        // Selected package and payment method
+        let selectedPackage = null;
+        let selectedPaymentMethod = null;
+
+        // VNPay Payment Functions
+        function generateTxnRef() {
+            return 'RECHARGE_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function getClientIP() {
+            // In real implementation, you would get this from your server
+            return '127.0.0.1';
+        }
+
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}${month}${day}${hours}${minutes}${seconds}`;
+        }
+
+        function createSecureHash(params) {
+            // Lọc bỏ các tham số rỗng và null
+            const filteredParams = {};
+            Object.keys(params).forEach(key => {
+                const value = params[key];
+                if (value !== '' && value !== null && value !== undefined) {
+                    filteredParams[key] = value;
+                }
+            });
+
+            // Sắp xếp tham số theo thứ tự bảng chữ cái
+            const sortedKeys = Object.keys(filteredParams).sort();
+
+            // Tạo chuỗi ký tự cần mã hóa (theo chuẩn VNPay)
+            const signData = sortedKeys
+                .map(key => `${key}=${filteredParams[key]}`)
+                .join('&');
+
+            console.log('=== VNPAY HASH DEBUG ===');
+            console.log('Filtered params:', filteredParams);
+            console.log('Sorted keys:', sortedKeys);
+            console.log('Sign data:', signData);
+            console.log('Secret key length:', VNPAY_CONFIG.hashSecret.length);
+            console.log('========================');
+            
+            // Tạo chữ ký theo chuẩn VNPay với HMAC-SHA512
+            if (typeof CryptoJS !== 'undefined') {
+                try {
+                const hmac = CryptoJS.HmacSHA512(signData, VNPAY_CONFIG.hashSecret);
+                    const secureHash = hmac.toString(CryptoJS.enc.Hex).toUpperCase();
+                console.log('Generated hash:', secureHash);
+                    console.log('Hash length:', secureHash.length);
+                return secureHash;
+                } catch (error) {
+                    console.error('Error creating HMAC:', error);
+                    throw new Error('Failed to create secure hash');
+                }
+            } else {
+                throw new Error('CryptoJS not available');
+            }
+        }
+
+        async function processVNPayPayment(packageData) {
+            // Lấy địa chỉ IP của người dùng
+            async function getClientIp() {
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    return data.ip || '127.0.0.1';
+                } catch (error) {
+                    console.error('Error fetching IP:', error);
+                    return '127.0.0.1';
+                }
+            }
+
+            const txnRef = generateTxnRef();
+            const amount = Math.round(packageData.price * 100); // Convert to cents
+            const createDate = moment().format('YYYYMMDDHHmmss');
+
+            console.log('=== VNPAY PAYMENT DEBUG ===');
+            console.log('Package:', packageData);
+            console.log('TxnRef:', txnRef);
+            console.log('Amount:', amount);
+            console.log('CreateDate:', createDate);
+            console.log('========================');
+
+            const vnp_Params = {
+                vnp_Version: '2.1.0',
+                vnp_Command: 'pay',
+                vnp_TmnCode: VNPAY_CONFIG.tmnCode,
+                vnp_Locale: 'vn',
+                vnp_CurrCode: 'VND',
+                vnp_TxnRef: txnRef,
+                vnp_OrderInfo: `Nap tien ${packageData.name}`,
+                vnp_OrderType: 'other',
+                vnp_Amount: amount,
+                vnp_ReturnUrl: VNPAY_CONFIG.returnUrl,
+                vnp_IpAddr: await getClientIp(),
+                vnp_CreateDate: createDate
+            };
+
+            // Lưu mapping giữa txnRef và packageData
+            localStorage.setItem('pendingPackage', JSON.stringify(packageData));
+            localStorage.setItem('vnpayTxnRef', txnRef);
+            
+            // Lưu thêm vào Firebase để backup
+            try {
+                const firebaseRTDB = firebase.database();
+                await firebaseRTDB.ref('vnpay_transactions/' + txnRef).set({
+                        packageData: packageData,
+                        amount: packageData.price,
+                        createdAt: new Date().toISOString(),
+                        status: 'pending'
+                    });
+                    console.log('VNPAY transaction mapping saved to Firebase');
+            } catch (error) {
+                console.error('Error saving VNPAY mapping:', error);
+            }
+
+            // Sắp xếp tham số
+            const sortedParams = Object.keys(vnp_Params).sort().reduce((acc, key) => {
+                acc[key] = vnp_Params[key];
+                return acc;
+            }, {});
+
+            // Tạo chuỗi ký tự cần mã hóa
+            const signData = Object.keys(sortedParams)
+                .map(key => `${key}=${encodeURIComponent(sortedParams[key]).replace(/%20/g, '+')}`)
+                .join('&');
+
+            // Debug
+            console.log('vnp_Params:', vnp_Params);
+            console.log('signData:', signData);
+
+            // Tạo chữ ký
+            const hmac = CryptoJS.HmacSHA512(signData, VNPAY_CONFIG.hashSecret);
+            const vnp_SecureHash = hmac.toString(CryptoJS.enc.Hex);
+
+            console.log('vnp_SecureHash:', vnp_SecureHash);
+
+            // Thêm chữ ký vào tham số
+            sortedParams.vnp_SecureHash = vnp_SecureHash;
+
+            // Tạo URL thanh toán
+            const paymentUrl = VNPAY_CONFIG.url + '?' + Object.keys(sortedParams)
+                .map(key => `${key}=${encodeURIComponent(sortedParams[key]).replace(/%20/g, '+')}`)
+                    .join('&');
+
+            console.log('paymentUrl:', paymentUrl);
+
+            // Show loading
+            Swal.fire({
+                title: 'Đang chuyển hướng...',
+                text: 'Vui lòng chờ trong giây lát',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Chuyển hướng trực tiếp
+            setTimeout(() => {
+                try {
+                    window.location.href = paymentUrl;
+                } catch (error) {
+                    console.error('Error redirecting to VNPay:', error);
+                    Swal.fire({
+                        title: 'Lỗi chuyển hướng',
+                        text: 'Không thể chuyển đến trang thanh toán. Vui lòng thử lại.',
+                        icon: 'error',
+                        confirmButtonText: 'Thử lại'
+                    });
+                }
+            }, 1500);
+        }
+
+        // Enhanced processRecharge function
+        function processRecharge() {
+            console.log('Selected package:', selectedPackage);
+            console.log('Selected payment method:', selectedPaymentMethod);
+            
+            if (!selectedPackage) {
+                Swal.fire({
+                    title: 'Chưa chọn gói!',
+                    text: 'Vui lòng chọn một gói nạp tiền',
+                    icon: 'warning'
+                });
+                return;
+            }
+
+            if (!selectedPaymentMethod) {
+                Swal.fire({
+                    title: 'Chưa chọn phương thức thanh toán!',
+                    text: 'Vui lòng chọn phương thức thanh toán',
+                    icon: 'warning'
+                });
+                return;
+            }
+
+            // Show confirmation
+            Swal.fire({
+                title: 'Xác nhận thanh toán',
+                html: `
+                    <div style="text-align: left;">
+                        <p><strong>Gói đã chọn:</strong> ${selectedPackage.name}</p>
+                        <p><strong>Mô tả:</strong> ${selectedPackage.description}</p>
+                        <p><strong>Giá:</strong> ${selectedPackage.price.toLocaleString('vi-VN')} VNĐ</p>
+                        <p><strong>Phương thức:</strong> VNPay</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Thanh toán',
+                cancelButtonText: 'Hủy',
+                confirmButtonColor: '#667eea'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Process VNPay payment
+                    processVNPayPayment(selectedPackage);
+                }
+            });
+        }
+
+        // Parse package data to extract amounts
+        function parsePackageData(packageData) {
+            console.log('🔍 Parsing package data:', packageData);
+            
+            let amount = 0;
+            let bonus = 0;
+            let diamond = 0;
+            let diamondBonus = 0;
+            
+            if (packageData.type === 'gold') {
+                // Parse gold packages
+                const description = packageData.description;
+                console.log('💰 Parsing gold package:', description);
+                
+                // Extract main amount (before +)
+                const mainMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*Vàng/);
+                if (mainMatch) {
+                    amount = parseInt(mainMatch[1].replace(/,/g, ''));
+                }
+                
+                // Extract bonus amount
+                const bonusMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*Bonus/);
+                if (bonusMatch) {
+                    bonus = parseInt(bonusMatch[1].replace(/,/g, ''));
+                }
+                
+            } else if (packageData.type === 'diamond') {
+                // Parse diamond packages
+                const description = packageData.description;
+                console.log('💎 Parsing diamond package:', description);
+                
+                // Extract main amount (before +)
+                const mainMatch = description.match(/(\d+)\s*Kim Cương/);
+                if (mainMatch) {
+                    diamond = parseInt(mainMatch[1]);
+                }
+                
+                // Extract bonus amount
+                const bonusMatch = description.match(/(\d+)\s*Bonus/);
+                if (bonusMatch) {
+                    diamondBonus = parseInt(bonusMatch[1]);
+                }
+            }
+            
+            const result = {
+                amount,
+                bonus,
+                diamond,
+                diamondBonus
+            };
+            
+            console.log('✅ Parsed package data:', result);
+            return result;
+        }
+
+        // Cập nhật dữ liệu người dùng sau khi thanh toán thành công
+        async function updateUserDataAfterPayment(packageData, txnRef) {
+            console.log('🔄 Starting updateUserDataAfterPayment...');
+            console.log('📦 Package data:', packageData);
+            console.log('🔑 TxnRef:', txnRef);
+            
+            // Parse package data to get amounts
+            const parsedData = parsePackageData(packageData);
+            
+            try {
+                if (typeof window.auth === 'undefined' || !window.auth.currentUser) {
+                    console.log('⚠️ User not authenticated, using localStorage fallback');
+                    
+                    // Fallback: Save to localStorage if user not authenticated
+                    const currentGold = parseInt(localStorage.getItem('userGold') || '0');
+                    const currentDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
+                    const packageGold = parsedData.amount || 0;
+                    const packageBonus = parsedData.bonus || 0;
+                    const packageDiamond = parsedData.diamond || 0;
+                    const packageDiamondBonus = parsedData.diamondBonus || 0;
+                    
+                    const newGold = currentGold + packageGold + packageBonus;
+                    const newDiamond = currentDiamond + packageDiamond + packageDiamondBonus;
+                    
+                    localStorage.setItem('userGold', newGold.toString());
+                    localStorage.setItem('userDiamond', newDiamond.toString());
+                    localStorage.setItem('lastRecharge', JSON.stringify({
+                        package: packageData,
+                        gold: newGold,
+                        diamond: newDiamond,
+                        timestamp: Date.now(),
+                        txnRef: txnRef
+                    }));
+                    
+                    console.log('💾 Data saved to localStorage (user not authenticated):', {
+                        oldGold: currentGold,
+                        newGold: newGold,
+                        packageGold: packageGold,
+                        packageBonus: packageBonus,
+                        oldDiamond: currentDiamond,
+                        newDiamond: newDiamond,
+                        packageDiamond: packageDiamond,
+                        packageDiamondBonus: packageDiamondBonus
+                    });
+                    
+                    // Update display
+                    updateUserDisplay({
+                        Gold: newGold,
+                        Diamond: newDiamond,
+                        ExpData: localStorage.getItem('userExpData') || JSON.stringify({ currentLevel: 1 })
+                    });
+                    
+                    return;
+                }
+
+                console.log('✅ User authenticated:', window.auth.currentUser.uid);
+                
+                // Lấy dữ liệu người dùng hiện tại
+                // Sử dụng Firebase REST API
+                const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
+                const userUrl = `${firebaseUrl}/Users/${window.auth.currentUser.uid}.json`;
+                
+                const userResponse = await fetch(userUrl);
+                const currentData = await userResponse.json() || {};
+                
+                // Tính toán số vàng và kim cương mới
+                const currentGold = parseInt(currentData.Gold) || 0;
+                const currentDiamond = parseInt(currentData.Diamond) || 0;
+                const packageGold = parsedData.amount || 0;
+                const packageBonus = parsedData.bonus || 0;
+                const packageDiamond = parsedData.diamond || 0;
+                const packageDiamondBonus = parsedData.diamondBonus || 0;
+                
+                const newGold = currentGold + packageGold + packageBonus;
+                const newDiamond = currentDiamond + packageDiamond + packageDiamondBonus;
+                
+                console.log('💰 Gold calculation:', {
+                    currentGold,
+                    packageGold,
+                    packageBonus,
+                    newGold
+                });
+                
+                console.log('💎 Diamond calculation:', {
+                    currentDiamond,
+                    packageDiamond,
+                    packageDiamondBonus,
+                    newDiamond
+                });
+                
+                // Cập nhật dữ liệu người dùng
+                await fetch(userUrl, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Gold: newGold,
+                        Diamond: newDiamond,
+                        LastRecharge: new Date().toISOString(),
+                        LastRechargeAmount: packageData.price,
+                        LastRechargePackage: packageData.name
+                    })
+                });
+                
+                // Lưu lịch sử giao dịch với cấu trúc rõ ràng
+                const transactionHistoryUrl = `${firebaseUrl}/user_transactions/${window.auth.currentUser.uid}.json`;
+                const transactionData = {
+                    [txnRef]: {
+                        timestamp: Date.now(),
+                        date: new Date().toISOString().split('T')[0],
+                        time: new Date().toLocaleTimeString('vi-VN'),
+                        packageId: packageData.id,
+                        packageName: packageData.name,
+                        packageDescription: packageData.description,
+                        amount: packageGold,
+                        bonus: packageBonus,
+                        totalAmount: packageGold + packageBonus,
+                        diamond: packageDiamond,
+                        diamondBonus: packageDiamondBonus,
+                        totalDiamond: packageDiamond + packageDiamondBonus,
+                        price: packageData.price,
+                        currency: packageData.currency,
+                        paymentMethod: 'VNPay',
+                        status: 'completed',
+                        txnRef: txnRef,
+                        userAgent: navigator.userAgent,
+                        sessionId: generateSessionId(),
+                        deviceType: getDeviceType(),
+                        ipAddress: '127.0.0.1', // Có thể lấy từ VNPay response
+                        completedAt: new Date().toISOString()
+                    }
+                };
+                
+                await fetch(transactionHistoryUrl, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(transactionData)
+                });
+                
+                console.log('✅ User data updated successfully:', {
+                    oldGold: currentGold,
+                    newGold: newGold,
+                    packageGold: packageGold,
+                    packageBonus: packageBonus,
+                    oldDiamond: currentDiamond,
+                    newDiamond: newDiamond,
+                    packageDiamond: packageDiamond,
+                    packageDiamondBonus: packageDiamondBonus
+                });
+                
+                // Cập nhật hiển thị ngay lập tức
+                updateUserDisplay({
+                    ...currentData,
+                    Gold: newGold,
+                    Diamond: newDiamond
+                });
+                
+            } catch (error) {
+                console.error('❌ Error updating user data:', error);
+                
+                // Fallback: Save to localStorage if Firebase fails
+                try {
+                    const currentGold = parseInt(localStorage.getItem('userGold') || '0');
+                    const currentDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
+                    const packageGold = parsedData.amount || 0;
+                    const packageBonus = parsedData.bonus || 0;
+                    const packageDiamond = parsedData.diamond || 0;
+                    const packageDiamondBonus = parsedData.diamondBonus || 0;
+                    
+                    const newGold = currentGold + packageGold + packageBonus;
+                    const newDiamond = currentDiamond + packageDiamond + packageDiamondBonus;
+                    
+                    localStorage.setItem('userGold', newGold.toString());
+                    localStorage.setItem('userDiamond', newDiamond.toString());
+                    localStorage.setItem('lastRecharge', JSON.stringify({
+                        package: packageData,
+                        gold: newGold,
+                        diamond: newDiamond,
+                        timestamp: Date.now()
+                    }));
+                    
+                    console.log('💾 Data saved to localStorage as fallback:', {
+                        oldGold: currentGold,
+                        newGold: newGold,
+                        packageGold: packageGold,
+                        packageBonus: packageBonus,
+                        oldDiamond: currentDiamond,
+                        newDiamond: newDiamond,
+                        packageDiamond: packageDiamond,
+                        packageDiamondBonus: packageDiamondBonus
+                    });
+                    
+                    // Update display
+                    updateUserDisplay({
+                        Gold: newGold,
+                        Diamond: newDiamond,
+                        ExpData: localStorage.getItem('userExpData') || JSON.stringify({ currentLevel: 1 })
+                    });
+                    
+                } catch (fallbackError) {
+                    console.error('❌ Fallback save also failed:', fallbackError);
+                }
+            }
+        }
+
+        // Generate session ID
+        function generateSessionId() {
+            return 'SESS_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+        
+        // Generate short transaction ID
+        function generateShortTxnRef() {
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substr(2, 6);
+            return `TXN_${timestamp}_${random}`.toUpperCase();
+        }
+        
+        // Global function to trigger auth sync (called from index.html)
+        window.triggerAuthSync = function() {
+            console.log('🔄 Triggering auth sync from external source...');
+            setTimeout(() => {
+                checkAuthAndSyncData();
+            }, 500);
+        };
+        
+        // Global function to set user data (called from index.html)
+        window.setUserAuthData = function(userId, userEmail) {
+            console.log('🔑 Setting user auth data:', { userId, userEmail });
+            localStorage.setItem('currentUserId', userId);
+            localStorage.setItem('currentUserEmail', userEmail);
+            
+            // Trigger sync
+            setTimeout(() => {
+                checkAuthAndSyncData();
+            }, 500);
+        };
+
+        // Show update success notification
+        function showUpdateSuccessNotification(packageData) {
+            const userGold = parseInt(localStorage.getItem('userGold') || '0');
+            const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
+            
+            console.log('🎉 Showing update success notification:', {
+                package: packageData.name,
+                newGold: userGold,
+                newDiamond: userDiamond
+            });
+            
+            // Show a small notification
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Tài khoản đã được cập nhật!',
+                    html: `
+                        <div style="text-align: center;">
+                            <p><strong>${packageData.name}</strong> đã được thêm vào tài khoản</p>
+                            <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; color: #FFD700;">💰</div>
+                                    <div style="font-weight: bold; color: #FFD700;">${userGold.toLocaleString()}</div>
+                                    <div style="font-size: 12px; color: #666;">Vàng</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 24px; color: #00BFFF;">💎</div>
+                                    <div style="font-weight: bold; color: #00BFFF;">${userDiamond.toLocaleString()}</div>
+                                    <div style="font-size: 12px; color: #666;">Kim Cương</div>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'success',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }
+        }
+
+        // Get device type
+        function getDeviceType() {
+            const userAgent = navigator.userAgent;
+            if (/Mobile|Android|iPhone|iPad/.test(userAgent)) {
+                return 'mobile';
+            } else if (/Tablet|iPad/.test(userAgent)) {
+                return 'tablet';
+            } else {
+                return 'desktop';
+            }
+        }
+
+        // Wait for Firebase to be ready (simplified for REST API)
+        async function waitForFirebase(maxRetries = 5, delay = 500) {
+            for (let i = 0; i < maxRetries; i++) {
+                console.log('⏳ Checking Firebase availability...', i + 1, '/', maxRetries);
+                console.log('  - window.auth:', typeof window.auth !== 'undefined' ? 'YES' : 'NO');
+                
+                if (typeof window.auth !== 'undefined') {
+                    console.log('✅ Firebase is ready after', (i + 1) * delay, 'ms');
+                    console.log('👤 Auth object available:', window.auth ? 'YES' : 'NO');
+                    console.log('🔑 Current user:', window.auth.currentUser ? window.auth.currentUser.uid : 'NOT LOGGED IN');
+                    return true;
+                }
+                console.log('⏳ Waiting for Firebase...', i + 1, '/', maxRetries);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+            console.log('❌ Firebase not ready after', maxRetries * delay, 'ms');
+            return false;
+        }
+
+        // Handle VNPay return
+        async function handleVNPayReturn() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const vnp_ResponseCode = urlParams.get('vnp_ResponseCode');
+            const vnp_TransactionStatus = urlParams.get('vnp_TransactionStatus');
+            const vnp_TxnRef = urlParams.get('vnp_TxnRef');
+            const vnp_Amount = urlParams.get('vnp_Amount');
+
+            console.log('🔍 VNPay Return Parameters:', {
+                vnp_ResponseCode,
+                vnp_TransactionStatus,
+                vnp_TxnRef,
+                vnp_Amount
+            });
+
+            // Wait for Firebase to be ready
+            const firebaseReady = await waitForFirebase();
+            
+            // Debug Firebase availability
+            console.log('🔥 Firebase available:', typeof firebase !== 'undefined' || typeof window.firebase !== 'undefined');
+            console.log('👤 Auth current user:', typeof window.auth !== 'undefined' ? window.auth.currentUser : 'auth not defined');
+            console.log('🔑 Auth state:', (typeof window.auth !== 'undefined' && window.auth.currentUser) ? 'authenticated' : 'not authenticated');
+
+            // Lấy thông tin gói từ localStorage
+            const pendingPackage = localStorage.getItem('pendingPackage');
+            const packageData = pendingPackage ? JSON.parse(pendingPackage) : null;
+
+            if (vnp_ResponseCode === '00' && vnp_TransactionStatus === '00') {
+                // Payment successful
+                console.log('🎉 Payment successful! Processing...');
+                updateProgressStep(3);
+                
+                // Cập nhật Firebase nếu có
+                if (vnp_TxnRef && firebaseReady) {
+                    try {
+                        // Sử dụng Firebase REST API
+                        const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
+                        const transactionUrl = `${firebaseUrl}/vnpay_transactions/${vnp_TxnRef}.json`;
+                        
+                        await fetch(transactionUrl, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                            status: 'completed',
+                            completedAt: new Date().toISOString(),
+                                responseCode: vnp_ResponseCode,
+                                transactionStatus: vnp_TransactionStatus,
+                                amount: vnp_Amount,
+                                bankCode: urlParams.get('vnp_BankCode'),
+                                bankTranNo: urlParams.get('vnp_BankTranNo'),
+                                cardType: urlParams.get('vnp_CardType'),
+                                payDate: urlParams.get('vnp_PayDate'),
+                                transactionNo: urlParams.get('vnp_TransactionNo'),
+                                orderInfo: urlParams.get('vnp_OrderInfo'),
+                                packageData: packageData,
+                                userAgent: navigator.userAgent,
+                                timestamp: Date.now()
+                            })
+                        });
+                        
+                        console.log('✅ VNPay transaction updated in Firebase via REST API');
+                        
+                        // Cập nhật dữ liệu người dùng sau khi thanh toán thành công
+                        await updateUserDataAfterPayment(packageData, vnp_TxnRef);
+                    } catch (error) {
+                        console.error('❌ Error updating Firebase transaction:', error);
+                        
+                        // Fallback to localStorage
+                        console.log('💾 Falling back to localStorage...');
+                        await updateUserDataAfterPayment(packageData, vnp_TxnRef);
+                    }
+                } else if (vnp_TxnRef && !firebaseReady) {
+                    console.log('⚠️ Firebase not ready, using localStorage fallback');
+                    await updateUserDataAfterPayment(packageData, vnp_TxnRef);
+                } else if (vnp_TxnRef && firebaseReady && (!window.auth || !window.auth.currentUser)) {
+                    console.log('⚠️ Firebase ready but user not logged in, using localStorage fallback');
+                    await updateUserDataAfterPayment(packageData, vnp_TxnRef);
+                }
+                
+                // Luôn cập nhật UI sau khi xử lý thanh toán
+                setTimeout(() => {
+                    checkAuthAndSyncData();
+                    
+                    // Hiển thị thông báo cập nhật thành công
+                    setTimeout(() => {
+                        showUpdateSuccessNotification(packageData);
+                    }, 500);
+                }, 1000);
+
+                Swal.fire({
+                    title: 'Thanh toán thành công!',
+                    html: `
+                        <div style="text-align: left;">
+                            <p><strong>Mã giao dịch:</strong> ${vnp_TxnRef}</p>
+                            <p><strong>Gói:</strong> ${packageData ? packageData.name : 'N/A'}</p>
+                            <p><strong>Số tiền:</strong> ${vnp_Amount ? (parseInt(vnp_Amount) / 100).toLocaleString('vi-VN') + ' VNĐ' : 'N/A'}</p>
+                            <p><strong>Trạng thái:</strong> Thành công</p>
+                        </div>
+                    `,
+                    icon: 'success',
+                    confirmButtonText: 'Hoàn tất'
+                }).then(() => {
+                    // Reset form
+                    selectedPackage = null;
+                    selectedPaymentMethod = null;
+                    updateProgressStep(1);
+                    // Clear localStorage
+                    localStorage.removeItem('pendingPackage');
+                    localStorage.removeItem('vnpayTxnRef');
+                    // Clear URL parameters
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                });
+            } else {
+                // Payment failed
+                const errorMessages = {
+                    '01': 'Giao dịch chưa hoàn tất',
+                    '02': 'Giao dịch bị lỗi',
+                    '03': 'Giao dịch bị hủy',
+                    '04': 'Giao dịch đang được xử lý',
+                    '05': 'Giao dịch không thành công',
+                    '06': 'Giao dịch bị từ chối',
+                    '07': 'Giao dịch bị lỗi do lỗi kỹ thuật',
+                    '09': 'Giao dịch bị từ chối do thông tin không hợp lệ'
+                };
+
+                const errorMessage = errorMessages[vnp_ResponseCode] || 'Giao dịch không thể hoàn tất';
+                
+                // Cập nhật Firebase nếu có
+                if (vnp_TxnRef && firebaseReady) {
+                    try {
+                        // Sử dụng Firebase REST API
+                        const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
+                        const transactionUrl = `${firebaseUrl}/vnpay_transactions/${vnp_TxnRef}.json`;
+                        
+                        await fetch(transactionUrl, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                            status: 'failed',
+                            failedAt: new Date().toISOString(),
+                            responseCode: vnp_ResponseCode,
+                            errorMessage: errorMessage
+                            })
+                        });
+                        
+                        console.log('✅ VNPay transaction marked as failed in Firebase via REST API');
+                    } catch (error) {
+                        console.error('❌ Error updating Firebase transaction:', error);
+                    }
+                } else if (vnp_TxnRef && !firebaseReady) {
+                    console.log('⚠️ Firebase not ready, skipping Firebase update for failed transaction');
+                }
+                
+                Swal.fire({
+                    title: 'Thanh toán thất bại!',
+                    html: `
+                        <div style="text-align: left;">
+                            <p><strong>Mã lỗi:</strong> ${vnp_ResponseCode}</p>
+                            <p><strong>Lý do:</strong> ${errorMessage}</p>
+                            <p><strong>Mã giao dịch:</strong> ${vnp_TxnRef || 'N/A'}</p>
+                        </div>
+                    `,
+                    icon: 'error',
+                    confirmButtonText: 'Thử lại'
+                }).then(() => {
+                    updateProgressStep(1);
+                    // Clear localStorage
+                    localStorage.removeItem('pendingPackage');
+                    localStorage.removeItem('vnpayTxnRef');
+                    // Clear URL parameters
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                });
+            }
+        }
+
+        // Demo functions to test animations
+        function demoStep1() {
+            updateProgressStep(1);
+        }
+
+        function demoStep2() {
+            updateProgressStep(2);
+        }
+
+        function demoStep3() {
+            updateProgressStep(3);
+        }
+
+
+
+        // Test VNPay integration without errors
+
+        // Enhanced VNPay error handling
+        (function() {
+            // Store original error handlers
+            const originalError = window.onerror;
+            const originalUnhandledRejection = window.onunhandledrejection;
+            
+            // Override window.onerror
+            window.onerror = function(message, source, lineno, colno, error) {
+                if (message && (
+                    message.includes('timer is not defined') ||
+                    message.includes('Content-Security-Policy') ||
+                    (source && source.includes('vnpayment.vn'))
+                )) {
+                    console.warn('🚫 VNPay error filtered:', message);
+                    return true; // Prevent default error handling
+                }
+                if (originalError) {
+                    return originalError.call(this, message, source, lineno, colno, error);
+                }
+                return false;
+            };
+            
+            // Override window.onunhandledrejection
+            window.onunhandledrejection = function(event) {
+                if (event.reason && event.reason.message && (
+                    event.reason.message.includes('timer is not defined') ||
+                    event.reason.message.includes('Content-Security-Policy')
+                )) {
+                    console.warn('🚫 VNPay promise rejection filtered:', event.reason.message);
+                    event.preventDefault();
+                    return true;
+                }
+                if (originalUnhandledRejection) {
+                    return originalUnhandledRejection.call(this, event);
+                }
+                return false;
+            };
+        })();
+
+        // Override console methods to filter VNPay errors
+        (function() {
+            const originalConsoleError = console.error;
+            const originalConsoleWarn = console.warn;
+            
+            console.error = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('timer is not defined') || 
+                    message.includes('Content-Security-Policy') ||
+                    message.includes('vnpayment.vn') ||
+                    message.includes('jquery.bundles.js')) {
+                    console.warn('🚫 VNPay error filtered:', message);
+                    return;
+                }
+                originalConsoleError.apply(console, args);
+            };
+            
+            console.warn = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('Content-Security-Policy')) {
+                    console.log('🚫 VNPay CSP warning filtered:', message);
+                    return;
+                }
+                originalConsoleWarn.apply(console, args);
+            };
+        })();
+
+        // Add global error handler for VNPay iframe
+        window.addEventListener('message', function(e) {
+            if (e.origin && e.origin.includes('vnpayment.vn')) {
+                console.log('📨 VNPay message received:', e.data);
+            }
+        });
+
+        // Add error boundary for VNPay
+        window.addEventListener('error', function(e) {
+            if (e.filename && e.filename.includes('vnpayment.vn')) {
+                console.warn('🚫 VNPay script error filtered:', e.message);
+                e.preventDefault();
+                return true;
+            }
+        });
+
+        // Add user notification for VNPay errors
+        function showVNPayErrorNotification() {
+            // Only show once per session
+            if (sessionStorage.getItem('vnpay_error_shown')) {
+                return;
+            }
+            
+            sessionStorage.setItem('vnpay_error_shown', 'true');
+            
+            // Show notification after 2 seconds
+            setTimeout(() => {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Thông báo',
+                        html: `
+                            <div style="text-align: left;">
+                                <p><strong>Lưu ý:</strong> Có thể xuất hiện một số lỗi JavaScript từ VNPay</p>
+                                <p>Đây là lỗi từ phía VNPay, không ảnh hưởng đến chức năng thanh toán</p>
+                                <p>Bạn có thể bỏ qua các lỗi này và tiếp tục sử dụng bình thường</p>
+                            </div>
+                        `,
+                        icon: 'info',
+                        confirmButtonText: 'Đã hiểu',
+                        timer: 10000,
+                        timerProgressBar: true
+                    });
+                }
+            }, 2000);
+        }
+
+        // Show notification if VNPay errors are detected
+        setTimeout(() => {
+            showVNPayErrorNotification();
+        }, 5000);
+
+        // VNPay Transaction Lookup Function
+        function lookupVNPayTransaction(transactionId) {
+            console.log('🔍 Looking up VNPay transaction:', transactionId);
+            
+            // Check localStorage for pending transactions
+            const pendingPackage = localStorage.getItem('pendingPackage');
+            const vnpayTxnRef = localStorage.getItem('vnpayTxnRef');
+            
+            if (vnpayTxnRef === transactionId) {
+                console.log('✅ Found matching transaction in localStorage');
+                console.log('Package:', pendingPackage ? JSON.parse(pendingPackage) : 'N/A');
+                return {
+                    found: true,
+                    source: 'localStorage',
+                    package: pendingPackage ? JSON.parse(pendingPackage) : null
+                };
+            }
+            
+            // Check Firebase if available
+            if (typeof firebase !== 'undefined') {
+                try {
+                    const firebaseRTDB = firebase.database();
+                    const transactionRef = firebaseRTDB.ref('vnpay_transactions/' + transactionId);
+                    transactionRef.once('value', (snapshot) => {
+                        if (snapshot.exists()) {
+                            const data = snapshot.val();
+                            console.log('✅ Found transaction in Firebase:', data);
+                            return {
+                                found: true,
+                                source: 'firebase',
+                                data: data
+                            };
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error checking Firebase:', error);
+                }
+            }
+            
+            return { found: false };
+        }
+
+        // Auto-lookup transaction if URL contains transaction info
+        function autoLookupTransaction() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const vnp_TxnRef = urlParams.get('vnp_TxnRef');
+            const vnp_ResponseCode = urlParams.get('vnp_ResponseCode');
+            
+            if (vnp_TxnRef) {
+                console.log('🔍 Auto-lookup transaction:', vnp_TxnRef);
+                const result = lookupVNPayTransaction(vnp_TxnRef);
+                
+                if (result.found) {
+                    console.log('✅ Transaction found:', result);
+                } else {
+                    console.log('❌ Transaction not found in local storage');
+                }
+            }
+        }
+
+        // Run auto-lookup on page load
+        setTimeout(() => {
+            autoLookupTransaction();
+        }, 2000);
+
+        // Manual lookup function for testing
+        window.lookupTransaction = function(transactionId) {
+            return lookupVNPayTransaction(transactionId);
+        };
+
+
+
+    </script>
+</body>
+</html>

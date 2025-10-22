@@ -38,15 +38,122 @@
         gtag('js', new Date());
         gtag('config', 'GA_MEASUREMENT_ID');
     </script>
+    
+    <!-- VNPay Error Filter - Chặn lỗi từ VNPay scripts -->
+    <script>
+        (function() {
+            // Store original handlers
+            const originalError = window.onerror;
+            const originalUnhandledRejection = window.onunhandledrejection;
+            
+            // Override window.onerror to block VNPay errors
+            window.onerror = function(message, source, lineno, colno, error) {
+                const msgStr = String(message || '');
+                const srcStr = String(source || '');
+                
+                // Block VNPay-related errors completely
+                if (msgStr.includes('timer is not defined') ||
+                    msgStr.includes('Content-Security-Policy') ||
+                    srcStr.includes('vnpayment.vn') ||
+                    srcStr.includes('jquery.bundles.js') ||
+                    srcStr.includes('custom.min.js') ||
+                    msgStr.includes('updateTime') ||
+                    msgStr.includes('jQuery.Deferred')) {
+                    return true; // Suppress error completely
+                }
+                
+                if (originalError) {
+                    return originalError.call(this, message, source, lineno, colno, error);
+                }
+                return false;
+            };
+            
+            // Override window.onunhandledrejection
+            window.onunhandledrejection = function(event) {
+                if (event.reason && event.reason.message) {
+                    const msg = String(event.reason.message);
+                    if (msg.includes('timer is not defined') ||
+                        msg.includes('Content-Security-Policy') ||
+                        msg.includes('updateTime')) {
+                        event.preventDefault();
+                        return true;
+                    }
+                }
+                if (originalUnhandledRejection) {
+                    return originalUnhandledRejection.call(this, event);
+                }
+                return false;
+            };
+            
+            // Override console methods
+            const originalConsoleError = console.error;
+            const originalConsoleWarn = console.warn;
+            const originalConsoleLog = console.log;
+            
+            function isVNPayError(args) {
+                const message = args.join(' ');
+                return message.includes('timer is not defined') || 
+                       message.includes('Content-Security-Policy') ||
+                       message.includes('vnpayment.vn') ||
+                       message.includes('jquery.bundles.js') ||
+                       message.includes('custom.min.js') ||
+                       message.includes('updateTime') ||
+                       message.includes('jQuery.Deferred') ||
+                       message.includes('default-src') ||
+                       message.includes('style-src') ||
+                       message.includes('img-src');
+            }
+            
+            console.error = function(...args) {
+                if (isVNPayError(args)) {
+                    return; // Silently ignore
+                }
+                originalConsoleError.apply(console, args);
+            };
+            
+            console.warn = function(...args) {
+                if (isVNPayError(args)) {
+                    return; // Silently ignore
+                }
+                originalConsoleWarn.apply(console, args);
+            };
+            
+            console.log = function(...args) {
+                if (isVNPayError(args)) {
+                    return; // Silently ignore
+                }
+                originalConsoleLog.apply(console, args);
+            };
+            
+            // Event listeners for VNPay errors
+            window.addEventListener('message', function(e) {
+                if (e.origin && e.origin.includes('vnpayment.vn')) {
+                    // Silently handle VNPay messages
+                }
+            }, true);
+            
+            window.addEventListener('error', function(e) {
+                if ((e.filename && e.filename.includes('vnpayment.vn')) ||
+                    (e.message && (e.message.includes('timer is not defined') || 
+                                  e.message.includes('updateTime') ||
+                                  e.message.includes('jQuery.Deferred')))) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return true;
+                }
+            }, true);
+            
+            document.addEventListener('error', function(e) {
+                if (e.target && e.target.src && e.target.src.includes('vnpayment.vn')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return true;
+                }
+            }, true);
+        })();
+    </script>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="loading-screen">
-        <video id="introVideo" autoplay muted playsinline>
-            <source src="video/4k_cinematic_intro_202509290210 (online-video-cutter.com).mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
 
     <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
@@ -792,6 +899,22 @@
         // Listen for auth state changes to update check-in UI
         onAuthStateChanged(auth, (user) => {
             console.log('Auth state changed:', user ? 'Logged in' : 'Logged out');
+            
+            // Store user data in localStorage for cross-page sync
+            if (user) {
+                localStorage.setItem('currentUserId', user.uid);
+                localStorage.setItem('currentUserEmail', user.email);
+                console.log('🔑 User data stored in localStorage:', { uid: user.uid, email: user.email });
+                
+                // Trigger auth sync in other pages
+                if (window.triggerAuthSync) {
+                    window.triggerAuthSync();
+                }
+            } else {
+                localStorage.removeItem('currentUserId');
+                localStorage.removeItem('currentUserEmail');
+                console.log('🔑 User data removed from localStorage');
+            }
             
             // Update check-in UI when auth changes
             if (document.getElementById('checkinBtn')) {
@@ -2119,25 +2242,6 @@
             updateNavButtons();
         });
 
-        // Loading Screen Control
-        const loadingScreen = document.getElementById('loadingScreen');
-        const introVideo = document.getElementById('introVideo');
-        
-        // Hide loading screen after video ends
-        introVideo.addEventListener('ended', () => {
-            loadingScreen.classList.add('fade-out');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 1000);
-        });
-        
-        // Skip loading screen on click
-        loadingScreen.addEventListener('click', () => {
-            loadingScreen.classList.add('fade-out');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 1000);
-        });
 
         // Optional: Add scroll effect to navbar
         window.addEventListener('scroll', () => {
@@ -2148,6 +2252,11 @@
                 navbar.classList.remove('scrolled');
             }
         });
+
+        // Go to recharge page
+        function goToRecharge() {
+            window.location.href = 'recharge.html';
+        }
     </script>
 
     <!-- AOS Animation Library -->
