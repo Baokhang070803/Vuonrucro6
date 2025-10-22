@@ -533,32 +533,75 @@ function showPromoCodes() {
             }
             return code;
         }
-    }).then((result) => {
+    }).then(async (result) => {
         if (result.isConfirmed) {
+            const code = result.value;
+            
+            // Show loading
             Swal.fire({
                 title: 'Đang xử lý...',
                 html: '<div style="color: #667eea; font-size: 2.5rem;">⏳</div>',
                 showConfirmButton: false,
                 allowOutsideClick: false,
-                timer: 1000,
                 didOpen: () => {
                     Swal.showLoading();
                 }
-            }).then(() => {
-                // TODO: Implement promo code validation and reward
+            });
+
+            try {
+                // Use promo code
+                const result = await window.usePromoCode(code);
+                
+                if (result.success) {
+                    // Success
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        html: `
+                            <div style="text-align: center; margin: 20px 0;">
+                                <div style="font-size: 3rem; margin-bottom: 15px;">🎉</div>
+                                <p style="font-size: 1.1rem; color: #2c3e50; margin-bottom: 15px; font-weight: 600;">
+                                    ${result.message}
+                                </p>
+                                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0;">
+                                    <p style="margin: 5px 0; color: #495057;">
+                                        <strong>Kim cương:</strong> ${result.newBalance.diamond.toLocaleString()} 💎
+                                    </p>
+                                    <p style="margin: 5px 0; color: #495057;">
+                                        <strong>Vàng:</strong> ${result.newBalance.gold.toLocaleString()} 🪙
+                                    </p>
+                                </div>
+                            </div>
+                        `,
+                        confirmButtonText: 'Tuyệt vời!',
+                        confirmButtonColor: '#4a90e2',
+                        width: '500px'
+                    });
+                } else {
+                    // Error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Mã không hợp lệ',
+                        html: `
+                            <p style="font-size: 1rem; color: #5a6c7d; margin: 15px 0; line-height: 1.5;">
+                                <strong style="color: #e74c3c;">${result.message}</strong>
+                            </p>
+                        `,
+                        confirmButtonText: 'Thử lại',
+                        confirmButtonColor: '#667eea',
+                        width: '450px'
+                    });
+                }
+            } catch (error) {
+                console.error('Error using promo code:', error);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Mã không hợp lệ',
-                    html: `
-                        <p style="font-size: 1rem; color: #5a6c7d; margin: 15px 0; line-height: 1.5;">
-                            Mã <strong style="color: #e74c3c;">${result.value}</strong> không tồn tại hoặc đã hết hạn
-                        </p>
-                    `,
+                    title: 'Lỗi hệ thống',
+                    text: 'Đã có lỗi xảy ra khi xử lý mã khuyến mãi. Vui lòng thử lại sau.',
                     confirmButtonText: 'Đã hiểu',
-                    confirmButtonColor: '#667eea',
-                    width: '450px'
+                    confirmButtonColor: '#ff6b6b'
                 });
-            });
+            }
         }
     });
     

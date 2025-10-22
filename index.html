@@ -287,6 +287,7 @@
                         <span>Điểm Danh Hôm Nay</span>
                     </button>
                     <p class="checkin-hint" id="checkinHint">Nhấn để nhận phần thưởng hôm nay!</p>
+                    
                 </div>
 
              
@@ -815,6 +816,8 @@
     
     <!-- Scripts -->
     <script src="js/landing-script.js"></script>
+    <script src="js/firebase-checkin-system.js"></script>
+    <script src="js/promo-code-system.js"></script>
     
     <!-- Debug Script for Carousel -->
     <script>
@@ -1504,11 +1507,8 @@
         });
         
         // ==========================================
-        // DAILY CHECK-IN SYSTEM
+        // FIREBASE CHECK-IN SYSTEM (NO LOCALSTORAGE)
         // ==========================================
-        
-        // Check-in data structure
-        const CHECKIN_STORAGE_KEY_PREFIX = 'langhoaruc_checkin_data';
         
         // Diamond rewards for each day
         const DAILY_REWARDS = {
@@ -1517,38 +1517,6 @@
             15: 40, 16: 40, 17: 45, 18: 45, 19: 50, 20: 50, 21: 300,
             22: 55, 23: 55, 24: 60, 25: 60, 26: 65, 27: 65, 28: 70, 29: 75, 30: 500
         };
-        
-        // Get storage key for current user
-        function getUserCheckinStorageKey() {
-            const user = window.firebaseAuth?.currentUser;
-            if (user) {
-                return `${CHECKIN_STORAGE_KEY_PREFIX}_${user.uid}`;
-            }
-            return CHECKIN_STORAGE_KEY_PREFIX; // Fallback for non-logged in users
-        }
-        
-        // Get check-in data from localStorage
-        function getCheckinData() {
-            const storageKey = getUserCheckinStorageKey();
-            const data = localStorage.getItem(storageKey);
-            if (data) {
-                return JSON.parse(data);
-            }
-            return {
-                totalDiamonds: 0,
-                currentStreak: 0,
-                totalCheckins: 0,
-                checkinDates: [],
-                lastCheckinDate: null,
-                monthlyCheckins: {}
-            };
-        }
-        
-        // Save check-in data to localStorage
-        function saveCheckinData(data) {
-            const storageKey = getUserCheckinStorageKey();
-            localStorage.setItem(storageKey, JSON.stringify(data));
-        }
         
         // Get current date string (YYYY-MM-DD)
         function getDateString(date = new Date()) {
@@ -1568,8 +1536,8 @@
             return `${months[date.getMonth()]}/${date.getFullYear()}`;
         }
         
-        // Initialize calendar
-        function initializeCalendar() {
+        // Initialize calendar (Firebase)
+        async function initializeCalendar() {
             const calendarGrid = document.getElementById('calendarGrid');
             const monthSpan = document.getElementById('currentMonth');
             
@@ -1603,10 +1571,16 @@
                 calendarGrid.appendChild(emptyDay);
             }
             
-            // Get checked-in data
-            const checkinData = getCheckinData();
-            const monthKey = getMonthKey(now);
-            const monthlyCheckins = checkinData.monthlyCheckins[monthKey] || [];
+            // Get checked-in data from Firebase
+            let monthlyCheckins = [];
+            if (isUserLoggedIn() && window.firebaseCheckinSystem) {
+                try {
+                    monthlyCheckins = await window.firebaseCheckinSystem.getMonthlyCheckins(year, month + 1);
+                } catch (error) {
+                    console.error('Error loading monthly checkins:', error);
+                }
+            }
+            
             const today = now.getDate();
             
             // Add days of the month
@@ -1614,7 +1588,8 @@
                 const dayElement = document.createElement('div');
                 dayElement.className = 'calendar-day';
                 
-                const isChecked = monthlyCheckins.includes(day);
+                // Check if this day was checked in
+                const isChecked = monthlyCheckins.some(checkin => checkin.dayOfMonth === day);
                 const isToday = day === today;
                 const isPast = day < today;
                 const isFuture = day > today;
@@ -1651,37 +1626,11 @@
             }
         }
         
-        // Load user data from Firebase
+        // Load user data from Firebase (using new system)
         async function loadUserDataFromFirebase() {
             try {
-                const user = getCurrentFirebaseUser();
-                if (!user) {
-                    return null;
-                }
-                
-                const rtdb = window.firebaseRTDB;
-                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
-                
-                const userRef = ref(rtdb, `Users/${user.uid}`);
-                const snapshot = await get(userRef);
-                
-                if (snapshot.exists()) {
-                    const userData = snapshot.val();
-                    let currentData;
-                    
-                    // Parse if data is stored as JSON string
-                    if (typeof userData === 'string') {
-                        currentData = JSON.parse(userData);
-                    } else {
-                        currentData = userData;
-                    }
-                    
-                    return {
-                        name: currentData.Name || 'User',
-                        gold: currentData.Gold || 0,
-                        diamond: currentData.Diamond || 0,
-                        mapInGame: currentData.MapInGame || {}
-                    };
+                if (window.firebaseCheckinSystem) {
+                    return await window.firebaseCheckinSystem.getUserCheckinData();
                 }
                 return null;
             } catch (error) {
@@ -1690,10 +1639,8 @@
             }
         }
         
-        // Update stats display
+        // Update stats display (Firebase only)
         async function updateStatsDisplay() {
-            const localData = getCheckinData();
-            
             // Get elements
             const goldEl = document.getElementById('totalGold');
             const diamondsEl = document.getElementById('totalDiamonds');
@@ -1712,15 +1659,17 @@
                 if (firebaseData) {
                     goldEl.textContent = firebaseData.gold.toLocaleString();
                     diamondsEl.textContent = firebaseData.diamond.toLocaleString();
+                    checkinsEl.textContent = firebaseData.checkinStats.totalCheckins;
                     
                     // Update welcome message
                     if (welcomeEl) {
                         welcomeEl.textContent = `Chào mừng ${firebaseData.name}! Điểm danh mỗi ngày để nhận kim cương và các phần thưởng hấp dẫn!`;
                     }
                 } else {
-                    // Fallback to localStorage
+                    // No data found
                     goldEl.textContent = '0';
-                    diamondsEl.textContent = localData.totalDiamonds.toLocaleString();
+                    diamondsEl.textContent = '0';
+                    checkinsEl.textContent = '0';
                     
                     if (welcomeEl) {
                         welcomeEl.textContent = 'Điểm danh mỗi ngày để nhận kim cương và các phần thưởng hấp dẫn!';
@@ -1730,25 +1679,24 @@
                 // Not logged in - show 0
                 goldEl.textContent = '0';
                 diamondsEl.textContent = '0';
+                checkinsEl.textContent = '0';
                 
                 if (welcomeEl) {
                     welcomeEl.textContent = 'Đăng nhập để bắt đầu điểm danh và nhận kim cương!';
                 }
             }
-            
-            // Check-in count from localStorage
-            checkinsEl.textContent = localData.totalCheckins;
         }
         
-        // Check if already checked in today
-        function hasCheckedInToday() {
-            const data = getCheckinData();
-            const today = getDateString();
-            return data.lastCheckinDate === today;
+        // Check if already checked in today (Firebase)
+        async function hasCheckedInToday() {
+            if (window.firebaseCheckinSystem) {
+                return await window.firebaseCheckinSystem.hasCheckedInToday();
+            }
+            return false;
         }
         
-        // Update check-in button state
-        function updateCheckinButton() {
+        // Update check-in button state (Firebase)
+        async function updateCheckinButton() {
             const btn = document.getElementById('checkinBtn');
             const hint = document.getElementById('checkinHint');
             
@@ -1767,7 +1715,8 @@
                 return;
             }
             
-            if (hasCheckedInToday()) {
+            const alreadyCheckedIn = await hasCheckedInToday();
+            if (alreadyCheckedIn) {
                 btn.disabled = true;
                 btn.classList.add('disabled');
                 btn.innerHTML = '<i class="fas fa-check-circle"></i><span>Đã Điểm Danh Hôm Nay</span>';
@@ -1786,12 +1735,18 @@
         function getCurrentFirebaseUser() {
             // Try custom firebaseAuth object first (from firebase-auth.js)
             if (window.firebaseAuth && typeof window.firebaseAuth.getCurrentUser === 'function') {
-                return window.firebaseAuth.getCurrentUser();
+                const user = window.firebaseAuth.getCurrentUser();
+                if (user) return user;
             }
             
             // Fallback: Check Firebase auth instance directly
             if (window.firebaseAuth && window.firebaseAuth.currentUser) {
                 return window.firebaseAuth.currentUser;
+            }
+            
+            // Try global Firebase auth
+            if (window.firebaseAuth && window.firebaseAuth.auth && window.firebaseAuth.auth.currentUser) {
+                return window.firebaseAuth.auth.currentUser;
             }
             
             return null;
@@ -1800,6 +1755,7 @@
         // Check if user is logged in
         function isUserLoggedIn() {
             const user = getCurrentFirebaseUser();
+            console.log('Current user:', user); // Debug log
             return user !== null && user !== undefined;
         }
         
@@ -1891,7 +1847,7 @@
             }
         }
         
-        // Handle check-in action
+        // Handle check-in action (Firebase only)
         async function handleCheckin() {
             // Check if user is logged in first
             if (!isUserLoggedIn()) {
@@ -1905,61 +1861,45 @@
                 return;
             }
             
-            if (hasCheckedInToday()) {
+            // Check if already checked in today
+            const alreadyCheckedIn = await hasCheckedInToday();
+            if (alreadyCheckedIn) {
                 showInfoAlert('Đã điểm danh!', 'Bạn đã điểm danh hôm nay rồi. Hãy quay lại vào ngày mai nhé!');
                 return;
             }
             
-            const now = new Date();
-            const today = now.getDate();
-            const todayString = getDateString();
-            const monthKey = getMonthKey();
+            // Show loading
+            showLoadingAlert('Đang xử lý...', 'Đang điểm danh và cập nhật kim cương...');
             
-            const data = getCheckinData();
-            const reward = DAILY_REWARDS[today] || 10;
-            
-            // Update data
-            data.totalDiamonds += reward;
-            data.totalCheckins += 1;
-            data.lastCheckinDate = todayString;
-            data.checkinDates.push(todayString);
-            
-            // Update monthly check-ins
-            if (!data.monthlyCheckins[monthKey]) {
-                data.monthlyCheckins[monthKey] = [];
-            }
-            data.monthlyCheckins[monthKey].push(today);
-            
-            // Save data locally
-            saveCheckinData(data);
-            
-            // Show loading while syncing to Firebase
-            showLoadingAlert('Đang xử lý...', 'Đang cập nhật kim cương vào tài khoản của bạn...');
-            
-            // Sync to Firebase
-            const syncSuccess = await syncDiamondToFirebase(reward);
-            
-            closeLoadingAlert();
-            
-            if (syncSuccess) {
-                // Show success message
-                let message = `Bạn nhận được ${reward} kim cương! 💎\nĐã cộng vào tài khoản Game của bạn.`;
-                if ([7, 14, 21, 30].includes(today)) {
-                    message += '\n🎉 Phần thưởng đặc biệt!';
-                }
+            try {
+                // Perform check-in using Firebase system
+                const result = await window.firebaseCheckinSystem.performCheckin();
                 
-                showSuccessAlert('Điểm danh thành công!', message, () => {
-                    // Update UI
-                    initializeCalendar();
-                    updateStatsDisplay();
-                    updateCheckinButton();
-                });
-            } else {
-                showWarningAlert('Lưu ý!', `Bạn đã điểm danh thành công và nhận ${reward} kim cương.\nTuy nhiên có lỗi khi đồng bộ với server. Kim cương sẽ được cập nhật sau.`);
-                // Update UI anyway
-                initializeCalendar();
-                updateStatsDisplay();
-                updateCheckinButton();
+                closeLoadingAlert();
+                
+                if (result.success) {
+                    // Show success message
+                    let message = `Bạn nhận được ${result.reward} kim cương! 💎\nĐã cộng vào tài khoản Game của bạn.`;
+                    if (result.isSpecialDay) {
+                        message += '\n🎉 Phần thưởng đặc biệt!';
+                    }
+                    if (result.streak > 1) {
+                        message += `\n🔥 Chuỗi điểm danh: ${result.streak} ngày!`;
+                    }
+                    
+                    showSuccessAlert('Điểm danh thành công!', message, () => {
+                        // Update UI
+                        initializeCalendar();
+                        updateStatsDisplay();
+                        updateCheckinButton();
+                    });
+                } else {
+                    showErrorAlert('Lỗi điểm danh!', result.error || 'Có lỗi xảy ra khi điểm danh. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                closeLoadingAlert();
+                showErrorAlert('Lỗi hệ thống!', 'Đã có lỗi xảy ra! Vui lòng thử lại sau.');
+                console.error('Checkin error:', error);
             }
         }
         
@@ -2011,6 +1951,31 @@
             }
         });
         
+        // Debug function to check auth status
+        function debugAuthStatus() {
+            console.log('=== AUTH DEBUG INFO ===');
+            console.log('window.firebaseAuth:', window.firebaseAuth);
+            console.log('window.firebaseAuth.getCurrentUser():', window.firebaseAuth?.getCurrentUser?.());
+            console.log('window.firebaseAuth.currentUser:', window.firebaseAuth?.currentUser);
+            console.log('window.firebaseAuth.auth:', window.firebaseAuth?.auth);
+            console.log('window.firebaseAuth.auth?.currentUser:', window.firebaseAuth?.auth?.currentUser);
+            console.log('isUserLoggedIn():', isUserLoggedIn());
+            console.log('getCurrentFirebaseUser():', getCurrentFirebaseUser());
+            console.log('========================');
+        }
+
+        // Simple auth check function
+        function checkAuthStatus() {
+            const user = getCurrentFirebaseUser();
+            if (user) {
+                console.log('✅ User is logged in:', user.email);
+                return true;
+            } else {
+                console.log('❌ User is not logged in');
+                return false;
+            }
+        }
+
         // Make check-in functions globally available
         window.handleCheckin = handleCheckin;
         window.resetCheckinData = resetCheckinData;
@@ -2022,6 +1987,8 @@
         window.syncDiamondToFirebase = syncDiamondToFirebase;
         window.getDiamondFromFirebase = getDiamondFromFirebase;
         window.loadUserDataFromFirebase = loadUserDataFromFirebase;
+        window.debugAuthStatus = debugAuthStatus;
+        window.checkAuthStatus = checkAuthStatus;
         
         // ==========================================
         // END DAILY CHECK-IN SYSTEM
