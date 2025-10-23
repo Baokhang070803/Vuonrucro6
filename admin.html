@@ -305,6 +305,12 @@
             border-bottom: 2px solid var(--border);
         }
 
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
         .section-header h2 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -703,10 +709,16 @@
                     <i class="fas fa-users"></i>
                     Danh sách người dùng
                 </h2>
-                <button class="btn btn-primary" onclick="exportUsers()">
-                    <i class="fas fa-download"></i>
-                    Xuất Excel
-                </button>
+                <div class="header-actions">
+                    <button class="btn btn-info" onclick="syncAuthData()">
+                        <i class="fas fa-sync-alt"></i>
+                        Đồng bộ Auth
+                    </button>
+                    <button class="btn btn-primary" onclick="exportUsers()">
+                        <i class="fas fa-download"></i>
+                        Xuất Excel
+                    </button>
+                </div>
             </div>
             <div id="users-table">
                 <div class="loading">
@@ -828,24 +840,25 @@
 
             // Check if user is admin (you can customize this logic)
             const adminEmails = [
+                'admin.langhoaruc@gmail.com',
                 'admin@langhoaruc.com', 
                 'nguyentienchuc2023ct@gmail.com',
                 // Thêm email của bạn vào đây
                 // 'your-email@gmail.com'
             ];
             
-            // Tạm thời bỏ qua kiểm tra admin để test
-            // if (!adminEmails.includes(user.email)) {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Truy cập bị từ chối',
-            //         text: 'Bạn không có quyền truy cập trang này!',
-            //         confirmButtonColor: '#667eea'
-            //     }).then(() => {
-            //         window.location.href = 'index.html';
-            //     });
-            //     return;
-            // }
+            // Kiểm tra quyền admin
+            if (!adminEmails.includes(user.email)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Truy cập bị từ chối',
+                    text: 'Bạn không có quyền truy cập trang này!',
+                    confirmButtonColor: '#667eea'
+                }).then(() => {
+                    window.location.href = 'index.html';
+                });
+                return;
+            }
 
             console.log('Admin logged in:', user.email);
             loadDashboardData();

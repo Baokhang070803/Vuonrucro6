@@ -13,12 +13,20 @@ const firebaseConfig = {
 async function initializeFirebase() {
     try {
         const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-        const { getAuth } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
+        const { getAuth, setPersistence, browserLocalPersistence } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
         const { getDatabase } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
+        
+        // ✅ SET PERSISTENCE to keep user logged in across pages
+        try {
+            await setPersistence(auth, browserLocalPersistence);
+            console.log('✅ Firebase persistence set to LOCAL (across tabs & page reloads)');
+        } catch (persistError) {
+            console.error('⚠️ Could not set persistence:', persistError);
+        }
 
         // Make Firebase available globally
         window.firebaseAuth = auth;

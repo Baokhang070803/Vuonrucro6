@@ -1221,10 +1221,19 @@
                 const result = await window.firebaseAuth.login(email, password);
                 
                 if (result.success) {
-                    // Đăng nhập thành công
-                    showSuccessAlert('Đăng nhập thành công!', 'Chào mừng bạn quay trở lại với Vườn Rực Rỡ!', () => {
-                        closeLoginModal();
-                    });
+                    // Kiểm tra tài khoản admin
+                    if (email === 'admin.langhoaruc@gmail.com') {
+                        showSuccessAlert('Đăng nhập Admin thành công!', 'Chào mừng Admin quay trở lại! Đang chuyển hướng...', () => {
+                            closeLoginModal();
+                            // Chuyển hướng đến trang admin
+                            window.location.href = 'admin.html';
+                        });
+                    } else {
+                        // Đăng nhập thành công cho user thường
+                        showSuccessAlert('Đăng nhập thành công!', 'Chào mừng bạn quay trở lại với Vườn Rực Rỡ!', () => {
+                            closeLoginModal();
+                        });
+                    }
                 } else {
                     showErrorAlert('Đăng nhập thất bại!', result.message);
                 }
@@ -1248,11 +1257,22 @@
                 const result = await window.firebaseAuth.loginWithGoogle();
                 
                 if (result.success) {
-                    showSuccessAlert('Đăng nhập Google thành công!', 
-                        'Chào mừng bạn đến với Vườn Rực Rỡ!', 
-                        () => {
+                    // Kiểm tra email của user đăng nhập Google
+                    const userEmail = result.user?.email || result.email;
+                    
+                    if (userEmail === 'admin.langhoaruc@gmail.com') {
+                        showSuccessAlert('Đăng nhập Admin Google thành công!', 'Chào mừng Admin quay trở lại! Đang chuyển hướng...', () => {
                             closeLoginModal();
+                            // Chuyển hướng đến trang admin
+                            window.location.href = 'admin.html';
                         });
+                    } else {
+                        showSuccessAlert('Đăng nhập Google thành công!', 
+                            'Chào mừng bạn đến với Vườn Rực Rỡ!', 
+                            () => {
+                                closeLoginModal();
+                            });
+                    }
                 } else {
                     showErrorAlert('Đăng nhập Google thất bại!', result.message);
                 }
@@ -1395,11 +1415,22 @@
                 const result = await window.firebaseAuth.loginWithGoogle();
                 
                 if (result.success) {
-                    showSuccessAlert('Đăng ký Google thành công!', 
-                        'Tài khoản của bạn đã được tạo thành công! Chào mừng đến với Vườn Rực Rỡ!', 
-                        () => {
+                    // Kiểm tra email của user đăng ký Google
+                    const userEmail = result.user?.email || result.email;
+                    
+                    if (userEmail === 'admin.langhoaruc@gmail.com') {
+                        showSuccessAlert('Đăng ký Admin Google thành công!', 'Tài khoản Admin đã được tạo! Đang chuyển hướng...', () => {
                             closeRegisterModal();
+                            // Chuyển hướng đến trang admin
+                            window.location.href = 'admin.html';
                         });
+                    } else {
+                        showSuccessAlert('Đăng ký Google thành công!', 
+                            'Tài khoản của bạn đã được tạo thành công! Chào mừng đến với Vườn Rực Rỡ!', 
+                            () => {
+                                closeRegisterModal();
+                            });
+                    }
                 } else {
                     showErrorAlert('Đăng ký Google thất bại!', result.message);
                 }

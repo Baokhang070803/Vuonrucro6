@@ -75,7 +75,7 @@ function loadDashboardData() {
 function loadStats() {
     if (!window.firebaseDB) return;
     
-    const usersRef = window.firebaseRef(window.firebaseDB, 'users');
+    const usersRef = window.firebaseRef(window.firebaseDB, 'Users');
     const transactionsRef = window.firebaseRef(window.firebaseDB, 'rechargeHistory');
     
     // Load users count
@@ -180,7 +180,7 @@ function loadRecentTransactions() {
 
 // Load Users
 function loadUsers() {
-    const usersRef = window.firebaseRef(window.firebaseDB, 'users');
+    const usersRef = window.firebaseRef(window.firebaseDB, 'Users');
     const container = document.getElementById('users-table');
     
     window.firebaseGet(usersRef).then((snapshot) => {
@@ -203,11 +203,14 @@ function loadUsers() {
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Email</th>
                         <th>Tên</th>
                         <th>Kim Cương</th>
                         <th>Vàng</th>
-                        <th>Ngày tạo</th>
+                        <th>Level</th>
+                        <th>Check-in</th>
+                        <th>Streak</th>
                         <th style="min-width: 180px;">Hành động</th>
                     </tr>
                 </thead>
@@ -215,20 +218,43 @@ function loadUsers() {
         `;
         
         usersArray.forEach(user => {
+            // Parse JSON data
+            let expData = {};
+            let checkinStats = {};
+            let bagData = {};
+            let questData = {};
+            
+            try {
+                if (user.ExpData) {
+                    expData = JSON.parse(user.ExpData);
+                }
+                if (user.CheckinStats) {
+                    checkinStats = user.CheckinStats;
+                }
+                if (user.BagData) {
+                    bagData = JSON.parse(user.BagData);
+                }
+                if (user.QuestData) {
+                    questData = JSON.parse(user.QuestData);
+                }
+            } catch (e) {
+                console.warn('Error parsing user data:', e);
+            }
+            
             html += `
                 <tr>
-                    <td>${user.email || 'N/A'}</td>
-                    <td>${user.displayName || user.fullname || user.Name || 'N/A'}</td>
-                    <td><i class="fas fa-gem" style="color: #60a5fa;"></i> ${formatNumber(user.Diamond || user.diamonds || 0)}</td>
-                    <td><i class="fas fa-coins" style="color: #fbbf24;"></i> ${formatNumber(user.Gold || user.gold || 0)}</td>
-                    <td>${formatDateTime(user.createdAt)}</td>
+                    <td><code>${user.id.substring(0, 8)}...</code></td>
+                    <td>${user.email || user.Email || 'N/A'}</td>
+                    <td>${user.Name || user.displayName || user.DisplayName || 'N/A'}</td>
+                    <td><i class="fas fa-gem" style="color: #60a5fa;"></i> ${formatNumber(user.Diamond || 0)}</td>
+                    <td><i class="fas fa-coins" style="color: #fbbf24;"></i> ${formatNumber(user.Gold || 0)}</td>
+                    <td><span class="badge badge-info">Lv.${expData.currentLevel || 1}</span></td>
+                    <td><i class="fas fa-calendar-check" style="color: #10b981;"></i> ${checkinStats.totalCheckins || 0}</td>
+                    <td><span class="badge badge-success">${checkinStats.currentStreak || 0} ngày</span></td>
                     <td>
                         <div class="action-buttons">
                             <button class="btn btn-sm btn-info" onclick="viewUser('${user.id}')" title="Xem chi tiết">
                                 <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn btn-sm btn-warning" onclick="editUser('${user.id}')" title="Chỉnh sửa">
-                                <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn btn-sm btn-success" onclick="addResources('${user.id}')" title="Thêm tài nguyên">
                                 <i class="fas fa-plus-circle"></i>
@@ -535,7 +561,7 @@ function createPromoCode() {
 
 // View User
 function viewUser(userId) {
-    const userRef = window.firebaseRef(window.firebaseDB, 'users/' + userId);
+    const userRef = window.firebaseRef(window.firebaseDB, 'Users/' + userId);
     window.firebaseGet(userRef).then((snapshot) => {
         const user = snapshot.val();
         if (!user) {
@@ -549,7 +575,7 @@ function viewUser(userId) {
         }
         
         // Parse game data
-        let expData = null, bagData = null, bagUpgradeData = null, questData = null;
+        let expData = null, bagData = null, bagUpgradeData = null, questData = null, checkinStats = null;
         try {
             expData = user.ExpData ? JSON.parse(user.ExpData) : null;
         } catch(e) {}
@@ -561,6 +587,9 @@ function viewUser(userId) {
         } catch(e) {}
         try {
             questData = user.QuestData ? JSON.parse(user.QuestData) : null;
+        } catch(e) {}
+        try {
+            checkinStats = user.CheckinStats || null;
         } catch(e) {}
         
         // Build items HTML
@@ -603,16 +632,20 @@ function viewUser(userId) {
                         <h4 style="color: #667eea; margin-bottom: 10px;">
                             <i class="fas fa-id-card"></i> Thông tin cơ bản
                         </h4>
-                        <p><strong><i class="fas fa-envelope"></i> Email:</strong> ${user.email || 'N/A'}</p>
-                        <p><strong><i class="fas fa-user"></i> Tên hiển thị:</strong> ${user.displayName || user.fullname || 'N/A'}</p>
+                        <p><strong><i class="fas fa-id-badge"></i> User ID:</strong> <code>${userId}</code></p>
+                        <p><strong><i class="fas fa-envelope"></i> Email:</strong> ${user.email || user.Email || 'N/A'}</p>
+                        <p><strong><i class="fas fa-user"></i> Tên hiển thị:</strong> ${user.displayName || user.DisplayName || user.Name || 'N/A'}</p>
                         <p><strong><i class="fas fa-gamepad"></i> Tên trong game:</strong> 
                             <span style="color: #667eea; font-weight: 600;">${user.Name || 'N/A'}</span>
                         </p>
-                        <p><strong><i class="fas fa-shield-alt"></i> Provider:</strong> 
-                            <span class="badge badge-info">${user.provider || 'email'}</span>
-                        </p>
-                        <p><strong><i class="fas fa-calendar-plus"></i> Ngày tạo:</strong> ${formatDateTime(user.createdAt)}</p>
-                        <p><strong><i class="fas fa-clock"></i> Đăng nhập cuối:</strong> ${formatDateTime(user.lastLogin)}</p>
+                        ${(() => {
+                            const createdAt = formatDateTime(user.createdAt || user.CreatedAt);
+                            return createdAt ? `<p><strong><i class="fas fa-calendar-plus"></i> Ngày tạo:</strong> ${createdAt}</p>` : '';
+                        })()}
+                        ${(() => {
+                            const lastLogin = formatDateTime(user.lastLogin || user.LastLogin);
+                            return lastLogin ? `<p><strong><i class="fas fa-clock"></i> Đăng nhập cuối:</strong> ${lastLogin}</p>` : '';
+                        })()}
                     </div>
                     
                     <!-- Tài nguyên -->
@@ -637,6 +670,49 @@ function viewUser(userId) {
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Check-in Stats -->
+                    ${checkinStats ? `
+                    <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="color: #0ea5e9; margin-bottom: 10px;">
+                            <i class="fas fa-calendar-check"></i> Thống kê Check-in
+                        </h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                            <div style="background: white; padding: 10px; border-radius: 8px; text-align: center;">
+                                <i class="fas fa-calendar-check" style="color: #0ea5e9; font-size: 1.5em;"></i>
+                                <div style="font-size: 1.5em; color: #0ea5e9; font-weight: 700; margin: 5px 0;">
+                                    ${checkinStats.totalCheckins || 0}
+                                </div>
+                                <small style="color: #64748b;">Tổng check-in</small>
+                            </div>
+                            <div style="background: white; padding: 10px; border-radius: 8px; text-align: center;">
+                                <i class="fas fa-fire" style="color: #f59e0b; font-size: 1.5em;"></i>
+                                <div style="font-size: 1.5em; color: #f59e0b; font-weight: 700; margin: 5px 0;">
+                                    ${checkinStats.currentStreak || 0}
+                                </div>
+                                <small style="color: #64748b;">Streak hiện tại</small>
+                            </div>
+                            <div style="background: white; padding: 10px; border-radius: 8px; text-align: center;">
+                                <i class="fas fa-trophy" style="color: #10b981; font-size: 1.5em;"></i>
+                                <div style="font-size: 1.5em; color: #10b981; font-weight: 700; margin: 5px 0;">
+                                    ${checkinStats.longestStreak || 0}
+                                </div>
+                                <small style="color: #64748b;">Streak dài nhất</small>
+                            </div>
+                            <div style="background: white; padding: 10px; border-radius: 8px; text-align: center;">
+                                <i class="fas fa-gem" style="color: #60a5fa; font-size: 1.5em;"></i>
+                                <div style="font-size: 1.5em; color: #60a5fa; font-weight: 700; margin: 5px 0;">
+                                    ${formatNumber(checkinStats.totalDiamondsEarned || 0)}
+                                </div>
+                                <small style="color: #64748b;">Kim cương nhận</small>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; padding: 10px; background: white; border-radius: 8px;">
+                            <p><strong><i class="fas fa-clock"></i> Check-in cuối:</strong> ${checkinStats.lastCheckinDate || 'Chưa có'}</p>
+                            <p><strong><i class="fas fa-calendar-alt"></i> Ngày check-in:</strong> ${checkinStats.checkinDates ? checkinStats.checkinDates.join(', ') : 'Chưa có'}</p>
+                        </div>
+                    </div>
+                    ` : ''}
                     
                     <!-- Kinh nghiệm & Level -->
                     ${expData ? `
@@ -725,116 +801,11 @@ function viewUser(userId) {
             `,
             width: '700px',
             confirmButtonColor: '#667eea',
-            confirmButtonText: '<i class="fas fa-check"></i> Đóng',
-            showDenyButton: true,
-            denyButtonText: '<i class="fas fa-edit"></i> Chỉnh sửa',
-            denyButtonColor: '#f59e0b'
-        }).then((result) => {
-            if (result.isDenied) {
-                editUser(userId);
-            }
+            confirmButtonText: '<i class="fas fa-check"></i> Đóng'
         });
     });
 }
 
-// Edit User
-function editUser(userId) {
-    const userRef = window.firebaseRef(window.firebaseDB, 'users/' + userId);
-    window.firebaseGet(userRef).then((snapshot) => {
-        const user = snapshot.val();
-        if (!user) {
-        Swal.fire({
-                icon: 'error',
-                title: 'Không tìm thấy',
-                text: 'Người dùng không tồn tại',
-                confirmButtonColor: '#667eea'
-            });
-            return;
-        }
-        
-        Swal.fire({
-            title: '<i class="fas fa-user-edit"></i> Chỉnh sửa người dùng',
-            html: `
-                <div style="text-align: left;">
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-user"></i> Tên hiển thị</label>
-                        <input type="text" id="edit-displayname" class="form-control" value="${user.displayName || user.fullname || ''}">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-at"></i> Username</label>
-                        <input type="text" id="edit-username" class="form-control" value="${user.username || ''}">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-gem" style="color: #60a5fa;"></i> Kim Cương</label>
-                        <input type="number" id="edit-diamonds" class="form-control" value="${user.Diamond || user.diamonds || 0}" min="0">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-coins" style="color: #fbbf24;"></i> Vàng</label>
-                        <input type="number" id="edit-gold" class="form-control" value="${user.Gold || user.gold || 0}" min="0">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-toggle-on"></i> Trạng thái tài khoản</label>
-                        <select id="edit-status" class="form-control">
-                            <option value="active" ${!user.isBlocked ? 'selected' : ''}>Hoạt động</option>
-                            <option value="blocked" ${user.isBlocked ? 'selected' : ''}>Bị khóa</option>
-                        </select>
-                    </div>
-                </div>
-            `,
-            width: '600px',
-            showCancelButton: true,
-            confirmButtonText: '<i class="fas fa-save"></i> Lưu thay đổi',
-            cancelButtonText: '<i class="fas fa-times"></i> Hủy',
-            confirmButtonColor: '#667eea',
-            preConfirm: () => {
-                const displayName = document.getElementById('edit-displayname').value.trim();
-                const username = document.getElementById('edit-username').value.trim();
-                const diamonds = parseInt(document.getElementById('edit-diamonds').value) || 0;
-                const gold = parseInt(document.getElementById('edit-gold').value) || 0;
-                const status = document.getElementById('edit-status').value;
-                
-                if (diamonds < 0 || gold < 0) {
-                    Swal.showValidationMessage('Số lượng không được âm');
-                    return false;
-                }
-                
-                return { displayName, username, diamonds, gold, isBlocked: status === 'blocked' };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const updateData = {
-                    ...user,
-                    displayName: result.value.displayName,
-                    username: result.value.username,
-                    Diamond: result.value.diamonds,  // Lưu với chữ D in hoa
-                    Gold: result.value.gold,         // Lưu với chữ G in hoa
-                    diamonds: result.value.diamonds, // Giữ lại lowercase để tương thích
-                    gold: result.value.gold,         // Giữ lại lowercase để tương thích
-                    isBlocked: result.value.isBlocked,
-                    lastUpdated: Date.now()
-                };
-                
-                window.firebaseSet(userRef, updateData).then(() => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công!',
-                        text: 'Đã cập nhật thông tin người dùng',
-                        confirmButtonColor: '#667eea',
-                        timer: 2000
-                    });
-                    loadUsers();
-                }).catch((error) => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi!',
-                        text: 'Không thể cập nhật: ' + error.message,
-                        confirmButtonColor: '#ef4444'
-                    });
-                });
-            }
-        });
-    });
-}
 
 // Delete Promo Code
 function deletePromoCode(promoId) {
@@ -872,8 +843,9 @@ function formatNumber(number) {
 }
 
 function formatDateTime(timestamp) {
-    if (!timestamp) return 'N/A';
+    if (!timestamp) return null;
     const date = new Date(timestamp);
+    if (isNaN(date.getTime())) return null;
     return date.toLocaleString('vi-VN');
 }
 
@@ -1003,7 +975,7 @@ function editPromoCode(promoId) {
 
 // Add Resources to User
 function addResources(userId) {
-    const userRef = window.firebaseRef(window.firebaseDB, 'users/' + userId);
+    const userRef = window.firebaseRef(window.firebaseDB, 'Users/' + userId);
     window.firebaseGet(userRef).then((snapshot) => {
         const user = snapshot.val();
         if (!user) {
@@ -1016,37 +988,89 @@ function addResources(userId) {
             return;
         }
         
+        // Parse ExpData để hiển thị thông tin hiện tại
+        let expData = {};
+        let currentLevel = 1;
+        let currentExp = 0;
+        let expToNextLevel = 100;
+        let statPoints = 0;
+        
+        try {
+            if (user.ExpData) {
+                expData = JSON.parse(user.ExpData);
+                currentLevel = expData.currentLevel || 1;
+                currentExp = expData.currentExp || 0;
+                expToNextLevel = expData.expToNextLevel || 100;
+                statPoints = expData.statPoints || 0;
+            }
+        } catch (e) {
+            console.warn('Error parsing ExpData:', e);
+        }
+
         Swal.fire({
-            title: '<i class="fas fa-gift"></i> Thêm tài nguyên',
+            title: '<i class="fas fa-gift"></i> Thêm tài nguyên & Kinh nghiệm',
             html: `
                 <div style="text-align: left;">
                     <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
                         <h4 style="color: #10b981; margin-bottom: 10px;">
                             <i class="fas fa-wallet"></i> Số dư hiện tại
                         </h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                         <p><strong><i class="fas fa-gem" style="color: #60a5fa;"></i> Kim Cương:</strong> 
-                            <span style="font-size: 1.2em; color: #60a5fa;">${formatNumber(user.Diamond || user.diamonds || 0)}</span>
+                            <span style="font-size: 1.2em; color: #60a5fa;">${formatNumber(user.Diamond || 0)}</span>
                         </p>
                         <p><strong><i class="fas fa-coins" style="color: #fbbf24;"></i> Vàng:</strong> 
-                            <span style="font-size: 1.2em; color: #fbbf24;">${formatNumber(user.Gold || user.gold || 0)}</span>
+                            <span style="font-size: 1.2em; color: #fbbf24;">${formatNumber(user.Gold || 0)}</span>
                         </p>
+                            <p><strong><i class="fas fa-star" style="color: #3b82f6;"></i> Level:</strong> 
+                                <span style="font-size: 1.2em; color: #3b82f6;">${currentLevel}</span>
+                            </p>
+                            <p><strong><i class="fas fa-dice-d20" style="color: #10b981;"></i> Điểm kỹ năng:</strong> 
+                                <span style="font-size: 1.2em; color: #10b981;">${statPoints}</span>
+                            </p>
+                        </div>
+                        <div style="background: white; padding: 8px; border-radius: 5px; margin-top: 10px;">
+                            <p><strong><i class="fas fa-chart-line"></i> EXP:</strong> ${currentExp}/${expToNextLevel} (${((currentExp/expToNextLevel)*100).toFixed(1)}%)</p>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-gem" style="color: #60a5fa;"></i> Cộng thêm Kim Cương</label>
-                        <input type="number" id="add-diamonds" class="form-control" placeholder="0" min="0" value="0">
-                        <small style="color: #64748b;">Nhập số kim cương muốn cộng thêm</small>
+                    <div style="background: #fef3c7; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="color: #f59e0b; margin-bottom: 10px;">
+                            <i class="fas fa-gift"></i> Tài nguyên
+                        </h4>
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-gem" style="color: #60a5fa;"></i> Cộng thêm Kim Cương</label>
+                            <input type="number" id="add-diamonds" class="form-control" placeholder="0" min="0" value="0">
+                            <small style="color: #64748b;">Nhập số kim cương muốn cộng thêm</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-coins" style="color: #fbbf24;"></i> Cộng thêm Vàng</label>
+                            <input type="number" id="add-gold" class="form-control" placeholder="0" min="0" value="0">
+                            <small style="color: #64748b;">Nhập số vàng muốn cộng thêm</small>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label class="form-label"><i class="fas fa-coins" style="color: #fbbf24;"></i> Cộng thêm Vàng</label>
-                        <input type="number" id="add-gold" class="form-control" placeholder="0" min="0" value="0">
-                        <small style="color: #64748b;">Nhập số vàng muốn cộng thêm</small>
+                    <div style="background: #eff6ff; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="color: #3b82f6; margin-bottom: 10px;">
+                            <i class="fas fa-star"></i> Kinh nghiệm & Kỹ năng
+                        </h4>
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-chart-line" style="color: #3b82f6;"></i> Cộng thêm EXP</label>
+                            <input type="number" id="add-exp" class="form-control" placeholder="0" min="0" value="0">
+                            <small style="color: #64748b;">Nhập số EXP muốn cộng thêm</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-dice-d20" style="color: #10b981;"></i> Cộng thêm Điểm kỹ năng</label>
+                            <input type="number" id="add-stat-points" class="form-control" placeholder="0" min="0" value="0">
+                            <small style="color: #64748b;">Nhập số điểm kỹ năng muốn cộng thêm</small>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label"><i class="fas fa-comment"></i> Lý do (tùy chọn)</label>
-                        <input type="text" id="add-reason" class="form-control" placeholder="VD: Quà tặng từ admin">
+                        <input type="text" id="add-reason" class="form-control" placeholder="VD: Quà tặng từ admin, Sự kiện đặc biệt">
                     </div>
                 </div>
             `,
@@ -1058,34 +1082,55 @@ function addResources(userId) {
             preConfirm: () => {
                 const addDiamonds = parseInt(document.getElementById('add-diamonds').value) || 0;
                 const addGold = parseInt(document.getElementById('add-gold').value) || 0;
+                const addExp = parseInt(document.getElementById('add-exp').value) || 0;
+                const addStatPoints = parseInt(document.getElementById('add-stat-points').value) || 0;
                 const reason = document.getElementById('add-reason').value.trim();
                 
-                if (addDiamonds < 0 || addGold < 0) {
+                if (addDiamonds < 0 || addGold < 0 || addExp < 0 || addStatPoints < 0) {
                     Swal.showValidationMessage('Số lượng không được âm');
                     return false;
                 }
                 
-                if (addDiamonds === 0 && addGold === 0) {
-                    Swal.showValidationMessage('Vui lòng nhập số lượng cần cộng');
+                if (addDiamonds === 0 && addGold === 0 && addExp === 0 && addStatPoints === 0) {
+                    Swal.showValidationMessage('Vui lòng nhập ít nhất một loại tài nguyên hoặc kinh nghiệm');
                     return false;
                 }
                 
-                return { addDiamonds, addGold, reason };
+                return { addDiamonds, addGold, addExp, addStatPoints, reason };
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                const { addDiamonds, addGold, reason } = result.value;
-                const currentDiamonds = user.Diamond || user.diamonds || 0;
-                const currentGold = user.Gold || user.gold || 0;
+                const { addDiamonds, addGold, addExp, addStatPoints, reason } = result.value;
+                const currentDiamonds = user.Diamond || 0;
+                const currentGold = user.Gold || 0;
                 const newDiamonds = currentDiamonds + addDiamonds;
                 const newGold = currentGold + addGold;
                 
+                // Xử lý EXP và Level
+                let newExpData = { ...expData };
+                if (addExp > 0) {
+                    newExpData.currentExp = (newExpData.currentExp || 0) + addExp;
+                    newExpData.totalExpEarned = (newExpData.totalExpEarned || 0) + addExp;
+                    
+                    // Kiểm tra level up (logic đơn giản: mỗi 100 EXP = 1 level)
+                    const newLevel = Math.floor(newExpData.currentExp / 100) + 1;
+                    if (newLevel > (newExpData.currentLevel || 1)) {
+                        newExpData.currentLevel = newLevel;
+                        newExpData.expToNextLevel = newLevel * 100;
+                        newExpData.currentExp = newExpData.currentExp % 100;
+                    }
+                }
+                
+                // Xử lý điểm kỹ năng
+                if (addStatPoints > 0) {
+                    newExpData.statPoints = (newExpData.statPoints || 0) + addStatPoints;
+                }
+                
                 const updateData = {
                     ...user,
-                    Diamond: newDiamonds,  // Lưu với chữ in hoa
-                    Gold: newGold,         // Lưu với chữ in hoa
-                    diamonds: newDiamonds, // Giữ lại lowercase để tương thích
-                    gold: newGold,         // Giữ lại lowercase để tương thích
+                    Diamond: newDiamonds,  // Chỉ lưu với chữ in hoa
+                    Gold: newGold,         // Chỉ lưu với chữ in hoa
+                    ExpData: JSON.stringify(newExpData), // Cập nhật ExpData
                     lastUpdated: Date.now()
                 };
                 
@@ -1094,9 +1139,11 @@ function addResources(userId) {
                 const newHistoryRef = window.firebasePush(historyRef);
                 window.firebaseSet(newHistoryRef, {
                     userId: userId,
-                    userEmail: user.email,
+                    userEmail: user.email || user.Email || 'N/A',
                     diamonds: addDiamonds,
                     gold: addGold,
+                    exp: addExp,
+                    statPoints: addStatPoints,
                     reason: reason || 'Quà tặng từ admin',
                     timestamp: Date.now()
                 });
@@ -1110,10 +1157,15 @@ function addResources(userId) {
                                 <p><strong>Đã cộng thành công:</strong></p>
                                 ${addDiamonds > 0 ? `<p><i class="fas fa-gem" style="color: #60a5fa;"></i> +${formatNumber(addDiamonds)} Kim Cương</p>` : ''}
                                 ${addGold > 0 ? `<p><i class="fas fa-coins" style="color: #fbbf24;"></i> +${formatNumber(addGold)} Vàng</p>` : ''}
+                                ${addExp > 0 ? `<p><i class="fas fa-chart-line" style="color: #3b82f6;"></i> +${formatNumber(addExp)} EXP</p>` : ''}
+                                ${addStatPoints > 0 ? `<p><i class="fas fa-dice-d20" style="color: #10b981;"></i> +${formatNumber(addStatPoints)} Điểm kỹ năng</p>` : ''}
                                 <hr>
                                 <p><strong>Số dư mới:</strong></p>
                                 <p><i class="fas fa-gem" style="color: #60a5fa;"></i> ${formatNumber(newDiamonds)} Kim Cương</p>
                                 <p><i class="fas fa-coins" style="color: #fbbf24;"></i> ${formatNumber(newGold)} Vàng</p>
+                                <p><i class="fas fa-star" style="color: #3b82f6;"></i> Level ${newExpData.currentLevel || currentLevel}</p>
+                                <p><i class="fas fa-dice-d20" style="color: #10b981;"></i> ${newExpData.statPoints || statPoints} Điểm kỹ năng</p>
+                                ${addExp > 0 ? `<p><i class="fas fa-chart-line" style="color: #3b82f6;"></i> EXP: ${newExpData.currentExp || 0}/${newExpData.expToNextLevel || 100}</p>` : ''}
                             </div>
                         `,
                         confirmButtonColor: '#667eea'
@@ -1134,7 +1186,7 @@ function addResources(userId) {
 
 // Delete User
 function deleteUser(userId) {
-    const userRef = window.firebaseRef(window.firebaseDB, 'users/' + userId);
+    const userRef = window.firebaseRef(window.firebaseDB, 'Users/' + userId);
     window.firebaseGet(userRef).then((snapshot) => {
         const user = snapshot.val();
         if (!user) {
@@ -1162,10 +1214,10 @@ function deleteUser(userId) {
                     
                     <div style="background: #f8fafc; padding: 15px; border-radius: 10px;">
                         <h4 style="color: #1e293b; margin-bottom: 10px;">Thông tin người dùng sẽ xóa:</h4>
-                        <p><strong><i class="fas fa-envelope"></i> Email:</strong> ${user.email || 'N/A'}</p>
-                        <p><strong><i class="fas fa-user"></i> Tên:</strong> ${user.displayName || user.fullname || 'N/A'}</p>
-                        <p><strong><i class="fas fa-gem" style="color: #60a5fa;"></i> Kim Cương:</strong> ${formatNumber(user.diamonds || 0)}</p>
-                        <p><strong><i class="fas fa-coins" style="color: #fbbf24;"></i> Vàng:</strong> ${formatNumber(user.gold || 0)}</p>
+                        <p><strong><i class="fas fa-envelope"></i> Email:</strong> ${user.email || user.Email || 'N/A'}</p>
+                        <p><strong><i class="fas fa-user"></i> Tên:</strong> ${user.displayName || user.DisplayName || user.Name || 'N/A'}</p>
+                        <p><strong><i class="fas fa-gem" style="color: #60a5fa;"></i> Kim Cương:</strong> ${formatNumber(user.Diamond || user.diamonds || 0)}</p>
+                        <p><strong><i class="fas fa-coins" style="color: #fbbf24;"></i> Vàng:</strong> ${formatNumber(user.Gold || user.gold || 0)}</p>
                     </div>
                     
                     <div class="form-group" style="margin-top: 20px;">
@@ -1233,6 +1285,77 @@ function deleteUser(userId) {
         });
     });
 }
+
+// Sync Auth Data for existing users
+async function syncAuthData() {
+    Swal.fire({
+        title: 'Đồng bộ dữ liệu Auth',
+        text: 'Chức năng này sẽ cập nhật thông tin authentication cho tất cả user hiện có.',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Đồng bộ',
+        cancelButtonText: 'Hủy',
+        confirmButtonColor: '#667eea'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                // Get all users from RTDB
+                const usersRef = window.firebaseRef(window.firebaseDB, 'Users');
+                const snapshot = await window.firebaseGet(usersRef);
+                const users = snapshot.val();
+                
+                if (!users) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Không có dữ liệu',
+                        text: 'Không tìm thấy user nào để đồng bộ.',
+                        confirmButtonColor: '#667eea'
+                    });
+                    return;
+                }
+                
+                let updatedCount = 0;
+                const userIds = Object.keys(users);
+                
+                for (const userId of userIds) {
+                    const user = users[userId];
+                    
+                    // Check if user already has auth data
+                    if (!user.email && !user.displayName) {
+                        // Skip users without auth data for now
+                        // This would require additional Firebase Auth integration
+                        console.log(`Skipping user ${userId} - no auth data available`);
+                    } else {
+                        // User already has auth data, no need to sync
+                        console.log(`User ${userId} already has auth data`);
+                    }
+                }
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đồng bộ hoàn tất!',
+                    text: `Đã cập nhật thông tin authentication cho ${updatedCount} user.`,
+                    confirmButtonColor: '#10b981'
+                });
+                
+                // Reload users table
+                loadUsers();
+                
+            } catch (error) {
+                console.error('Sync error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi đồng bộ!',
+                    text: 'Không thể đồng bộ dữ liệu: ' + error.message,
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        }
+    });
+}
+
+// Make sync function globally available
+window.syncAuthData = syncAuthData;
 
 console.log('✨ Admin panel loaded successfully!');
 

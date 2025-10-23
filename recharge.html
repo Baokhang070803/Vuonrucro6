@@ -67,12 +67,25 @@
             cursor: pointer;
             font-size: 1rem;
             transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn i {
+            font-size: 0.9rem;
         }
 
         .back-btn:hover {
             background: #e9ecef;
             border-color: #667eea;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .back-btn:active {
+            transform: translateY(0);
         }
 
         .recharge-grid {
@@ -555,7 +568,7 @@
 </head>
 <body>
     <div class="container">
-        <button class="back-btn" onclick="goBack()">
+        <button class="back-btn" onclick="goBack()" id="backButton">
             <i class="fas fa-arrow-left"></i> Quay lại
         </button>
 
@@ -591,7 +604,10 @@
 
         <!-- User Info -->
         <div class="user-info" data-aos="fade-up">
-            <h3><i class="fas fa-user"></i> Thông tin tài khoản</h3>
+            <h3>
+                <i class="fas fa-user"></i> 
+                <span id="userInfoTitle">Thông tin tài khoản</span>
+            </h3>
             <div class="user-stats">
                 <div class="stat-item">
                     <div class="stat-value" id="userGold">0</div>
@@ -696,10 +712,16 @@
             once: true
         });
 
-        // Go back function
+        // Go back function - FIXED VERSION
         function goBack() {
+            console.log('🔄 Going back to index.html...');
+            
+            // Force redirect to index.html
             window.location.href = 'index.html';
         }
+        
+        // Make goBack globally available
+        window.goBack = goBack;
 
         // Progress Steps Management
         function updateProgressStep(stepNumber) {
@@ -943,6 +965,20 @@
             initializeProgressSteps();
             loadPackages();
             
+            // ✅ Check localStorage IMMEDIATELY on page load
+            const storedUserId = localStorage.getItem('currentUserId');
+            const storedUserEmail = localStorage.getItem('currentUserEmail');
+            
+            if (storedUserId && storedUserEmail) {
+                console.log('✅ Found stored auth on page load:', storedUserEmail);
+                // Load data immediately
+                setTimeout(() => {
+                    loadUserDataFromFirebase(storedUserId);
+                }, 500);
+            } else {
+                console.log('⚠️ No stored auth found on page load');
+            }
+            
             // Check for VNPay return
             if (window.location.search.includes('vnp_ResponseCode')) {
                 // Wait for Firebase to be ready
@@ -951,21 +987,16 @@
                 }, 2000);
             }
             
-            // Don't initialize the old recharge system to avoid conflicts
-            // if (window.rechargeSystem) {
-            //     window.rechargeSystem.initialize();
-            // }
-            
-            // Check auth and load data
+            // Check auth and load data (with delay for Firebase init)
             setTimeout(() => {
                 checkAuthAndSyncData();
-            }, 2000);
+            }, 1500);
             
             // Listen for auth state changes from multiple sources
             if (typeof window.auth !== 'undefined') {
                 window.auth.onAuthStateChanged((user) => {
                     if (user) {
-                        console.log('🔑 Auth state changed: User signed in', user.uid);
+                        console.log('🔑 Auth state changed: User signed in', { uid: user.uid, email: user.email });
                         localStorage.setItem('currentUserId', user.uid);
                         localStorage.setItem('currentUserEmail', user.email);
                         
@@ -977,6 +1008,36 @@
                         console.log('🔑 Auth state changed: User signed out');
                         localStorage.removeItem('currentUserId');
                         localStorage.removeItem('currentUserEmail');
+                        
+                        // Reset to localStorage fallback
+                        setTimeout(() => {
+                            checkAuthAndSyncData();
+                        }, 500);
+                    }
+                });
+            }
+            
+            // Also listen for firebaseAuth if available
+            if (typeof window.firebaseAuth !== 'undefined') {
+                window.firebaseAuth.onAuthStateChanged((user) => {
+                    if (user) {
+                        console.log('🔑 FirebaseAuth state changed: User signed in', { uid: user.uid, email: user.email });
+                        localStorage.setItem('currentUserId', user.uid);
+                        localStorage.setItem('currentUserEmail', user.email);
+                        
+                        // Re-check auth and sync data
+                        setTimeout(() => {
+                            checkAuthAndSyncData();
+                        }, 1000);
+                    } else {
+                        console.log('🔑 FirebaseAuth state changed: User signed out');
+                        localStorage.removeItem('currentUserId');
+                        localStorage.removeItem('currentUserEmail');
+                        
+                        // Reset to localStorage fallback
+                        setTimeout(() => {
+                            checkAuthAndSyncData();
+                        }, 500);
                     }
                 });
             }
@@ -1001,42 +1062,70 @@
             }
         });
 
+        // Wait for Firebase Auth to be ready
+        async function waitForFirebaseAuth() {
+            return new Promise((resolve) => {
+                const checkAuth = () => {
+                    if (typeof window.auth !== 'undefined' || typeof window.firebaseAuth !== 'undefined') {
+                        console.log('✅ Firebase Auth is ready');
+                        resolve();
+                    } else {
+                        console.log('⏳ Waiting for Firebase Auth...');
+                        setTimeout(checkAuth, 100);
+                    }
+                };
+                checkAuth();
+            });
+        }
+
         // Check if user is authenticated and sync data
         async function checkAuthAndSyncData() {
             console.log('🔍 Checking authentication status...');
             
-            // Wait a bit for auth to be ready
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Wait for Firebase auth to be ready
+            await waitForFirebaseAuth();
             
             // Check if user is authenticated
             let isAuthenticated = false;
             let userId = null;
+            let userEmail = null;
             
-            // Check multiple auth sources
-            if (typeof window.auth !== 'undefined' && window.auth.currentUser) {
+            // ✅ PRIORITY 1: Check localStorage FIRST (fastest & most reliable)
+            const storedUserId = localStorage.getItem('currentUserId');
+            const storedUserEmail = localStorage.getItem('currentUserEmail');
+            
+            if (storedUserId && storedUserEmail) {
+                isAuthenticated = true;
+                userId = storedUserId;
+                userEmail = storedUserEmail;
+                console.log('✅ User authenticated via localStorage:', { userId, userEmail });
+            }
+            // PRIORITY 2: Check Firebase auth objects
+            else if (typeof window.auth !== 'undefined' && window.auth.currentUser) {
                 isAuthenticated = true;
                 userId = window.auth.currentUser.uid;
-                console.log('✅ User is authenticated via window.auth:', userId);
-            } else if (typeof window.firebaseAuth !== 'undefined' && window.firebaseAuth.currentUser) {
+                userEmail = window.auth.currentUser.email;
+                console.log('✅ User authenticated via window.auth:', { userId, userEmail });
+            } 
+            else if (typeof window.firebaseAuth !== 'undefined' && window.firebaseAuth.currentUser) {
                 isAuthenticated = true;
                 userId = window.firebaseAuth.currentUser.uid;
-                console.log('✅ User is authenticated via window.firebaseAuth:', userId);
-            } else {
-                // Check localStorage for user data
-                const storedUserId = localStorage.getItem('currentUserId');
-                const storedUserEmail = localStorage.getItem('currentUserEmail');
-                
-                if (storedUserId && storedUserEmail) {
-                    isAuthenticated = true;
-                    userId = storedUserId;
-                    console.log('✅ User is authenticated via localStorage:', userId);
-                } else {
-                    console.log('⚠️ User not authenticated, using localStorage');
-                }
+                userEmail = window.firebaseAuth.currentUser.email;
+                console.log('✅ User authenticated via window.firebaseAuth:', { userId, userEmail });
             }
             
             if (isAuthenticated && userId) {
-                // Sync localStorage data to Firebase
+                console.log('🔑 User is authenticated, syncing data...');
+                console.log('🔍 User ID:', userId);
+                console.log('🔍 User Email:', userEmail);
+                
+                // Update localStorage with current auth info
+                localStorage.setItem('currentUserId', userId);
+                if (userEmail) {
+                    localStorage.setItem('currentUserEmail', userEmail);
+                }
+                
+                // Sync localStorage data to Firebase if needed
                 const userGold = parseInt(localStorage.getItem('userGold') || '0');
                 const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
                 
@@ -1048,6 +1137,16 @@
                 // Load from Firebase
                 await loadUserDataFromFirebase(userId);
             } else {
+                console.log('⚠️ User not authenticated, using localStorage fallback');
+                console.log('🔍 Auth check details:', {
+                    isAuthenticated,
+                    userId,
+                    userEmail,
+                    'window.auth': typeof window.auth,
+                    'window.auth.currentUser': window.auth ? window.auth.currentUser : 'N/A',
+                    'localStorage userId': localStorage.getItem('currentUserId')
+                });
+                
                 // Load from localStorage
                 const userGold = parseInt(localStorage.getItem('userGold') || '0');
                 const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
@@ -1118,14 +1217,37 @@
                 const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
                 const userUrl = `${firebaseUrl}/Users/${userId}.json`;
                 
+                console.log('🔍 Loading user data from:', userUrl);
                 const userResponse = await fetch(userUrl);
                 const userData = await userResponse.json();
                 
-                if (userData) {
+                console.log('🔍 Raw Firebase response:', userResponse);
+                console.log('🔍 Parsed user data:', userData);
+                
+                if (userData && userData !== null) {
                     console.log('✅ User data loaded from Firebase:', userData);
-                    updateUserDisplay(userData);
+                    
+                    // Ensure we have the right data structure
+                    const displayData = {
+                        Gold: userData.Gold || 0,
+                        Diamond: userData.Diamond || 0,
+                        ExpData: userData.ExpData || JSON.stringify({ currentLevel: 1 }),
+                        Name: userData.Name || null
+                    };
+                    
+                    console.log('🔍 Display data prepared:', displayData);
+                    updateUserDisplay(displayData);
+                    
+                    // Update user info title
+                    const userEmail = localStorage.getItem('currentUserEmail');
+                    const titleEl = document.getElementById('userInfoTitle');
+                    if (titleEl && displayData.Name) {
+                        titleEl.textContent = `Tài khoản: ${displayData.Name}`;
+                    } else if (titleEl && userEmail) {
+                        titleEl.textContent = `Tài khoản: ${userEmail.split('@')[0]}`;
+                    }
                 } else {
-                    console.log('No user data found in Firebase, using defaults');
+                    console.log('⚠️ No user data found in Firebase, using defaults');
                     updateUserDisplay({
                         Gold: 0,
                         Diamond: 0,
@@ -1140,6 +1262,7 @@
                 const userDiamond = parseInt(localStorage.getItem('userDiamond') || '0');
                 const userExpData = localStorage.getItem('userExpData') || JSON.stringify({ currentLevel: 1 });
                 
+                console.log('💾 Using localStorage fallback:', { userGold, userDiamond, userExpData });
                 updateUserDisplay({
                     Gold: userGold,
                     Diamond: userDiamond,
@@ -1207,24 +1330,46 @@
 
         // Update user display function
         function updateUserDisplay(userData) {
+            console.log('🔄 Updating user display with data:', userData);
+            
             // Update gold display
             const goldElement = document.getElementById('userGold');
             if (goldElement) {
-                goldElement.textContent = userData.Gold || 0;
+                const goldValue = userData.Gold || 0;
+                goldElement.textContent = goldValue;
+                console.log('💰 Updated Gold display:', goldValue);
+            } else {
+                console.error('❌ Gold element not found!');
             }
 
             // Update diamond display
             const diamondElement = document.getElementById('userDiamond');
             if (diamondElement) {
-                diamondElement.textContent = userData.Diamond || 0;
+                const diamondValue = userData.Diamond || 0;
+                diamondElement.textContent = diamondValue;
+                console.log('💎 Updated Diamond display:', diamondValue);
+            } else {
+                console.error('❌ Diamond element not found!');
             }
 
             // Update level display
             const levelElement = document.getElementById('userLevel');
             if (levelElement) {
-                const expData = userData.ExpData ? JSON.parse(userData.ExpData) : { currentLevel: 1 };
-                levelElement.textContent = expData.currentLevel || 1;
+                let levelValue = 1;
+                try {
+                    const expData = userData.ExpData ? JSON.parse(userData.ExpData) : { currentLevel: 1 };
+                    levelValue = expData.currentLevel || 1;
+                } catch (e) {
+                    console.warn('⚠️ Error parsing ExpData:', e);
+                    levelValue = 1;
+                }
+                levelElement.textContent = levelValue;
+                console.log('⭐ Updated Level display:', levelValue);
+            } else {
+                console.error('❌ Level element not found!');
             }
+            
+            console.log('✅ User display update completed');
         }
 
         // VNPay Configuration - Sử dụng config từ checkout.html
@@ -1482,12 +1627,14 @@
                 const mainMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*Vàng/);
                 if (mainMatch) {
                     amount = parseInt(mainMatch[1].replace(/,/g, ''));
+                    console.log('💰 Main gold amount:', amount);
                 }
                 
                 // Extract bonus amount
                 const bonusMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*Bonus/);
                 if (bonusMatch) {
                     bonus = parseInt(bonusMatch[1].replace(/,/g, ''));
+                    console.log('💰 Bonus gold amount:', bonus);
                 }
                 
             } else if (packageData.type === 'diamond') {
@@ -1499,12 +1646,14 @@
                 const mainMatch = description.match(/(\d+)\s*Kim Cương/);
                 if (mainMatch) {
                     diamond = parseInt(mainMatch[1]);
+                    console.log('💎 Main diamond amount:', diamond);
                 }
                 
                 // Extract bonus amount
                 const bonusMatch = description.match(/(\d+)\s*Bonus/);
                 if (bonusMatch) {
                     diamondBonus = parseInt(bonusMatch[1]);
+                    console.log('💎 Bonus diamond amount:', diamondBonus);
                 }
             }
             
@@ -1515,7 +1664,15 @@
                 diamondBonus
             };
             
-            console.log('✅ Parsed package data:', result);
+            console.log('✅ Parsed package data result:', result);
+            console.log('🔍 Debug info:', {
+                packageType: packageData.type,
+                description: packageData.description,
+                mainMatch: packageData.type === 'gold' ? 
+                    packageData.description.match(/(\d{1,3}(?:,\d{3})*)\s*Vàng/) :
+                    packageData.description.match(/(\d+)\s*Kim Cương/),
+                bonusMatch: packageData.description.match(/(\d+)\s*Bonus/)
+            });
             return result;
         }
 
@@ -1527,10 +1684,29 @@
             
             // Parse package data to get amounts
             const parsedData = parsePackageData(packageData);
+            console.log('🔍 Parsed data for update:', parsedData);
             
             try {
-                if (typeof window.auth === 'undefined' || !window.auth.currentUser) {
+                // Get current user ID from multiple sources
+                let currentUserId = null;
+                if (typeof window.auth !== 'undefined' && window.auth.currentUser) {
+                    currentUserId = window.auth.currentUser.uid;
+                } else if (typeof window.firebaseAuth !== 'undefined' && window.firebaseAuth.currentUser) {
+                    currentUserId = window.firebaseAuth.currentUser.uid;
+                } else {
+                    currentUserId = localStorage.getItem('currentUserId');
+                }
+                
+                console.log('🔍 Current user ID:', currentUserId);
+                
+                if (!currentUserId) {
                     console.log('⚠️ User not authenticated, using localStorage fallback');
+                    console.log('🔍 Auth check:', {
+                        'window.auth exists': typeof window.auth !== 'undefined',
+                        'currentUser exists': window.auth ? !!window.auth.currentUser : false,
+                        'currentUser uid': window.auth && window.auth.currentUser ? window.auth.currentUser.uid : 'N/A',
+                        'localStorage userId': localStorage.getItem('currentUserId')
+                    });
                     
                     // Fallback: Save to localStorage if user not authenticated
                     const currentGold = parseInt(localStorage.getItem('userGold') || '0');
@@ -1574,15 +1750,17 @@
                     return;
                 }
 
-                console.log('✅ User authenticated:', window.auth.currentUser.uid);
+                console.log('✅ User authenticated:', currentUserId);
                 
                 // Lấy dữ liệu người dùng hiện tại
                 // Sử dụng Firebase REST API
                 const firebaseUrl = 'https://trangtrai-2769b-default-rtdb.firebaseio.com';
-                const userUrl = `${firebaseUrl}/Users/${window.auth.currentUser.uid}.json`;
+                const userUrl = `${firebaseUrl}/Users/${currentUserId}.json`;
                 
+                console.log('🔍 Fetching user data from:', userUrl);
                 const userResponse = await fetch(userUrl);
                 const currentData = await userResponse.json() || {};
+                console.log('🔍 Current user data from Firebase:', currentData);
                 
                 // Tính toán số vàng và kim cương mới
                 const currentGold = parseInt(currentData.Gold) || 0;
@@ -1594,6 +1772,17 @@
                 
                 const newGold = currentGold + packageGold + packageBonus;
                 const newDiamond = currentDiamond + packageDiamond + packageDiamondBonus;
+                
+                console.log('🔍 Calculation details:', {
+                    currentGold,
+                    currentDiamond,
+                    packageGold,
+                    packageBonus,
+                    packageDiamond,
+                    packageDiamondBonus,
+                    newGold,
+                    newDiamond
+                });
                 
                 console.log('💰 Gold calculation:', {
                     currentGold,
@@ -1609,23 +1798,43 @@
                     newDiamond
                 });
                 
-                // Cập nhật dữ liệu người dùng
-                await fetch(userUrl, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                // ✅ Cập nhật TRỰC TIẾP từng field (an toàn hơn)
+                console.log('🔍 Updating Firebase - Direct field updates');
+                
+                // Update Gold directly
+                const goldUrl = `${firebaseUrl}/Users/${currentUserId}/Gold.json`;
+                await fetch(goldUrl, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newGold)
+                });
+                console.log(`💰 Updated Gold: ${currentGold} → ${newGold}`);
+                
+                // Update Diamond directly
+                const diamondUrl = `${firebaseUrl}/Users/${currentUserId}/Diamond.json`;
+                await fetch(diamondUrl, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newDiamond)
+                });
+                console.log(`💎 Updated Diamond: ${currentDiamond} → ${newDiamond}`);
+                
+                // Update LastRecharge info
+                const lastRechargeUrl = `${firebaseUrl}/Users/${currentUserId}/LastRecharge.json`;
+                await fetch(lastRechargeUrl, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        Gold: newGold,
-                        Diamond: newDiamond,
-                        LastRecharge: new Date().toISOString(),
-                        LastRechargeAmount: packageData.price,
-                        LastRechargePackage: packageData.name
+                        timestamp: new Date().toISOString(),
+                        amount: packageData.price,
+                        package: packageData.name,
+                        txnRef: txnRef
                     })
                 });
+                console.log('📝 Updated LastRecharge info');
                 
                 // Lưu lịch sử giao dịch với cấu trúc rõ ràng
-                const transactionHistoryUrl = `${firebaseUrl}/user_transactions/${window.auth.currentUser.uid}.json`;
+                const transactionHistoryUrl = `${firebaseUrl}/user_transactions/${currentUserId}.json`;
                 const transactionData = {
                     [txnRef]: {
                         timestamp: Date.now(),
@@ -1757,6 +1966,69 @@
             setTimeout(() => {
                 checkAuthAndSyncData();
             }, 500);
+        };
+        
+        // Force sync auth state (for debugging)
+        window.forceSyncAuth = function() {
+            console.log('🔄 Force syncing auth state...');
+            checkAuthAndSyncData();
+        };
+        
+        // Check auth status (for debugging)
+        window.checkAuthStatus = function() {
+            console.log('🔍 Current auth status:', {
+                'window.auth exists': typeof window.auth !== 'undefined',
+                'window.auth.currentUser': window.auth ? window.auth.currentUser : 'N/A',
+                'window.firebaseAuth exists': typeof window.firebaseAuth !== 'undefined',
+                'window.firebaseAuth.currentUser': window.firebaseAuth ? window.firebaseAuth.currentUser : 'N/A',
+                'localStorage userId': localStorage.getItem('currentUserId'),
+                'localStorage email': localStorage.getItem('currentUserEmail')
+            });
+        };
+        
+        // Force refresh user data (for debugging)
+        window.forceRefreshUserData = function() {
+            console.log('🔄 Force refreshing user data...');
+            checkAuthAndSyncData();
+        };
+        
+        // Manual load user data (for debugging)
+        window.manualLoadUserData = function(userId) {
+            console.log('🔍 Manually loading user data for:', userId);
+            loadUserDataFromFirebase(userId);
+        };
+        
+        // Test with known user from database
+        window.testWithKnownUser = function() {
+            const knownUserId = 'oqcUSXKe65d7R1NM90yL0yxHKNI3';
+            console.log('🧪 Testing with known user:', knownUserId);
+            
+            // Set auth data manually
+            localStorage.setItem('currentUserId', knownUserId);
+            localStorage.setItem('currentUserEmail', 'test@example.com');
+            
+            // Force load data
+            loadUserDataFromFirebase(knownUserId);
+        };
+        
+        // Force sync from index.html auth state
+        window.syncFromIndexAuth = function() {
+            console.log('🔄 Syncing from index.html auth state...');
+            
+            // Check if user is logged in via firebaseAuth (from index.html)
+            if (typeof window.firebaseAuth !== 'undefined' && window.firebaseAuth.currentUser) {
+                const user = window.firebaseAuth.currentUser;
+                console.log('✅ Found user from index.html:', user.email);
+                
+                // Set auth data
+                localStorage.setItem('currentUserId', user.uid);
+                localStorage.setItem('currentUserEmail', user.email);
+                
+                // Force load data
+                loadUserDataFromFirebase(user.uid);
+            } else {
+                console.log('⚠️ No user found in index.html auth state');
+            }
         };
 
         // Show update success notification

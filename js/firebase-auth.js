@@ -25,7 +25,9 @@ async function initializeFirebaseAuth() {
         GoogleAuthProvider,
         signInWithPopup,
         updateProfile,
-        onAuthStateChanged
+        onAuthStateChanged,
+        setPersistence,
+        browserLocalPersistence
     } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
     
     const { 
@@ -40,6 +42,14 @@ async function initializeFirebaseAuth() {
 
     const auth = window.firebaseAuth;
     const db = window.firebaseRTDB;
+    
+    // ✅ SET PERSISTENCE to keep user logged in across page reloads
+    try {
+        await setPersistence(auth, browserLocalPersistence);
+        console.log('✅ Firebase persistence enabled (browserLocalPersistence)');
+    } catch (error) {
+        console.error('❌ Error setting persistence:', error);
+    }
     
     // Expose auth globally for recharge.html
     window.auth = auth;
@@ -68,13 +78,34 @@ async function initializeFirebaseAuth() {
     let currentUser = null;
 
     // Listen for auth state changes
+    let isInitialLoad = true;
+    
     onAuthStateChanged(auth, (user) => {
         currentUser = user;
         if (user) {
             console.log('User signed in:', user.email);
+            
+            // ✅ SAVE to localStorage for cross-page auth sync
+            localStorage.setItem('currentUserId', user.uid);
+            localStorage.setItem('currentUserEmail', user.email);
+            console.log('💾 Saved auth to localStorage:', user.uid);
+            
             updateUIForLoggedInUser(user);
+            isInitialLoad = false;
         } else {
             console.log('User signed out');
+            
+            // ✅ ONLY CLEAR localStorage if NOT initial load
+            // (Initial load might be restoring session)
+            if (!isInitialLoad) {
+                localStorage.removeItem('currentUserId');
+                localStorage.removeItem('currentUserEmail');
+                console.log('🗑️ Cleared auth from localStorage');
+            } else {
+                console.log('⏳ Initial load - keeping localStorage (waiting for session restore)');
+                isInitialLoad = false;
+            }
+            
             updateUIForLoggedOutUser();
         }
     });
@@ -152,6 +183,7 @@ async function initializeFirebaseAuth() {
     // Save user data to Firestore
     async function saveUserData(user, additionalData = {}) {
         try {
+            // Save to Firestore
             const userRef = doc(db, 'users', user.uid);
             const userData = {
                 uid: user.uid,
@@ -165,6 +197,33 @@ async function initializeFirebaseAuth() {
             };
             
             await setDoc(userRef, userData, { merge: true });
+            
+            // Also save to Realtime Database for admin panel
+            const rtdb = window.firebaseRTDB;
+            if (rtdb) {
+                const { ref, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const rtdbUserRef = ref(rtdb, `Users/${user.uid}`);
+                
+                // Get existing user data from RTDB
+                const { get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                const existingSnapshot = await get(rtdbUserRef);
+                const existingData = existingSnapshot.exists() ? existingSnapshot.val() : {};
+                
+                // Merge auth data with existing game data
+                const mergedData = {
+                    ...existingData,
+                    email: user.email,
+                    displayName: user.displayName || additionalData.fullname || '',
+                    username: additionalData.username || '',
+                    createdAt: userData.createdAt,
+                    lastLogin: userData.lastLogin,
+                    provider: userData.provider
+                };
+                
+                await set(rtdbUserRef, mergedData);
+                console.log('User auth data saved to RTDB successfully');
+            }
+            
             console.log('User data saved successfully');
         } catch (error) {
             console.error('Error saving user data:', error);
@@ -234,7 +293,7 @@ async function initializeFirebaseAuth() {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 
-                // Update last login
+                // Update last login and save auth data
                 await saveUserData(user, {
                     lastLogin: new Date().toISOString()
                 });
@@ -407,20 +466,40 @@ async function initializeFirebaseAuth() {
             return;
         }
         
+        // Check if current user is admin
+        const isAdmin = currentUser && currentUser.email === 'admin.langhoaruc@gmail.com';
+        
         const menu = document.createElement('div');
         menu.className = 'user-menu';
-        menu.innerHTML = `
+        
+        // Build menu items based on user type
+        let menuItems = `
             <div class="user-menu-item" onclick="showPromoCodes()">
                 <i class="fas fa-gift"></i> Mã khuyến mãi
             </div>
             <div class="user-menu-item" onclick="goToRecharge()">
                 <i class="fas fa-coins"></i> Nạp Tiền
             </div>
+        `;
+        
+        // Add admin menu item if user is admin
+        if (isAdmin) {
+            menuItems += `
+                <hr>
+                <div class="user-menu-item admin" onclick="goToAdmin()">
+                    <i class="fas fa-crown"></i> Tài khoản Admin
+                </div>
+            `;
+        }
+        
+        menuItems += `
             <hr>
             <div class="user-menu-item logout" onclick="handleLogout()">
                 <i class="fas fa-sign-out-alt"></i> Đăng xuất
             </div>
         `;
+        
+        menu.innerHTML = menuItems;
         
         const loginBtn = document.querySelector('.login-btn');
         if (loginBtn && loginBtn.parentNode) {
@@ -778,6 +857,11 @@ async function initializeFirebaseAuth() {
         window.location.href = 'recharge.html';
     }
 
+    // Go to admin page
+    function goToAdmin() {
+        window.location.href = 'admin.html';
+    }
+
     // Make functions globally available
     window.firebaseAuth = firebaseAuth;
     window.showLoading = showLoading;
@@ -792,6 +876,7 @@ async function initializeFirebaseAuth() {
     window.showPromoHistory = showPromoHistory;
     window.showAvailablePromos = showAvailablePromos;
     window.goToRecharge = goToRecharge;
+    window.goToAdmin = goToAdmin;
 
     console.log('🔥 Firebase Auth initialized successfully!');
 }

@@ -3420,6 +3420,26 @@ kbd {
     background: #fff5f5;
 }
 
+.user-menu-item.admin {
+    color: #d4af37;
+    background: linear-gradient(135deg, #fff9e6, #fff3cd);
+    border: 1px solid #ffd700;
+    margin: 4px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.user-menu-item.admin:hover {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.user-menu-item.admin i {
+    color: #d4af37;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .user-menu hr {
     margin: 0;
     border: none;
@@ -5895,6 +5915,27 @@ kbd {
 .user-menu-item.logout:hover {
     background: #f8d7da;
     color: #721c24;
+}
+
+.user-menu-item.admin {
+    color: #d4af37;
+    background: linear-gradient(135deg, #fff9e6, #fff3cd);
+    border: 1px solid #ffd700;
+    margin: 4px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.user-menu-item.admin:hover {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    color: #b8860b;
+}
+
+.user-menu-item.admin i {
+    color: #d4af37;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .user-menu hr {
