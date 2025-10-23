@@ -17,6 +17,9 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
     
+    <!-- SheetJS for Excel Export -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -104,6 +107,7 @@
             border-radius: 10px;
             transition: all 0.3s ease;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .menu-item a:hover,
@@ -114,8 +118,16 @@
 
         .menu-item i {
             width: 20px;
+            min-width: 20px;
             text-align: center;
             font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .menu-item span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Main Content */
@@ -336,11 +348,13 @@
             font-weight: 600;
             color: var(--dark);
             border-bottom: 2px solid var(--border);
+            vertical-align: middle;
         }
 
         .data-table td {
             padding: 15px;
             border-bottom: 1px solid var(--border);
+            vertical-align: middle;
         }
 
         .data-table tbody tr {
@@ -469,26 +483,37 @@
         /* Action Buttons */
         .action-buttons {
             display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
+            gap: 8px;
+            flex-wrap: nowrap;
             justify-content: center;
+            align-items: center;
         }
 
         .btn-sm {
-            padding: 6px 10px;
-            font-size: 0.85rem;
-            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            border-radius: 8px;
             white-space: nowrap;
+            min-width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-sm i {
+            font-size: 1rem;
         }
 
         .btn-icon {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             padding: 0;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             border-radius: 8px;
+            flex-shrink: 0;
         }
 
         .btn-success {
@@ -496,14 +521,38 @@
             color: white;
         }
 
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
         .btn-warning {
             background: var(--warning);
             color: white;
         }
 
+        .btn-warning:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
         .btn-info {
             background: var(--info);
             color: white;
+        }
+
+        .btn-info:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         /* Empty State */
@@ -560,12 +609,6 @@
                 <a href="#" class="menu-link" data-section="promo-codes">
                     <i class="fas fa-gift"></i>
                     <span>Mã khuyến mãi</span>
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#" class="menu-link" data-section="settings">
-                    <i class="fas fa-cog"></i>
-                    <span>Cài đặt</span>
                 </a>
             </li>
             <li class="menu-item" style="margin-top: 20px;">
@@ -768,36 +811,6 @@
             </div>
         </div>
 
-        <!-- Settings Section -->
-        <div class="content-section" id="section-settings">
-            <div class="section-header">
-                <h2>
-                    <i class="fas fa-cog"></i>
-                    Cài đặt hệ thống
-                </h2>
-            </div>
-            <div class="stat-card">
-                <h3>Cài đặt chung</h3>
-                <form id="settings-form" style="margin-top: 20px;">
-                    <div class="form-group">
-                        <label class="form-label">Tên Game</label>
-                        <input type="text" class="form-control" value="Làng Hoa Rực">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email hỗ trợ</label>
-                        <input type="email" class="form-control" value="support@langhoaruc.com">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tỷ lệ quy đổi KC (1000 VNĐ)</label>
-                        <input type="number" class="form-control" value="5">
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        Lưu thay đổi
-                    </button>
-                </form>
-            </div>
-        </div>
     </main>
 
     <!-- Firebase -->
