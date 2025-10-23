@@ -2523,7 +2523,15 @@ kbd {
 }
 
 .story-slide:hover {
-    transform: translateZ(10px) rotateX(2deg);
+    /* Hover effects disabled for story section */
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure hovering the container doesn't produce 3D or hover effects */
+.story-container:hover {
+    transform: none !important;
+    filter: none !important;
 }
 
 /* Contact Section */
@@ -3712,18 +3720,20 @@ kbd {
 }
 
 .chapter-tab:hover {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
-    border-color: rgba(79, 172, 254, 0.4);
-    color: #1a202c;
-    transform: translateY(-5px) rotateX(10deg) rotateY(5deg);
+    /* Hover disabled for chapter tabs */
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.8)) !important;
+    border-color: rgba(79, 172, 254, 0.2) !important;
+    color: #4a5568 !important;
+    transform: none !important;
     box-shadow: 
-        0 12px 24px rgba(0,0,0,0.1),
-        0 6px 12px rgba(0,0,0,0.06),
-        inset 0 1px 0 rgba(255,255,255,1);
+        0 8px 16px rgba(0,0,0,0.06),
+        0 4px 8px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.8) !important;
 }
 
 .chapter-tab:hover::before {
-    left: 100%;
+    /* Prevent shimmer on hover */
+    left: -100% !important;
 }
 
 .chapter-tab.active {
@@ -4131,12 +4141,13 @@ kbd {
 }
 
 .about-item:hover {
-    transform: translateY(-15px);
-    background: rgba(255, 255, 255, 0.95);
+    /* Hover disabled for about items */
+    transform: none !important;
+    background: rgba(255, 255, 255, 0.8) !important;
     box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.12),
-        0 10px 20px rgba(0, 0, 0, 0.08);
-    border-color: rgba(79, 172, 254, 0.3);
+        0 10px 30px rgba(0, 0, 0, 0.08),
+        0 4px 8px rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .about-icon {
@@ -4201,12 +4212,10 @@ kbd {
 }
 
 .about-story:hover {
-    transform: rotateX(5deg) rotateY(5deg) translateZ(20px);
-    box-shadow: 
-        0 30px 60px rgba(0,0,0,0.12),
-        0 15px 30px rgba(0,0,0,0.08),
-        inset 0 1px 0 rgba(255,255,255,1);
-    border-color: rgba(79, 172, 254, 0.4);
+    /* Hover effects disabled per request */
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: rgba(255,255,255,0.8) !important;
 }
 
 .story-text h3 {
@@ -4556,11 +4565,15 @@ kbd {
     }
     
     .about-story:hover {
+        /* Ensure hover does nothing on mobile */
         transform: none !important;
+        box-shadow: none !important;
+        border-color: rgba(255,255,255,0.8) !important;
     }
     
     .chapter-tab:hover {
-        transform: translateY(-3px) !important;
+        /* Disable hover on mobile */
+        transform: none !important;
     }
     
     .nav-button:hover {
@@ -5023,21 +5036,15 @@ kbd {
 
 .checkin-section {
     padding: 100px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Make the check-in section background fully white */
+    background: #ffffff !important;
     position: relative;
     overflow: hidden;
 }
 
 .checkin-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-    background-size: cover;
-    opacity: 0.5;
+    /* Decorative overlay removed to ensure a plain white background */
+    content: none !important;
 }
 
 .checkin-header {
@@ -5048,20 +5055,20 @@ kbd {
 }
 
 .checkin-header .section-tag {
-    color: rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    color: #1a202c;
+    background: rgba(255, 255, 255, 0.0);
+    backdrop-filter: none;
 }
 
 .checkin-header .section-title {
-    color: #ffffff;
+    color: #1a202c;
     font-size: 3rem;
     margin: 20px 0;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
 }
 
 .checkin-header .section-subtitle {
-    color: rgba(255, 255, 255, 0.9);
+    color: #4a5568;
     font-size: 1.2rem;
 }
 
@@ -5073,10 +5080,19 @@ kbd {
 /* Stats Cards */
 .checkin-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* Desktop: three equal columns to space the 3 stat cards evenly */
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     margin-bottom: 50px;
     align-items: stretch;
+}
+
+/* Responsive: allow auto-fit on smaller screens */
+@media (max-width: 900px) {
+    .checkin-stats {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
 }
 
 .stat-card {
@@ -5095,8 +5111,9 @@ kbd {
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    /* Hover disabled for stat cards in checkin section */
+    transform: none !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
 }
 
 .stat-icon {
@@ -5169,9 +5186,10 @@ kbd {
 }
 
 .reset-btn:hover {
-    background: #ef4444;
-    color: white;
-    transform: scale(1.05);
+    /* Hover disabled for reset button */
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: #ef4444 !important;
+    transform: none !important;
 }
 
 .calendar-grid {
@@ -5301,8 +5319,9 @@ kbd {
 }
 
 .checkin-btn:hover:not(.disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+    /* Hover disabled for main checkin button */
+    transform: none !important;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3) !important;
 }
 
 .checkin-btn:active:not(.disabled) {
@@ -5318,8 +5337,8 @@ kbd {
 .checkin-hint {
     margin-top: 15px;
     font-size: 1.1rem;
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: #4a5568;
+    text-shadow: none;
 }
 
 /* Rewards Info */
@@ -5357,8 +5376,9 @@ kbd {
 }
 
 .reward-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    /* Hover disabled for reward items */
+    transform: none !important;
+    box-shadow: none !important;
 }
 
 .reward-icon {
@@ -5545,6 +5565,494 @@ kbd {
 
 /* ========================================== 
    END DAILY CHECK-IN SECTION STYLES
+   ========================================== */
+
+/* ========================================== 
+   PROMO CODE SYSTEM STYLES
+   ========================================== */
+
+/* Promo Code Popup Styles */
+.promo-code-popup .swal2-popup {
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    padding: 0;
+    overflow: hidden;
+    max-width: 600px;
+    margin: 0 auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.promo-code-popup .swal2-title {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    text-align: center;
+    width: 100%;
+    display: block;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.promo-title {
+    background: #f8f9fa;
+    color: #333;
+    padding: 20px;
+    margin: -20px -20px 0 -20px;
+    border-radius: 20px 20px 0 0;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% + 40px);
+}
+
+/* Promo Container */
+.promo-container {
+    padding: 30px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.promo-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.promo-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 25px rgba(74, 144, 226, 0.3);
+}
+
+.promo-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.promo-header h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.promo-header p {
+    color: #666;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Input Section */
+.promo-input-section {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.input-label i {
+    color: #4a90e2;
+}
+
+.promo-input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.promo-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+    outline: none;
+    background: white;
+    transform: translateY(-2px);
+}
+
+.input-hint {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Promo Buttons */
+.promo-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.promo-btn i {
+    font-size: 1.1rem;
+}
+
+.promo-btn.primary {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+}
+
+.promo-btn.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+}
+
+.promo-btn.secondary {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+}
+
+.promo-btn.secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(108, 117, 125, 0.4);
+}
+
+.promo-btn.info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+}
+
+.promo-btn.info:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(23, 162, 184, 0.4);
+}
+
+/* Actions Grid */
+.promo-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+    justify-items: center;
+}
+
+.promo-actions .promo-btn {
+    margin-bottom: 0;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Footer */
+.promo-footer {
+    border-top: 1px solid #e9ecef;
+    padding-top: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.promo-tips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #666;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.promo-tips i {
+    color: #ffc107;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .promo-code-popup .swal2-popup {
+        width: 95% !important;
+        margin: 10px;
+        max-width: 400px;
+    }
+    
+    .promo-container {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .promo-actions {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        justify-items: center;
+    }
+    
+    .promo-actions .promo-btn {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .promo-btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .promo-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .promo-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .input-group {
+        text-align: center;
+    }
+    
+    .promo-input {
+        text-align: center;
+    }
+}
+
+/* User Menu Styles */
+.user-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    min-width: 200px;
+    z-index: 1000;
+    border: 1px solid #e9ecef;
+}
+
+.user-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+    font-weight: 500;
+}
+
+.user-menu-item:hover {
+    background: #f8f9fa;
+    color: #4a90e2;
+}
+
+.user-menu-item i {
+    margin-right: 10px;
+    width: 16px;
+    text-align: center;
+}
+
+.user-menu-item.logout {
+    color: #dc3545;
+}
+
+.user-menu-item.logout:hover {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.user-menu hr {
+    margin: 5px 0;
+    border: none;
+    border-top: 1px solid #e9ecef;
+}
+
+/* User Avatar Styles */
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+}
+
+/* Login Button Styles */
+.login-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.login-btn.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.login-btn.loading::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Success Popup Styles */
+.success-popup .swal2-popup {
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    padding: 0;
+    overflow: hidden;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.success-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+    animation: bounce 0.6s ease-in-out;
+}
+
+.success-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.success-container h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+.reward-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 2px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+.reward-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.reward-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.reward-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.reward-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4a90e2;
+    margin-bottom: 5px;
+}
+
+.reward-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    font-style: italic;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ========================================== 
+   END PROMO CODE SYSTEM STYLES
    ========================================== */
 
 

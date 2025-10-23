@@ -449,14 +449,289 @@ async function initializeFirebaseAuth() {
         document.body.style.overflow = 'auto';
     }
 
-    // Placeholder functions for user menu items
-    function showPromoCodes() {
+    // Promo Code Functions
+    async function showPromoCodes() {
+        // Check if promo code system is available
+        if (typeof window.promoCodeSystem === 'undefined') {
+            Swal.fire({
+                title: 'Hệ thống mã khuyến mãi',
+                text: 'Đang tải hệ thống mã khuyến mãi...',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            // Wait for promo code system to load
+            setTimeout(() => {
+                if (typeof window.promoCodeSystem !== 'undefined') {
+                    Swal.close();
+                    showPromoCodeInterface();
+                } else {
+                    Swal.fire({
+                        title: 'Lỗi hệ thống',
+                        text: 'Không thể tải hệ thống mã khuyến mãi. Vui lòng thử lại sau.',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                }
+            }, 2000);
+            return;
+        }
+        
+        showPromoCodeInterface();
+    }
+    
+    function showPromoCodeInterface() {
         Swal.fire({
-            title: 'Mã Khuyến Mãi',
-            text: 'Tính năng này sẽ được phát triển trong tương lai',
+            title: '🎁 Mã Khuyến Mãi',
+            html: `
+                <div class="promo-container">
+                    <div class="promo-header">
+                        <div class="promo-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h3>Nhập mã khuyến mãi</h3>
+                        <p>Nhập mã để nhận phần thưởng đặc biệt</p>
+                    </div>
+                    
+                    <div class="promo-input-section">
+                        <div class="input-group">
+                            <label for="promoCodeInput" class="input-label">
+                                <i class="fas fa-ticket-alt"></i>
+                                Mã khuyến mãi
+                            </label>
+                            <input type="text" id="promoCodeInput" class="promo-input" 
+                                   placeholder="Nhập mã khuyến mãi..." maxlength="20">
+                            <div class="input-hint">VD: LANGHOARUC888</div>
+                        </div>
+                        
+                        <button type="button" class="promo-btn primary" onclick="usePromoCode()">
+                            <i class="fas fa-gift"></i>
+                            <span>Sử dụng mã</span>
+                        </button>
+                    </div>
+                    
+                    <div class="promo-actions">
+                        <button type="button" class="promo-btn secondary" onclick="showPromoHistory()">
+                            <i class="fas fa-history"></i>
+                            <span>Lịch sử</span>
+                        </button>
+                        
+                        <button type="button" class="promo-btn info" onclick="showAvailablePromos()">
+                            <i class="fas fa-list"></i>
+                            <span>Mã có sẵn</span>
+                        </button>
+                    </div>
+                    
+                    <div class="promo-footer">
+                        <div class="promo-tips">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Mẹo: Mã khuyến mãi thường có thời hạn sử dụng</span>
+                        </div>
+                    </div>
+                </div>
+            `,
+            showCancelButton: true,
+            cancelButtonText: 'Đóng',
+            confirmButtonText: false,
+            showConfirmButton: false,
+            width: '600px',
+            customClass: {
+                popup: 'promo-code-popup',
+                title: 'promo-title'
+            },
+            showCloseButton: true,
+            focusConfirm: false,
+            allowOutsideClick: true
+        });
+        
+        // Focus on input
+        setTimeout(() => {
+            const input = document.getElementById('promoCodeInput');
+            if (input) {
+                input.focus();
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        usePromoCode();
+                    }
+                });
+            }
+        }, 100);
+    }
+    
+    async function usePromoCode() {
+        const promoCode = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+        
+        if (!promoCode) {
+            Swal.fire({
+                title: '⚠️ Lỗi!',
+                text: 'Vui lòng nhập mã khuyến mãi',
+                icon: 'warning',
+                confirmButtonText: 'Thử lại',
+                confirmButtonColor: '#ffc107'
+            });
+            return;
+        }
+        
+        // Show loading
+        Swal.fire({
+            title: 'Đang xử lý...',
+            text: 'Vui lòng chờ trong giây lát',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        try {
+            const result = await window.promoCodeSystem.usePromoCode(promoCode);
+            
+            if (result.success) {
+                Swal.fire({
+                    title: '🎉 Thành công!',
+                    html: `
+                        <div class="success-container">
+                            <div class="success-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <h3>Chúc mừng!</h3>
+                            <p class="success-message">${result.message}</p>
+                            <div class="reward-card">
+                                <div class="reward-icon">
+                                    <i class="fas fa-${result.reward.type === 'diamond' ? 'gem' : 'coins'}"></i>
+                                </div>
+                                <div class="reward-info">
+                                    <h4>Phần thưởng nhận được</h4>
+                                    <div class="reward-amount">
+                                        ${result.reward.value} ${result.reward.type === 'diamond' ? 'Kim cương' : 'Vàng'}
+                                    </div>
+                                    <p class="reward-description">${result.reward.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'success',
+                    confirmButtonText: 'Tuyệt vời!',
+                    confirmButtonColor: '#667eea',
+                    customClass: {
+                        popup: 'success-popup'
+                    }
+                });
+                
+                // Update user stats if available
+                if (window.updateStatsDisplay) {
+                    window.updateStatsDisplay();
+                }
+            } else {
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: result.message,
+                    icon: 'error',
+                    confirmButtonText: 'Thử lại'
+                });
+            }
+        } catch (error) {
+            console.error('Error using promo code:', error);
+            Swal.fire({
+                title: 'Lỗi hệ thống!',
+                text: 'Đã có lỗi xảy ra khi sử dụng mã khuyến mãi. Vui lòng thử lại sau.',
+                icon: 'error',
+                confirmButtonText: 'Đóng'
+            });
+        }
+    }
+    
+    async function showPromoHistory() {
+        try {
+            const history = await window.promoCodeSystem.getUserPromoHistory();
+            
+            if (history.length === 0) {
+                Swal.fire({
+                    title: 'Lịch sử mã khuyến mãi',
+                    text: 'Bạn chưa sử dụng mã khuyến mãi nào',
             icon: 'info',
             confirmButtonText: 'Đóng'
         });
+                return;
+            }
+            
+            let historyHtml = '<div style="text-align: left; max-height: 300px; overflow-y: auto;">';
+            history.forEach((promo, index) => {
+                historyHtml += `
+                    <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #4a90e2;">
+                        <p><strong>Mã:</strong> ${promo.code}</p>
+                        <p><strong>Phần thưởng:</strong> ${promo.rewardValue} ${promo.rewardType === 'diamond' ? 'Kim cương' : 'Vàng'}</p>
+                        <p><strong>Ngày sử dụng:</strong> ${new Date(promo.usedAt).toLocaleDateString('vi-VN')}</p>
+                        <p><strong>Mô tả:</strong> ${promo.promoDescription}</p>
+                    </div>
+                `;
+            });
+            historyHtml += '</div>';
+            
+            Swal.fire({
+                title: '📋 Lịch sử mã khuyến mãi',
+                html: historyHtml,
+                width: '600px',
+                confirmButtonText: 'Đóng'
+            });
+        } catch (error) {
+            console.error('Error getting promo history:', error);
+            Swal.fire({
+                title: 'Lỗi!',
+                text: 'Không thể tải lịch sử mã khuyến mãi',
+                icon: 'error',
+                confirmButtonText: 'Đóng'
+            });
+        }
+    }
+    
+    async function showAvailablePromos() {
+        try {
+            const availablePromos = await window.promoCodeSystem.getAvailablePromoCodes();
+            
+            if (availablePromos.length === 0) {
+                Swal.fire({
+                    title: 'Mã khuyến mãi có sẵn',
+                    text: 'Hiện tại không có mã khuyến mãi nào',
+                    icon: 'info',
+                    confirmButtonText: 'Đóng'
+                });
+                return;
+            }
+            
+            let promosHtml = '<div style="text-align: left; max-height: 300px; overflow-y: auto;">';
+            availablePromos.forEach((promo, index) => {
+                promosHtml += `
+                    <div style="margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #28a745;">
+                        <p><strong>Mã:</strong> ${promo.code}</p>
+                        <p><strong>Phần thưởng:</strong> ${promo.rewardValue} ${promo.rewardType === 'diamond' ? 'Kim cương' : 'Vàng'}</p>
+                        <p><strong>Mô tả:</strong> ${promo.description}</p>
+                        <p><strong>Đã sử dụng:</strong> ${promo.usedCount}/${promo.usageLimit === 0 ? '∞' : promo.usageLimit}</p>
+                        <p><strong>Hạn sử dụng:</strong> ${new Date(promo.expiryDate).toLocaleDateString('vi-VN')}</p>
+                    </div>
+                `;
+            });
+            promosHtml += '</div>';
+            
+            Swal.fire({
+                title: '📋 Mã khuyến mãi có sẵn',
+                html: promosHtml,
+                width: '600px',
+                confirmButtonText: 'Đóng'
+            });
+        } catch (error) {
+            console.error('Error getting available promos:', error);
+            Swal.fire({
+                title: 'Lỗi!',
+                text: 'Không thể tải danh sách mã khuyến mãi',
+                icon: 'error',
+                confirmButtonText: 'Đóng'
+            });
+        }
     }
 
     async function handleLogout() {
@@ -512,6 +787,10 @@ async function initializeFirebaseAuth() {
     window.showUserMenu = showUserMenu;
     window.handleLogout = handleLogout;
     window.showPromoCodes = showPromoCodes;
+    window.showPromoCodeInterface = showPromoCodeInterface;
+    window.usePromoCode = usePromoCode;
+    window.showPromoHistory = showPromoHistory;
+    window.showAvailablePromos = showAvailablePromos;
     window.goToRecharge = goToRecharge;
 
     console.log('🔥 Firebase Auth initialized successfully!');
