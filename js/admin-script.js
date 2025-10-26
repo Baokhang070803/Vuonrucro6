@@ -33,12 +33,13 @@ function showSection(sectionName) {
     }
     
     // Update header
-    const titles = {
-        'dashboard': ['Dashboard', 'Tổng quan hệ thống'],
-        'users': ['Quản lý Users', 'Danh sách người dùng trong hệ thống'],
-        'transactions': ['Giao dịch', 'Lịch sử giao dịch nạp tiền'],
-        'promo-codes': ['Mã khuyến mãi', 'Quản lý mã khuyến mãi']
-    };
+const titles = {
+    'dashboard': ['Dashboard', 'Tổng quan hệ thống'],
+    'users': ['Quản lý Users', 'Danh sách người dùng trong hệ thống'],
+    'transactions': ['Giao dịch', 'Lịch sử giao dịch nạp tiền'],
+    'promo-codes': ['Mã khuyến mãi', 'Quản lý mã khuyến mãi'],
+    'reports': ['Quản lý phản hồi', 'Danh sách phản hồi từ người dùng']
+};
     
     if (titles[sectionName]) {
         document.getElementById('page-title').textContent = titles[sectionName][0];
@@ -59,6 +60,9 @@ function loadSectionData(sectionName) {
             break;
         case 'promo-codes':
             loadPromoCodes();
+            break;
+        case 'reports':
+            loadReports();
             break;
     }
 }
@@ -464,7 +468,7 @@ function loadRevenueChart() {
     
     window.firebaseGet(transactionsRef).then((snapshot) => {
         const transactions = snapshot.val();
-        const revenueCtx = document.getElementById('revenueChart');
+    const revenueCtx = document.getElementById('revenueChart');
         
         if (!revenueCtx) return;
         
@@ -560,7 +564,7 @@ function loadUsersChart() {
     
     window.firebaseGet(usersRef).then((snapshot) => {
         const users = snapshot.val();
-        const usersCtx = document.getElementById('usersChart');
+    const usersCtx = document.getElementById('usersChart');
         
         if (!usersCtx) return;
         
@@ -754,16 +758,16 @@ function createPromoCode() {
                 const promoRef = window.firebaseRef(window.firebaseDB, 'PromoCodes/' + code);
                 
                 const newPromoData = {
-                    code: code,
-                    description: description,
+                code: code,
+                description: description,
                     rewardType: rewardType,
                     rewardValue: rewardValue,
                     minLevel: minLevel,
                     usageLimit: usageLimit,
-                    usedCount: 0,
+                usedCount: 0,
                     isActive: true,
                     startDate: startDate,
-                    createdAt: Date.now()
+                createdAt: Date.now()
                 };
                 
                 if (expiryDate) {
@@ -771,9 +775,9 @@ function createPromoCode() {
                 }
                 
                 window.firebaseSet(promoRef, newPromoData).then(() => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công!',
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
                         html: `
                             <div style="text-align: left;">
                                 <p>Đã tạo mã khuyến mãi mới:</p>
@@ -784,9 +788,9 @@ function createPromoCode() {
                                 <p><strong>Giới hạn:</strong> ${usageLimit || 'Không giới hạn'}</p>
                             </div>
                         `,
-                        confirmButtonColor: '#667eea'
-                    });
-                    loadPromoCodes();
+                    confirmButtonColor: '#667eea'
+                });
+                loadPromoCodes();
                 });
             });
         }
@@ -1261,7 +1265,7 @@ function exportUsers() {
                 icon: 'warning',
                 title: 'Không có dữ liệu',
                 text: 'Không có người dùng nào để xuất',
-                confirmButtonColor: '#667eea'
+        confirmButtonColor: '#667eea'
             });
             return;
         }
@@ -1377,7 +1381,7 @@ function exportTransactions() {
                 icon: 'warning',
                 title: 'Không có dữ liệu',
                 text: 'Không có giao dịch nào để xuất',
-                confirmButtonColor: '#667eea'
+        confirmButtonColor: '#667eea'
             });
             return;
         }
@@ -1473,7 +1477,7 @@ function viewTransaction(transId) {
     window.firebaseGet(transRef).then((snapshot) => {
         const trans = snapshot.val();
         if (!trans) {
-            Swal.fire({
+        Swal.fire({
                 icon: 'error',
                 title: 'Không tìm thấy',
                 text: 'Giao dịch không tồn tại',
@@ -1558,7 +1562,7 @@ function editPromoCode(promoId) {
     window.firebaseGet(promoRef).then((snapshot) => {
         const promo = snapshot.val();
         if (!promo) {
-            Swal.fire({
+        Swal.fire({
                 icon: 'error',
                 title: 'Không tìm thấy',
                 text: 'Mã khuyến mãi không tồn tại',
@@ -1968,6 +1972,378 @@ function addResources(userId) {
                     });
                 });
             }
+        });
+    });
+}
+
+// Load Reports
+function loadReports() {
+    if (!window.firebaseDB) return;
+    
+    const reportsRef = window.firebaseRef(window.firebaseDB, 'Reports');
+    
+    window.firebaseGet(reportsRef).then((snapshot) => {
+        const reports = snapshot.val();
+        const reportsTable = document.getElementById('reports-table');
+        
+        if (!reports || Object.keys(reports).length === 0) {
+            reportsTable.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-flag" style="font-size: 3rem; color: #64748b; margin-bottom: 20px;"></i>
+                    <h3>Chưa có phản hồi nào</h3>
+                    <p>Chưa có phản hồi nào từ người dùng</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const reportsArray = Object.entries(reports).map(([id, report]) => ({
+            id,
+            ...report
+        }));
+        
+        // Sort by timestamp (newest first)
+        reportsArray.sort((a, b) => {
+            const timeA = new Date(a.timestamp).getTime();
+            const timeB = new Date(b.timestamp).getTime();
+            return timeB - timeA;
+        });
+        
+        let html = `
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 200px;">Nội dung</th>
+                            <th style="min-width: 150px;">Người gửi</th>
+                            <th style="min-width: 100px;">Trạng thái</th>
+                            <th style="min-width: 150px;">Thời gian</th>
+                            <th style="min-width: 180px; text-align: center;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        reportsArray.forEach(report => {
+            const statusBadge = report.status === 'pending' 
+                ? '<span class="badge badge-warning">Chờ xử lý</span>'
+                : '<span class="badge badge-success">Đã xử lý</span>';
+            
+            const contentPreview = report.content.length > 50 
+                ? report.content.substring(0, 50) + '...'
+                : report.content;
+            
+            html += `
+                <tr>
+                    <td>
+                        <div style="max-width: 200px;">
+                            <p style="margin: 0; font-weight: 500; color: #1f2937;">${contentPreview}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <p style="margin: 0; font-weight: 500;">${report.userEmail || 'N/A'}</p>
+                            <small style="color: #64748b;">ID: ${report.userId ? report.userId.substring(0, 15) + '...' : 'N/A'}</small>
+                        </div>
+                    </td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <small style="color: #64748b;">${formatDateTime(report.timestamp)}</small>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" onclick="viewReport('${report.id}')" title="Xem chi tiết">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${report.status === 'pending' ? `
+                            <button class="btn btn-sm btn-success" onclick="markReportResolved('${report.id}')" title="Đánh dấu đã xử lý">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            ` : ''}
+                            <button class="btn btn-sm btn-danger" onclick="deleteReport('${report.id}')" title="Xóa">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+        
+        reportsTable.innerHTML = html;
+    }).catch((error) => {
+        console.error('Error loading reports:', error);
+        document.getElementById('reports-table').innerHTML = `
+            <div class="error-state">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 20px;"></i>
+                <h3>Lỗi tải dữ liệu</h3>
+                <p>Không thể tải danh sách phản hồi: ${error.message}</p>
+            </div>
+        `;
+    });
+}
+
+// View Report Details
+function viewReport(reportId) {
+    const reportRef = window.firebaseRef(window.firebaseDB, 'Reports/' + reportId);
+    
+    window.firebaseGet(reportRef).then((snapshot) => {
+        const report = snapshot.val();
+        if (!report) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Không tìm thấy',
+                text: 'Phản hồi không tồn tại',
+                confirmButtonColor: '#667eea'
+            });
+            return;
+        }
+        
+        const statusBadge = report.status === 'pending' 
+            ? '<span class="badge badge-warning">Chờ xử lý</span>'
+            : '<span class="badge badge-success">Đã xử lý</span>';
+        
+        Swal.fire({
+            title: '<i class="fas fa-flag"></i> Chi tiết phản hồi',
+            html: `
+                <div style="text-align: left; max-height: 600px; overflow-y: auto;">
+                    <!-- Thông tin cơ bản -->
+                    <div style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">
+                            <i class="fas fa-info-circle"></i> Thông tin cơ bản
+                        </h4>
+                        <p><strong><i class="fas fa-envelope"></i> Email người gửi:</strong> ${report.userEmail || 'N/A'}</p>
+                        <p><strong><i class="fas fa-id-badge"></i> User ID:</strong> <code>${report.userId || 'N/A'}</code></p>
+                        <p><strong><i class="fas fa-flag"></i> Trạng thái:</strong> ${statusBadge}</p>
+                        <p><strong><i class="fas fa-clock"></i> Thời gian:</strong> ${formatDateTime(report.timestamp)}</p>
+                    </div>
+                    
+                    <!-- Nội dung phản hồi -->
+                    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="color: #10b981; margin-bottom: 10px;">
+                            <i class="fas fa-comment-dots"></i> Nội dung phản hồi
+                        </h4>
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981;">
+                            <p style="margin: 0; line-height: 1.6; white-space: pre-wrap;">${report.content || 'Không có nội dung'}</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            width: '700px',
+            confirmButtonColor: '#667eea',
+            confirmButtonText: '<i class="fas fa-check"></i> Đóng'
+        });
+    }).catch((error) => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi!',
+            text: 'Không thể tải chi tiết phản hồi: ' + error.message,
+            confirmButtonColor: '#ef4444'
+        });
+    });
+}
+
+// Mark Report as Resolved
+function markReportResolved(reportId) {
+    Swal.fire({
+        title: '<i class="fas fa-check-circle"></i> Xác nhận xử lý',
+        html: `
+            <div style="text-align: left;">
+                <p>Bạn có chắc chắn muốn đánh dấu phản hồi này là <strong>đã xử lý</strong>?</p>
+                <div style="background: #f0f9ff; padding: 10px; border-radius: 8px; margin: 10px 0;">
+                    <p style="margin: 0; color: #64748b; font-size: 0.9em;">
+                        <i class="fas fa-info-circle"></i> 
+                        Phản hồi sẽ được đánh dấu là "Đã xử lý" và không thể hoàn tác.
+                    </p>
+                </div>
+            </div>
+        `,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fas fa-check"></i> Xác nhận',
+        cancelButtonText: '<i class="fas fa-times"></i> Hủy',
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#6b7280'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const reportRef = window.firebaseRef(window.firebaseDB, 'Reports/' + reportId);
+            
+            window.firebaseGet(reportRef).then((snapshot) => {
+                const report = snapshot.val();
+                if (!report) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Phản hồi không tồn tại',
+                        confirmButtonColor: '#ef4444'
+                    });
+                    return;
+                }
+                
+                const updateData = {
+                    ...report,
+                    status: 'resolved',
+                    resolvedAt: Date.now(),
+                    resolvedBy: 'admin'
+                };
+                
+                window.firebaseSet(reportRef, updateData).then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: 'Phản hồi đã được đánh dấu là đã xử lý',
+                        confirmButtonColor: '#10b981'
+                    });
+                    loadReports();
+                }).catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Không thể cập nhật trạng thái: ' + error.message,
+                        confirmButtonColor: '#ef4444'
+                    });
+                });
+            });
+        }
+    });
+}
+
+// Delete Report
+function deleteReport(reportId) {
+    Swal.fire({
+        title: '<i class="fas fa-trash"></i> Xác nhận xóa',
+        html: `
+            <div style="text-align: left;">
+                <p>Bạn có chắc chắn muốn <strong style="color: #ef4444;">xóa vĩnh viễn</strong> phản hồi này?</p>
+                <div style="background: #fef2f2; padding: 10px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ef4444;">
+                    <p style="margin: 0; color: #dc2626; font-size: 0.9em;">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        <strong>Cảnh báo:</strong> Hành động này không thể hoàn tác!
+                    </p>
+                </div>
+            </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fas fa-trash"></i> Xóa vĩnh viễn',
+        cancelButtonText: '<i class="fas fa-times"></i> Hủy',
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const reportRef = window.firebaseRef(window.firebaseDB, 'Reports/' + reportId);
+            
+            window.firebaseRemove(reportRef).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đã xóa!',
+                    text: 'Phản hồi đã được xóa vĩnh viễn',
+                    confirmButtonColor: '#10b981'
+                });
+                loadReports();
+            }).catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Không thể xóa phản hồi: ' + error.message,
+                    confirmButtonColor: '#ef4444'
+                });
+            });
+        }
+    });
+}
+
+// Export Reports to Excel
+function exportReports() {
+    Swal.fire({
+        title: '<i class="fas fa-download"></i> Xuất Excel',
+        html: '<div class="spinner"></div><p>Đang chuẩn bị dữ liệu...</p>',
+        allowOutsideClick: false,
+        showConfirmButton: false
+    });
+    
+    const reportsRef = window.firebaseRef(window.firebaseDB, 'Reports');
+    
+    window.firebaseGet(reportsRef).then((snapshot) => {
+        const reports = snapshot.val();
+        
+        if (!reports || Object.keys(reports).length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Không có dữ liệu',
+                text: 'Không có phản hồi nào để xuất',
+                confirmButtonColor: '#667eea'
+            });
+            return;
+        }
+        
+        const reportsArray = Object.entries(reports).map(([id, report]) => ({
+            'ID': id,
+            'Nội dung': report.content || '',
+            'Email người gửi': report.userEmail || '',
+            'User ID': report.userId || '',
+            'Trạng thái': report.status === 'pending' ? 'Chờ xử lý' : 'Đã xử lý',
+            'Thời gian tạo': formatDateTime(report.timestamp),
+            'Thời gian xử lý': report.resolvedAt ? formatDateTime(report.resolvedAt) : '',
+            'Người xử lý': report.resolvedBy || ''
+        }));
+        
+        // Sort by timestamp (newest first)
+        reportsArray.sort((a, b) => {
+            const timeA = new Date(reports[Object.keys(reports).find(key => reports[key] === a)]?.timestamp).getTime();
+            const timeB = new Date(reports[Object.keys(reports).find(key => reports[key] === b)]?.timestamp).getTime();
+            return timeB - timeA;
+        });
+        
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(reportsArray);
+        
+        // Set column widths
+        ws['!cols'] = [
+            { width: 20 }, // ID
+            { width: 50 }, // Nội dung
+            { width: 25 }, // Email
+            { width: 20 }, // User ID
+            { width: 15 }, // Trạng thái
+            { width: 20 }, // Thời gian tạo
+            { width: 20 }, // Thời gian xử lý
+            { width: 15 }  // Người xử lý
+        ];
+        
+        XLSX.utils.book_append_sheet(wb, ws, 'Reports');
+        
+        const timestamp = new Date().toISOString().split('T')[0];
+        const filename = `LangHoaRuc_Reports_${timestamp}.xlsx`;
+        
+        XLSX.writeFile(wb, filename);
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Xuất thành công!',
+            html: `
+                <div style="text-align: left;">
+                    <p><strong>File đã được tải xuống:</strong></p>
+                    <p><code>${filename}</code></p>
+                    <hr>
+                    <p><strong>Thống kê:</strong></p>
+                    <p>• Tổng số phản hồi: <strong>${reportsArray.length}</strong></p>
+                    <p>• Chờ xử lý: <strong>${reportsArray.filter(r => r.Trạng_thái === 'Chờ xử lý').length}</strong></p>
+                    <p>• Đã xử lý: <strong>${reportsArray.filter(r => r.Trạng_thái === 'Đã xử lý').length}</strong></p>
+                </div>
+            `,
+            confirmButtonColor: '#10b981'
+        });
+    }).catch((error) => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi xuất file!',
+            text: 'Không thể xuất dữ liệu: ' + error.message,
+            confirmButtonColor: '#ef4444'
         });
     });
 }
