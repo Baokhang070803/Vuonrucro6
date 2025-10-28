@@ -38,7 +38,8 @@ const titles = {
     'users': ['Quản lý Users', 'Danh sách người dùng trong hệ thống'],
     'transactions': ['Giao dịch', 'Lịch sử giao dịch nạp tiền'],
     'promo-codes': ['Mã khuyến mãi', 'Quản lý mã khuyến mãi'],
-    'reports': ['Quản lý phản hồi', 'Danh sách phản hồi từ người dùng']
+    'reports': ['Quản lý phản hồi', 'Danh sách phản hồi từ người dùng'],
+    'news': ['Quản lý tin tức', 'Quản lý tin tức và thông báo']
 };
     
     if (titles[sectionName]) {
@@ -63,6 +64,9 @@ function loadSectionData(sectionName) {
             break;
         case 'reports':
             loadReports();
+            break;
+        case 'news':
+            loadNews();
             break;
     }
 }
@@ -2334,6 +2338,621 @@ function exportReports() {
                     <p>• Tổng số phản hồi: <strong>${reportsArray.length}</strong></p>
                     <p>• Chờ xử lý: <strong>${reportsArray.filter(r => r.Trạng_thái === 'Chờ xử lý').length}</strong></p>
                     <p>• Đã xử lý: <strong>${reportsArray.filter(r => r.Trạng_thái === 'Đã xử lý').length}</strong></p>
+                </div>
+            `,
+            confirmButtonColor: '#10b981'
+        });
+    }).catch((error) => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi xuất file!',
+            text: 'Không thể xuất dữ liệu: ' + error.message,
+            confirmButtonColor: '#ef4444'
+        });
+    });
+}
+
+// Load News
+function loadNews() {
+    if (!window.firebaseDB) return;
+    
+    const newsRef = window.firebaseRef(window.firebaseDB, 'News');
+    
+    window.firebaseGet(newsRef).then((snapshot) => {
+        const news = snapshot.val();
+        const newsTable = document.getElementById('news-table');
+        
+        if (!news || Object.keys(news).length === 0) {
+            newsTable.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-newspaper" style="font-size: 3rem; color: #64748b; margin-bottom: 20px;"></i>
+                    <h3>Chưa có tin tức nào</h3>
+                    <p>Chưa có tin tức nào được tạo</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const newsArray = Object.entries(news).map(([id, newsItem]) => ({
+            id,
+            ...newsItem
+        }));
+        
+        // Sort by priority (ascending) then by date (descending)
+        newsArray.sort((a, b) => {
+            if (a.priority !== b.priority) {
+                return a.priority - b.priority;
+            }
+            return new Date(b.date) - new Date(a.date);
+        });
+        
+        let html = `
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 200px;">Tiêu đề</th>
+                            <th style="min-width: 300px;">Nội dung</th>
+                            <th style="min-width: 100px;">Ưu tiên</th>
+                            <th style="min-width: 100px;">Trạng thái</th>
+                            <th style="min-width: 120px;">Ngày tạo</th>
+                            <th style="min-width: 180px; text-align: center;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        newsArray.forEach(newsItem => {
+            const statusBadge = newsItem.isActive 
+                ? '<span class="badge badge-success">Hoạt động</span>'
+                : '<span class="badge badge-danger">Tắt</span>';
+            
+            const priorityBadge = newsItem.priority === 1 
+                ? '<span class="badge badge-danger">Cao</span>'
+                : newsItem.priority === 2 
+                ? '<span class="badge badge-warning">Trung bình</span>'
+                : '<span class="badge badge-info">Thấp</span>';
+            
+            const contentPreview = newsItem.content.length > 100 
+                ? newsItem.content.substring(0, 100) + '...'
+                : newsItem.content;
+            
+            html += `
+                <tr>
+                    <td>
+                        <div style="max-width: 200px;">
+                            <p style="margin: 0; font-weight: 600; color: #1f2937;">${newsItem.title || 'N/A'}</p>
+                            <small style="color: #64748b;">ID: ${newsItem.id}</small>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="max-width: 300px;">
+                            <p style="margin: 0; color: #374151; line-height: 1.4;">${contentPreview}</p>
+                        </div>
+                    </td>
+                    <td>${priorityBadge}</td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <small style="color: #64748b;">${newsItem.date || 'N/A'}</small>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-info" onclick="viewNews('${newsItem.id}')" title="Xem chi tiết">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="editNews('${newsItem.id}')" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteNews('${newsItem.id}')" title="Xóa">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
+        
+        newsTable.innerHTML = html;
+    }).catch((error) => {
+        console.error('Error loading news:', error);
+        document.getElementById('news-table').innerHTML = `
+            <div class="error-state">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444; margin-bottom: 20px;"></i>
+                <h3>Lỗi tải dữ liệu</h3>
+                <p>Không thể tải danh sách tin tức: ${error.message}</p>
+            </div>
+        `;
+    });
+}
+
+// Create News
+function createNews() {
+    Swal.fire({
+        title: '<i class="fas fa-plus-circle"></i> Tạo tin tức mới',
+        html: `
+            <div style="text-align: left;">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-heading"></i> Tiêu đề</label>
+                    <input type="text" id="news-title" class="form-control" placeholder="VD: 🎉 Sự kiện đặc biệt tuần này!" maxlength="100">
+                    <small style="color: #64748b;">Tối đa 100 ký tự</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-align-left"></i> Nội dung</label>
+                    <textarea id="news-content" class="form-control" rows="4" placeholder="Nhập nội dung tin tức..." maxlength="500"></textarea>
+                    <small style="color: #64748b;">Tối đa 500 ký tự</small>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-sort-numeric-up"></i> Độ ưu tiên</label>
+                        <select id="news-priority" class="form-control">
+                            <option value="1">🔴 Cao (1)</option>
+                            <option value="2" selected>🟡 Trung bình (2)</option>
+                            <option value="3">🟢 Thấp (3)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-calendar-alt"></i> Ngày tạo</label>
+                        <input type="date" id="news-date" class="form-control" value="${new Date().toISOString().split('T')[0]}">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="news-active" style="width: 20px; height: 20px; margin-right: 10px;" checked>
+                        <span style="font-weight: 600; color: #10b981;">
+                            <i class="fas fa-power-off"></i> Kích hoạt tin tức
+                        </span>
+                    </label>
+                    <small style="color: #64748b; display: block; margin-top: 5px; margin-left: 30px;">
+                        Tin tức sẽ hiển thị cho người dùng khi được kích hoạt
+                    </small>
+                </div>
+            </div>
+        `,
+        width: '600px',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fas fa-check"></i> Tạo tin tức',
+        cancelButtonText: '<i class="fas fa-times"></i> Hủy',
+        confirmButtonColor: '#667eea',
+        preConfirm: () => {
+            const title = document.getElementById('news-title').value.trim();
+            const content = document.getElementById('news-content').value.trim();
+            const priority = parseInt(document.getElementById('news-priority').value);
+            const date = document.getElementById('news-date').value;
+            const isActive = document.getElementById('news-active').checked;
+            
+            if (!title) {
+                Swal.showValidationMessage('Tiêu đề không được để trống');
+                return false;
+            }
+            
+            if (!content) {
+                Swal.showValidationMessage('Nội dung không được để trống');
+                return false;
+            }
+            
+            if (title.length > 100) {
+                Swal.showValidationMessage('Tiêu đề không được quá 100 ký tự');
+                return false;
+            }
+            
+            if (content.length > 500) {
+                Swal.showValidationMessage('Nội dung không được quá 500 ký tự');
+                return false;
+            }
+            
+            if (!date) {
+                Swal.showValidationMessage('Ngày tạo không được để trống');
+                return false;
+            }
+            
+            return { title, content, priority, date, isActive };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const { title, content, priority, date, isActive } = result.value;
+            
+            // Generate unique ID
+            const newsId = 'news_' + Date.now();
+            
+            const newsData = {
+                id: newsId,
+                title: title,
+                content: content,
+                priority: priority,
+                date: date,
+                isActive: isActive,
+                createdAt: Date.now()
+            };
+            
+            const newsRef = window.firebaseRef(window.firebaseDB, 'News/' + newsId);
+            
+            window.firebaseSet(newsRef, newsData).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    html: `
+                        <div style="text-align: left;">
+                            <p><strong>Đã tạo tin tức mới:</strong></p>
+                            <div style="background: #f0f9ff; padding: 10px; border-radius: 8px; margin: 10px 0;">
+                                <p><strong>Tiêu đề:</strong> ${title}</p>
+                                <p><strong>Độ ưu tiên:</strong> ${priority === 1 ? '🔴 Cao' : priority === 2 ? '🟡 Trung bình' : '🟢 Thấp'}</p>
+                                <p><strong>Ngày tạo:</strong> ${date}</p>
+                                <p><strong>Trạng thái:</strong> ${isActive ? '✅ Hoạt động' : '❌ Tắt'}</p>
+                            </div>
+                        </div>
+                    `,
+                    confirmButtonColor: '#667eea'
+                });
+                loadNews();
+            }).catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Không thể tạo tin tức: ' + error.message,
+                    confirmButtonColor: '#ef4444'
+                });
+            });
+        }
+    });
+}
+
+// View News Details
+function viewNews(newsId) {
+    const newsRef = window.firebaseRef(window.firebaseDB, 'News/' + newsId);
+    
+    window.firebaseGet(newsRef).then((snapshot) => {
+        const news = snapshot.val();
+        if (!news) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Không tìm thấy',
+                text: 'Tin tức không tồn tại',
+                confirmButtonColor: '#667eea'
+            });
+            return;
+        }
+        
+        const statusBadge = news.isActive 
+            ? '<span class="badge badge-success">Hoạt động</span>'
+            : '<span class="badge badge-danger">Tắt</span>';
+        
+        const priorityBadge = news.priority === 1 
+            ? '<span class="badge badge-danger">🔴 Cao</span>'
+            : news.priority === 2 
+            ? '<span class="badge badge-warning">🟡 Trung bình</span>'
+            : '<span class="badge badge-info">🟢 Thấp</span>';
+        
+        Swal.fire({
+            title: '<i class="fas fa-newspaper"></i> Chi tiết tin tức',
+            html: `
+                <div style="text-align: left; max-height: 600px; overflow-y: auto;">
+                    <!-- Header -->
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: center;">
+                        <h3 style="color: white; margin: 0; font-size: 1.5em;">${news.title}</h3>
+                        <div style="margin-top: 10px;">
+                            ${statusBadge}
+                            ${priorityBadge}
+                        </div>
+                    </div>
+                    
+                    <!-- Thông tin cơ bản -->
+                    <div style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">
+                            <i class="fas fa-info-circle"></i> Thông tin cơ bản
+                        </h4>
+                        <p><strong><i class="fas fa-hashtag"></i> ID:</strong> <code>${news.id}</code></p>
+                        <p><strong><i class="fas fa-calendar-alt"></i> Ngày tạo:</strong> ${news.date}</p>
+                        <p><strong><i class="fas fa-clock"></i> Thời gian tạo:</strong> ${formatDateTime(news.createdAt)}</p>
+                        <p><strong><i class="fas fa-sort-numeric-up"></i> Độ ưu tiên:</strong> ${news.priority}</p>
+                        <p><strong><i class="fas fa-power-off"></i> Trạng thái:</strong> ${news.isActive ? 'Hoạt động' : 'Tắt'}</p>
+                    </div>
+                    
+                    <!-- Nội dung -->
+                    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <h4 style="color: #10b981; margin-bottom: 10px;">
+                            <i class="fas fa-align-left"></i> Nội dung tin tức
+                        </h4>
+                        <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981;">
+                            <p style="margin: 0; line-height: 1.6; white-space: pre-wrap;">${news.content}</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            width: '700px',
+            confirmButtonColor: '#667eea',
+            confirmButtonText: '<i class="fas fa-check"></i> Đóng'
+        });
+    }).catch((error) => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi!',
+            text: 'Không thể tải chi tiết tin tức: ' + error.message,
+            confirmButtonColor: '#ef4444'
+        });
+    });
+}
+
+// Edit News
+function editNews(newsId) {
+    const newsRef = window.firebaseRef(window.firebaseDB, 'News/' + newsId);
+    
+    window.firebaseGet(newsRef).then((snapshot) => {
+        const news = snapshot.val();
+        if (!news) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Không tìm thấy',
+                text: 'Tin tức không tồn tại',
+                confirmButtonColor: '#667eea'
+            });
+            return;
+        }
+        
+        Swal.fire({
+            title: '<i class="fas fa-edit"></i> Chỉnh sửa tin tức',
+            html: `
+                <div style="text-align: left;">
+                    <div style="background: #667eea; color: white; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">${news.title}</h3>
+                        <small>ID: ${news.id}</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-heading"></i> Tiêu đề</label>
+                        <input type="text" id="edit-news-title" class="form-control" value="${news.title}" maxlength="100">
+                        <small style="color: #64748b;">Tối đa 100 ký tự</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-align-left"></i> Nội dung</label>
+                        <textarea id="edit-news-content" class="form-control" rows="4" maxlength="500">${news.content}</textarea>
+                        <small style="color: #64748b;">Tối đa 500 ký tự</small>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-sort-numeric-up"></i> Độ ưu tiên</label>
+                            <select id="edit-news-priority" class="form-control">
+                                <option value="1" ${news.priority === 1 ? 'selected' : ''}>🔴 Cao (1)</option>
+                                <option value="2" ${news.priority === 2 ? 'selected' : ''}>🟡 Trung bình (2)</option>
+                                <option value="3" ${news.priority === 3 ? 'selected' : ''}>🟢 Thấp (3)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-calendar-alt"></i> Ngày tạo</label>
+                            <input type="date" id="edit-news-date" class="form-control" value="${news.date}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" id="edit-news-active" style="width: 20px; height: 20px; margin-right: 10px;" ${news.isActive ? 'checked' : ''}>
+                            <span style="font-weight: 600; color: #10b981;">
+                                <i class="fas fa-power-off"></i> Kích hoạt tin tức
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            `,
+            width: '600px',
+            showCancelButton: true,
+            confirmButtonText: '<i class="fas fa-save"></i> Cập nhật',
+            cancelButtonText: '<i class="fas fa-times"></i> Hủy',
+            confirmButtonColor: '#f59e0b',
+            preConfirm: () => {
+                const title = document.getElementById('edit-news-title').value.trim();
+                const content = document.getElementById('edit-news-content').value.trim();
+                const priority = parseInt(document.getElementById('edit-news-priority').value);
+                const date = document.getElementById('edit-news-date').value;
+                const isActive = document.getElementById('edit-news-active').checked;
+                
+                if (!title) {
+                    Swal.showValidationMessage('Tiêu đề không được để trống');
+                    return false;
+                }
+                
+                if (!content) {
+                    Swal.showValidationMessage('Nội dung không được để trống');
+                    return false;
+                }
+                
+                if (title.length > 100) {
+                    Swal.showValidationMessage('Tiêu đề không được quá 100 ký tự');
+                    return false;
+                }
+                
+                if (content.length > 500) {
+                    Swal.showValidationMessage('Nội dung không được quá 500 ký tự');
+                    return false;
+                }
+                
+                if (!date) {
+                    Swal.showValidationMessage('Ngày tạo không được để trống');
+                    return false;
+                }
+                
+                return { title, content, priority, date, isActive };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const { title, content, priority, date, isActive } = result.value;
+                
+                const updateData = {
+                    ...news,
+                    title: title,
+                    content: content,
+                    priority: priority,
+                    date: date,
+                    isActive: isActive,
+                    updatedAt: Date.now()
+                };
+                
+                window.firebaseSet(newsRef, updateData).then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        html: `
+                            <div style="text-align: left;">
+                                <p><strong>Đã cập nhật tin tức:</strong></p>
+                                <div style="background: #f0f9ff; padding: 10px; border-radius: 8px; margin: 10px 0;">
+                                    <p><strong>Tiêu đề:</strong> ${title}</p>
+                                    <p><strong>Độ ưu tiên:</strong> ${priority === 1 ? '🔴 Cao' : priority === 2 ? '🟡 Trung bình' : '🟢 Thấp'}</p>
+                                    <p><strong>Ngày tạo:</strong> ${date}</p>
+                                    <p><strong>Trạng thái:</strong> ${isActive ? '✅ Hoạt động' : '❌ Tắt'}</p>
+                                </div>
+                            </div>
+                        `,
+                        confirmButtonColor: '#f59e0b'
+                    });
+                    loadNews();
+                }).catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: 'Không thể cập nhật tin tức: ' + error.message,
+                        confirmButtonColor: '#ef4444'
+                    });
+                });
+            }
+        });
+    });
+}
+
+// Delete News
+function deleteNews(newsId) {
+    Swal.fire({
+        title: '<i class="fas fa-trash"></i> Xác nhận xóa',
+        html: `
+            <div style="text-align: left;">
+                <p>Bạn có chắc chắn muốn <strong style="color: #ef4444;">xóa vĩnh viễn</strong> tin tức này?</p>
+                <div style="background: #fef2f2; padding: 10px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ef4444;">
+                    <p style="margin: 0; color: #dc2626; font-size: 0.9em;">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        <strong>Cảnh báo:</strong> Hành động này không thể hoàn tác!
+                    </p>
+                </div>
+            </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fas fa-trash"></i> Xóa vĩnh viễn',
+        cancelButtonText: '<i class="fas fa-times"></i> Hủy',
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const newsRef = window.firebaseRef(window.firebaseDB, 'News/' + newsId);
+            
+            window.firebaseRemove(newsRef).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đã xóa!',
+                    text: 'Tin tức đã được xóa vĩnh viễn',
+                    confirmButtonColor: '#10b981'
+                });
+                loadNews();
+            }).catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Không thể xóa tin tức: ' + error.message,
+                    confirmButtonColor: '#ef4444'
+                });
+            });
+        }
+    });
+}
+
+// Export News to Excel
+function exportNews() {
+    Swal.fire({
+        title: '<i class="fas fa-download"></i> Xuất Excel',
+        html: '<div class="spinner"></div><p>Đang chuẩn bị dữ liệu...</p>',
+        allowOutsideClick: false,
+        showConfirmButton: false
+    });
+    
+    const newsRef = window.firebaseRef(window.firebaseDB, 'News');
+    
+    window.firebaseGet(newsRef).then((snapshot) => {
+        const news = snapshot.val();
+        
+        if (!news || Object.keys(news).length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Không có dữ liệu',
+                text: 'Không có tin tức nào để xuất',
+                confirmButtonColor: '#667eea'
+            });
+            return;
+        }
+        
+        const newsArray = Object.entries(news).map(([id, newsItem]) => ({
+            'ID': newsItem.id || id,
+            'Tiêu đề': newsItem.title || '',
+            'Nội dung': newsItem.content || '',
+            'Độ ưu tiên': newsItem.priority === 1 ? 'Cao' : newsItem.priority === 2 ? 'Trung bình' : 'Thấp',
+            'Trạng thái': newsItem.isActive ? 'Hoạt động' : 'Tắt',
+            'Ngày tạo': newsItem.date || '',
+            'Thời gian tạo': newsItem.createdAt ? formatDateTime(newsItem.createdAt) : '',
+            'Thời gian cập nhật': newsItem.updatedAt ? formatDateTime(newsItem.updatedAt) : ''
+        }));
+        
+        // Sort by priority then by date
+        newsArray.sort((a, b) => {
+            const priorityOrder = { 'Cao': 1, 'Trung bình': 2, 'Thấp': 3 };
+            if (priorityOrder[a['Độ ưu tiên']] !== priorityOrder[b['Độ ưu tiên']]) {
+                return priorityOrder[a['Độ ưu tiên']] - priorityOrder[b['Độ ưu tiên']];
+            }
+            return new Date(b['Ngày tạo']) - new Date(a['Ngày tạo']);
+        });
+        
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(newsArray);
+        
+        // Set column widths
+        ws['!cols'] = [
+            { width: 15 }, // ID
+            { width: 30 }, // Tiêu đề
+            { width: 50 }, // Nội dung
+            { width: 15 }, // Độ ưu tiên
+            { width: 15 }, // Trạng thái
+            { width: 15 }, // Ngày tạo
+            { width: 20 }, // Thời gian tạo
+            { width: 20 }  // Thời gian cập nhật
+        ];
+        
+        XLSX.utils.book_append_sheet(wb, ws, 'News');
+        
+        const timestamp = new Date().toISOString().split('T')[0];
+        const filename = `LangHoaRuc_News_${timestamp}.xlsx`;
+        
+        XLSX.writeFile(wb, filename);
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Xuất thành công!',
+            html: `
+                <div style="text-align: left;">
+                    <p><strong>File đã được tải xuống:</strong></p>
+                    <p><code>${filename}</code></p>
+                    <hr>
+                    <p><strong>Thống kê:</strong></p>
+                    <p>• Tổng số tin tức: <strong>${newsArray.length}</strong></p>
+                    <p>• Đang hoạt động: <strong>${newsArray.filter(n => n.Trạng_thái === 'Hoạt động').length}</strong></p>
+                    <p>• Đã tắt: <strong>${newsArray.filter(n => n.Trạng_thái === 'Tắt').length}</strong></p>
+                    <p>• Độ ưu tiên cao: <strong>${newsArray.filter(n => n['Độ ưu tiên'] === 'Cao').length}</strong></p>
                 </div>
             `,
             confirmButtonColor: '#10b981'
