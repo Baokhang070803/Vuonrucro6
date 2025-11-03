@@ -1,0 +1,579 @@
+<mxfile host="65bd71144e">
+    <diagram id="DFD_Muc0" name="DFD Mức 0 - Context Diagram">
+        <mxGraphModel dx="504" dy="553" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="e1" value="Người dùng" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="360" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="Google Drive" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="200" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="Firebase Database" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="520" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p0" value="Hệ thống&lt;br&gt;Launcher Game" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="340" width="280" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="df1" value="Yêu cầu khởi động" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="e1" target="p0" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="df2" value="Hiển thị giao diện" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="p0" target="e1" edge="1">
+                    <mxGeometry x="-0.25" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="280" y="380" as="sourcePoint"/>
+                        <mxPoint x="410" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df3" value="Yêu cầu kiểm tra cập nhật" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="e1" target="p0" edge="1">
+                    <mxGeometry x="-0.25" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="400" as="sourcePoint"/>
+                        <mxPoint x="420" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df4" value="Yêu cầu tải game" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="e1" target="p0" edge="1">
+                    <mxGeometry x="-0.25" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="420" as="sourcePoint"/>
+                        <mxPoint x="420" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df5" value="Yêu cầu chạy game" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="e1" target="p0" edge="1">
+                    <mxGeometry x="-0.25" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="380" as="sourcePoint"/>
+                        <mxPoint x="420" y="370" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df6" value="Thông báo trạng thái" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="p0" target="e1" edge="1">
+                    <mxGeometry x="-0.25" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="700" y="400" as="sourcePoint"/>
+                        <mxPoint x="160" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df7" value="Yêu cầu thông tin folder" style="endArrow=block;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="p0" target="e2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="560" y="460" as="sourcePoint"/>
+                        <mxPoint x="980" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df8" value="HTML folder (chứa file ID)" style="endArrow=block;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="e2" target="p0" edge="1">
+                    <mxGeometry x="-0.5" y="-1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="980" y="200" as="sourcePoint"/>
+                        <mxPoint x="560" y="460" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df9" value="Yêu cầu tải file (với token)" style="endArrow=block;html=1;rounded=0;entryX=0.75;entryY=0.25;entryDx=0;entryDy=0;exitX=0.75;exitY=0.75;exitDx=0;exitDy=0;" parent="1" source="p0" target="e2" edge="1">
+                    <mxGeometry x="-0.25" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="630" y="430" as="sourcePoint"/>
+                        <mxPoint x="1010" y="220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df10" value="File game (ZIP)" style="endArrow=block;html=1;rounded=0;entryX=0.25;entryY=0.75;entryDx=0;entryDy=0;exitX=0.25;exitY=0.25;exitDx=0;exitDy=0;" parent="1" source="e2" target="p0" edge="1">
+                    <mxGeometry x="0.25" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="990" y="260" as="sourcePoint"/>
+                        <mxPoint x="490" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df11" value="Yêu cầu tin tức" style="endArrow=block;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="p0" target="e3" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="560" y="460" as="sourcePoint"/>
+                        <mxPoint x="980" y="560" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="df12" value="Dữ liệu tin tức (JSON)" style="endArrow=block;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="e3" target="p0" edge="1">
+                    <mxGeometry x="-0.5" y="-1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="980" y="520" as="sourcePoint"/>
+                        <mxPoint x="560" y="460" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="DFD_Muc1" name="DFD Mức 1 - Top Level Decomposition">
+        <mxGraphModel dx="892" dy="553" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="e1" value="Người dùng" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="400" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" value="Google Drive" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="1180" y="200" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" value="Firebase Database" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="1180" y="600" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds1" value="Cấu hình&lt;br&gt;(config.json)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="680" width="120" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds2" value="Thư mục&lt;br&gt;cài đặt game" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="480" y="680" width="120" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds3" value="File tạm&lt;br&gt;(temp)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="680" width="120" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1" value="1.0&lt;br&gt;Quản lý&lt;br&gt;giao diện&lt;br&gt;người dùng" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="200" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2" value="2.0&lt;br&gt;Quản lý&lt;br&gt;cấu hình" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="480" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3" value="3.0&lt;br&gt;Kiểm tra&lt;br&gt;cập nhật" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="180" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4" value="4.0&lt;br&gt;Tải file&lt;br&gt;game" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="340" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5" value="5.0&lt;br&gt;Giải nén&lt;br&gt;và cài đặt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="340" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p6" value="6.0&lt;br&gt;Chạy game" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="180" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p7" value="7.0&lt;br&gt;Tải tin tức" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="500" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="f1" value="Yêu cầu khởi động" style="endArrow=block;html=1;rounded=0;" parent="1" source="e1" target="p1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="420" as="sourcePoint"/>
+                        <mxPoint x="330" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f2" value="Yêu cầu cài đặt" style="endArrow=block;html=1;rounded=0;" parent="1" source="e1" target="p1" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="440" as="sourcePoint"/>
+                        <mxPoint x="330" y="270" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f3" value="Yêu cầu chạy" style="endArrow=block;html=1;rounded=0;" parent="1" source="e1" target="p1" edge="1">
+                    <mxGeometry x="-0.2" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="400" as="sourcePoint"/>
+                        <mxPoint x="330" y="230" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f4" value="Chọn thư mục" style="endArrow=block;html=1;rounded=0;" parent="1" source="e1" target="p1" edge="1">
+                    <mxGeometry x="-0.3" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="160" y="460" as="sourcePoint"/>
+                        <mxPoint x="330" y="290" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f5" value="Hiển thị UI" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="e1" edge="1">
+                    <mxGeometry x="-0.4" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="330" y="400" as="sourcePoint"/>
+                        <mxPoint x="160" y="420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f6" value="Thông báo trạng thái" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="e1" edge="1">
+                    <mxGeometry x="-0.5" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="330" y="420" as="sourcePoint"/>
+                        <mxPoint x="160" y="440" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f7" value="Yêu cầu load config" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="p2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="480" as="sourcePoint"/>
+                        <mxPoint x="260" y="530" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f8" value="Cấu hình đã load" style="endArrow=block;html=1;rounded=0;" parent="1" source="p2" target="p1" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="530" as="sourcePoint"/>
+                        <mxPoint x="260" y="480" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f9" value="Yêu cầu lưu config" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="p2" edge="1">
+                    <mxGeometry x="-0.2" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="500" as="sourcePoint"/>
+                        <mxPoint x="260" y="550" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f10" value="Yêu cầu kiểm tra" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="p3" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="250" as="sourcePoint"/>
+                        <mxPoint x="500" y="230" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f11" value="Kết quả kiểm tra" style="endArrow=block;html=1;rounded=0;" parent="1" source="p3" target="p1" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="270" as="sourcePoint"/>
+                        <mxPoint x="400" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f12" value="Yêu cầu tải" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="p4" edge="1">
+                    <mxGeometry x="-0.2" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="290" as="sourcePoint"/>
+                        <mxPoint x="500" y="390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f13" value="Tiến độ tải" style="endArrow=block;html=1;rounded=0;" parent="1" source="p4" target="p1" edge="1">
+                    <mxGeometry x="-0.3" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="410" as="sourcePoint"/>
+                        <mxPoint x="400" y="310" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f14" value="Yêu cầu chạy game" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="p6" edge="1">
+                    <mxGeometry x="-0.4" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="270" as="sourcePoint"/>
+                        <mxPoint x="740" y="230" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f15" value="Yêu cầu tin tức" style="endArrow=block;html=1;rounded=0;" parent="1" source="p1" target="p7" edge="1">
+                    <mxGeometry x="-0.5" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="440" as="sourcePoint"/>
+                        <mxPoint x="500" y="550" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f16" value="Dữ liệu tin tức" style="endArrow=block;html=1;rounded=0;" parent="1" source="p7" target="p1" edge="1">
+                    <mxGeometry x="0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="570" as="sourcePoint"/>
+                        <mxPoint x="400" y="460" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f17" value="Request folder HTML" style="endArrow=block;html=1;rounded=0;" parent="1" source="p3" target="e2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="640" y="230" as="sourcePoint"/>
+                        <mxPoint x="1180" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f18" value="HTML folder" style="endArrow=block;html=1;rounded=0;" parent="1" source="e2" target="p3" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1180" y="260" as="sourcePoint"/>
+                        <mxPoint x="640" y="230" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f19" value="Request file (với token)" style="endArrow=block;html=1;rounded=0;" parent="1" source="p4" target="e2" edge="1">
+                    <mxGeometry x="-0.2" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="640" y="390" as="sourcePoint"/>
+                        <mxPoint x="1180" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f20" value="File ZIP stream" style="endArrow=block;html=1;rounded=0;" parent="1" source="e2" target="p4" edge="1">
+                    <mxGeometry x="-0.3" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1180" y="260" as="sourcePoint"/>
+                        <mxPoint x="640" y="410" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f21" value="Request News JSON" style="endArrow=block;html=1;rounded=0;" parent="1" source="p7" target="e3" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="640" y="550" as="sourcePoint"/>
+                        <mxPoint x="1180" y="640" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f22" value="News JSON data" style="endArrow=block;html=1;rounded=0;" parent="1" source="e3" target="p7" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1180" y="620" as="sourcePoint"/>
+                        <mxPoint x="640" y="550" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f23" value="Lưu config" style="endArrow=block;html=1;rounded=0;" parent="1" source="p2" target="ds1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="260" y="580" as="sourcePoint"/>
+                        <mxPoint x="260" y="680" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f24" value="Đọc config" style="endArrow=block;html=1;rounded=0;" parent="1" source="ds1" target="p2" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="260" y="680" as="sourcePoint"/>
+                        <mxPoint x="260" y="580" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f25" value="Lưu file tạm" style="endArrow=block;html=1;rounded=0;" parent="1" source="p4" target="ds3" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="640" y="430" as="sourcePoint"/>
+                        <mxPoint x="820" y="680" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f26" value="Đọc file tạm" style="endArrow=block;html=1;rounded=0;" parent="1" source="ds3" target="p5" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="820" y="680" as="sourcePoint"/>
+                        <mxPoint x="820" y="440" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f27" value="Ghi file game" style="endArrow=block;html=1;rounded=0;" parent="1" source="p5" target="ds2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="740" y="440" as="sourcePoint"/>
+                        <mxPoint x="540" y="680" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f28" value="Đọc thông tin game" style="endArrow=block;html=1;rounded=0;" parent="1" source="ds2" target="p3" edge="1">
+                    <mxGeometry x="-0.2" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="540" y="680" as="sourcePoint"/>
+                        <mxPoint x="500" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f29" value="Đọc file exe" style="endArrow=block;html=1;rounded=0;" parent="1" source="ds2" target="p6" edge="1">
+                    <mxGeometry x="-0.3" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="540" y="680" as="sourcePoint"/>
+                        <mxPoint x="810" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f30" value="Yêu cầu giải nén" style="endArrow=block;html=1;rounded=0;" parent="1" source="p4" target="p5" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="640" y="390" as="sourcePoint"/>
+                        <mxPoint x="740" y="390" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f31" value="Tiến độ giải nén" style="endArrow=block;html=1;rounded=0;" parent="1" source="p5" target="p1" edge="1">
+                    <mxGeometry x="-0.4" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="810" y="390" as="sourcePoint"/>
+                        <mxPoint x="330" y="250" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="DFD_Muc2_3" name="DFD Mức 2 - Process 3.0 Kiểm tra cập nhật">
+        <mxGraphModel dx="892" dy="553" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="e2" value="Google Drive" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="200" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds2" value="Thư mục&lt;br&gt;cài đặt&lt;br&gt;(installed_file.txt)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="520" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3" value="3.0 Kiểm tra cập nhật" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;dashPattern=8 8;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="160" width="480" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="p31" value="3.1&lt;br&gt;Lấy thông tin&lt;br&gt;file từ Drive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="240" y="220" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p32" value="3.2&lt;br&gt;Đọc file&lt;br&gt;đã cài" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="220" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p33" value="3.3&lt;br&gt;So sánh&lt;br&gt;phiên bản" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="220" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="in1" value="Yêu cầu kiểm tra" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="p3" target="p31" edge="1">
+                    <mxGeometry x="-0.5" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="200" y="260" as="sourcePoint"/>
+                        <mxPoint x="240" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="out1" value="Kết quả kiểm tra" style="endArrow=block;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="p33" target="p3" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="680" y="260" as="sourcePoint"/>
+                        <mxPoint x="730" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f1" value="File ID, tên file mới" style="endArrow=block;html=1;rounded=0;" parent="1" source="p31" target="p33" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="380" y="260" as="sourcePoint"/>
+                        <mxPoint x="600" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f2" value="Tên file cũ" style="endArrow=block;html=1;rounded=0;" parent="1" source="p32" target="p33" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="420" y="300" as="sourcePoint"/>
+                        <mxPoint x="600" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f3" value="Request folder HTML" style="endArrow=block;html=1;rounded=0;" parent="1" source="p31" target="e2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="380" y="240" as="sourcePoint"/>
+                        <mxPoint x="920" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f4" value="HTML folder (parse file ID)" style="endArrow=block;html=1;rounded=0;" parent="1" source="e2" target="p31" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="920" y="280" as="sourcePoint"/>
+                        <mxPoint x="380" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f5" value="Đọc installed_file.txt" style="endArrow=block;html=1;rounded=0;" parent="1" source="ds2" target="p32" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="490" y="520" as="sourcePoint"/>
+                        <mxPoint x="490" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="DFD_Muc2_4" name="DFD Mức 2 - Process 4.0 Tải file game">
+        <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="e2" value="Google Drive" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+                    <mxGeometry x="1120" y="180" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds3" value="File tạm&lt;br&gt;(temp/game_update.zip)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="540" y="620" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4" value="4.0 Tải file game" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;dashPattern=8 8;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="140" width="680" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="p41" value="4.1&lt;br&gt;Tìm file ZIP&lt;br&gt;trong folder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="200" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p42" value="4.2&lt;br&gt;Xác thực&lt;br&gt;token download" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="200" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p43" value="4.3&lt;br&gt;Tải file&lt;br&gt;streaming" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="200" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p44" value="4.4&lt;br&gt;Kiểm tra&lt;br&gt;file hợp lệ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="760" y="200" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="in1" value="Yêu cầu tải" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" edge="1" target="p41">
+                    <mxGeometry x="-0.5" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="150" y="240" as="sourcePoint"/>
+                        <mxPoint x="220" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="out1" value="File đã tải xong" style="endArrow=block;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="p44" edge="1" target="p4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="900" y="240" as="sourcePoint"/>
+                        <mxPoint x="960" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="out2" value="Tiến độ, trạng thái&lt;br&gt;(đến 1.0)" style="endArrow=block;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="p43" edge="1" target="p4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="280" as="sourcePoint"/>
+                        <mxPoint x="520" y="140" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f1" value="File ID" style="endArrow=block;html=1;rounded=0;" parent="1" source="p41" target="p42" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="360" y="240" as="sourcePoint"/>
+                        <mxPoint x="400" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f2" value="File ID, token" style="endArrow=block;html=1;rounded=0;" parent="1" source="p42" target="p43" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="540" y="240" as="sourcePoint"/>
+                        <mxPoint x="580" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f3" value="File path tạm" style="endArrow=block;html=1;rounded=0;" parent="1" source="p43" target="p44" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="720" y="240" as="sourcePoint"/>
+                        <mxPoint x="760" y="240" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f4" value="Request folder HTML" style="endArrow=block;html=1;rounded=0;" parent="1" source="p41" target="e2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="360" y="220" as="sourcePoint"/>
+                        <mxPoint x="1120" y="220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f5" value="HTML folder" style="endArrow=block;html=1;rounded=0;" parent="1" source="e2" target="p41" edge="1">
+                    <mxGeometry x="-0.1" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1120" y="220" as="sourcePoint"/>
+                        <mxPoint x="360" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f6" value="Request file với token" style="endArrow=block;html=1;rounded=0;" parent="1" source="p42" target="e2" edge="1">
+                    <mxGeometry x="-0.2" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="540" y="220" as="sourcePoint"/>
+                        <mxPoint x="1120" y="220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f7" value="Response headers (token)" style="endArrow=block;html=1;rounded=0;" parent="1" source="e2" target="p42" edge="1">
+                    <mxGeometry x="-0.3" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1120" y="260" as="sourcePoint"/>
+                        <mxPoint x="540" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f8" value="Request download stream" style="endArrow=block;html=1;rounded=0;" parent="1" source="p43" target="e2" edge="1">
+                    <mxGeometry x="-0.4" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="720" y="200" as="sourcePoint"/>
+                        <mxPoint x="1120" y="220" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f9" value="File stream (chunks)" style="endArrow=block;html=1;rounded=0;" parent="1" source="e2" target="p43" edge="1">
+                    <mxGeometry x="-0.5" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1120" y="220" as="sourcePoint"/>
+                        <mxPoint x="720" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f10" value="Ghi chunks" style="endArrow=block;html=1;rounded=0;" parent="1" source="p43" target="ds3" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="280" as="sourcePoint"/>
+                        <mxPoint x="610" y="620" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f11" value="Đọc để kiểm tra" style="endArrow=block;html=1;rounded=0;" parent="1" source="ds3" target="p44" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="610" y="620" as="sourcePoint"/>
+                        <mxPoint x="820" y="280" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="DFD_Muc2_5" name="DFD Mức 2 - Process 5.0 Giải nén và cài đặt">
+        <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="ds3" value="File tạm&lt;br&gt;(ZIP)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="520" width="120" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="ds2" value="Thư mục&lt;br&gt;cài đặt game" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="680" y="520" width="120" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5" value="5.0 Giải nén và cài đặt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;dashPattern=8 8;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="160" width="480" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="p51" value="5.1&lt;br&gt;Mở file ZIP&lt;br&gt;kiểm tra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="220" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p52" value="5.2&lt;br&gt;Giải nén&lt;br&gt;từng file" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="220" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="p53" value="5.3&lt;br&gt;Ghi metadata&lt;br&gt;(version, installed_file)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="580" y="220" width="140" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="in1" value="Yêu cầu giải nén" style="endArrow=block;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="p5" edge="1" target="p51">
+                    <mxGeometry x="-0.5" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="180" y="260" as="sourcePoint"/>
+                        <mxPoint x="220" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="out1" value="Hoàn tất cài đặt" style="endArrow=block;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="p53" edge="1" target="p5">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="720" y="260" as="sourcePoint"/>
+                        <mxPoint x="770" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="out2" value="Tiến độ giải nén" style="endArrow=block;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="p52" edge="1" target="p5">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="470" y="300" as="sourcePoint"/>
+                        <mxPoint x="470" y="160" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f1" value="Danh sách files" style="endArrow=block;html=1;rounded=0;" parent="1" source="p51" target="p52" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="360" y="260" as="sourcePoint"/>
+                        <mxPoint x="400" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f2" value="Tên file đã cài" style="endArrow=block;html=1;rounded=0;" parent="1" source="p52" target="p53" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="540" y="260" as="sourcePoint"/>
+                        <mxPoint x="580" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f3" value="Đọc file ZIP" style="endArrow=block;html=1;rounded=0;" parent="1" source="ds3" target="p51" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="280" y="520" as="sourcePoint"/>
+                        <mxPoint x="290" y="300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f4" value="Ghi file giải nén" style="endArrow=block;html=1;rounded=0;" parent="1" source="p52" target="ds2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="470" y="300" as="sourcePoint"/>
+                        <mxPoint x="740" y="520" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="f5" value="Ghi version.txt, installed_file.txt" style="endArrow=block;html=1;rounded=0;" parent="1" source="p53" target="ds2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="650" y="300" as="sourcePoint"/>
+                        <mxPoint x="740" y="560" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

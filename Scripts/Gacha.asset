@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a51156cd560c59e4ea3020f455f9025c, type: 3}
+  m_Name: Gacha
+  m_EditorClassIdentifier: Assembly-CSharp::GachaData
+  gachaCharacters:
+  - characterID: scylla_001
+    characterName: Scylla Campbell
+    characterDescription: "Nh\xE0 gi\u1EA3 \u0111\u1ECBnh v\xE0 ng\u01B0\u1EDDi b\u1EA3o
+      tr\u1EE3 c\u1EE7a L\xE0ng Hoa R\u1EF1c \u2014 ng\u01B0\u1EDDi n\u1EAFm gi\u1EEF
+      tri th\u1EE9c ph\u1EE5c h\u1ED3i Pha L\xEA v\xE0 n\u0103ng l\u01B0\u1EE3ng
+      c\u1ED5 \u0111\u1EA1i."
+    characterIcon: {fileID: 7791214535279931073, guid: 8b12646c215b08f4d9ddbb800784cce8, type: 3}
+    rarity: 0
+    dropWeight: 10
+    baseHealth: 120
+    baseAttack: 60
+    baseDefense: 30
+    baseSpeed: 50
+  - characterID: scylla_002
+    characterName: "M\u1EE5 X\xE1m"
+    characterDescription: "K\u1EBB l\u1EA1c b\u01B0\u1EDBc kh\u1ECFi l\u1EC5 h\u1ED9i"
+    characterIcon: {fileID: 8302129328904623997, guid: 34af52e5a5c3ee5478f6879782cd87dd, type: 3}
+    rarity: 0
+    dropWeight: 10
+    baseHealth: 80
+    baseAttack: 100
+    baseDefense: 20
+    baseSpeed: 60
+  - characterID: scylla_003
+    characterName: "M\u1ED9c Tinh"
+    characterDescription: "K\u1EBB cai tr\u1ECB \u0111\u1EA1i ng\xE0n"
+    characterIcon: {fileID: -9189023498879117399, guid: a0f60f3ff7f2bb4429cc25f9649e0935, type: 3}
+    rarity: 2
+    dropWeight: 5
+    baseHealth: 200
+    baseAttack: 120
+    baseDefense: 80
+    baseSpeed: 70
+  commonDropRate: 50
+  rareDropRate: 35
+  epicDropRate: 12
+  legendaryDropRate: 3

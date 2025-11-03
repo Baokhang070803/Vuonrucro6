@@ -1,0 +1,1378 @@
+fileFormatVersion: 2
+guid: a31bd0a3a88cd7c41bd1e967a12fb902
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5892124700306386615
+    second: suoi_0
+  - first:
+      213: 648665979700723795
+    second: suoi_1
+  - first:
+      213: -3449628855440895753
+    second: suoi_2
+  - first:
+      213: -6709894496612244355
+    second: suoi_3
+  - first:
+      213: 1935257669591806095
+    second: suoi_4
+  - first:
+      213: -7836735720218610045
+    second: suoi_5
+  - first:
+      213: -3073725289591266500
+    second: suoi_6
+  - first:
+      213: 5048723308622044179
+    second: suoi_7
+  - first:
+      213: 6755774942558558332
+    second: suoi_8
+  - first:
+      213: -4577108157617884025
+    second: suoi_9
+  - first:
+      213: -5910505934084958323
+    second: suoi_10
+  - first:
+      213: -7853652600388945118
+    second: suoi_11
+  - first:
+      213: -1451731199317830971
+    second: suoi_12
+  - first:
+      213: 6759078607543437084
+    second: suoi_13
+  - first:
+      213: -445226455776799806
+    second: suoi_14
+  - first:
+      213: 4381597178504987183
+    second: suoi_15
+  - first:
+      213: 8418709575526929253
+    second: suoi_16
+  - first:
+      213: 8023564932957785391
+    second: suoi_17
+  - first:
+      213: 2678799797644376797
+    second: suoi_18
+  - first:
+      213: 1275137606812666024
+    second: suoi_19
+  - first:
+      213: -7070479012156072643
+    second: suoi_20
+  - first:
+      213: -322499124056327974
+    second: suoi_21
+  - first:
+      213: 5812570614537295222
+    second: suoi_22
+  - first:
+      213: 5114296119241654798
+    second: suoi_23
+  - first:
+      213: 5848133873384348642
+    second: suoi_24
+  - first:
+      213: -6714773554100549289
+    second: suoi_25
+  - first:
+      213: 3972003323401166055
+    second: suoi_26
+  - first:
+      213: -1728910651756327869
+    second: suoi_27
+  - first:
+      213: 527890615735960589
+    second: suoi_28
+  - first:
+      213: 8690423006630431925
+    second: suoi_29
+  - first:
+      213: 3904034105875817335
+    second: suoi_30
+  - first:
+      213: 8264818439533209228
+    second: suoi_31
+  - first:
+      213: 7752494061692353437
+    second: suoi_32
+  - first:
+      213: 6979093289448917572
+    second: suoi_33
+  - first:
+      213: 5315456213909954268
+    second: suoi_34
+  - first:
+      213: 8776782055032636121
+    second: suoi_35
+  - first:
+      213: 3375950819202375265
+    second: suoi_36
+  - first:
+      213: 1550768190256811935
+    second: suoi_37
+  - first:
+      213: -3085901200580022186
+    second: suoi_38
+  - first:
+      213: 413208437712067164
+    second: suoi_39
+  - first:
+      213: 5051419367608911666
+    second: suoi_40
+  - first:
+      213: -1177315363479797609
+    second: suoi_41
+  - first:
+      213: 1316648544171837948
+    second: suoi_42
+  - first:
+      213: -1679295528034686759
+    second: suoi_43
+  - first:
+      213: 9144717019427874086
+    second: suoi_44
+  - first:
+      213: 9028186117053506096
+    second: suoi_45
+  - first:
+      213: -4505682770867860367
+    second: suoi_46
+  - first:
+      213: 7040262516712374356
+    second: suoi_47
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: suoi_0
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 895
+        width: 92
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7be2116723805c150800000000000000
+      internalID: 5892124700306386615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_1
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 895
+        width: 90
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35041f19546800900800000000000000
+      internalID: 648665979700723795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_2
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 898
+        width: 90
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f0128835d47020d0800000000000000
+      internalID: -3449628855440895753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_3
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 898
+        width: 98
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d742411818aa1e2a0800000000000000
+      internalID: -6709894496612244355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_4
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 903
+        width: 91
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f80bed8d89a6bda10800000000000000
+      internalID: 1935257669591806095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_5
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 903
+        width: 81
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38631cd12625e3390800000000000000
+      internalID: -7836735720218610045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_6
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 904
+        width: 135
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3327c8622fe755d0800000000000000
+      internalID: -3073725289591266500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_7
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 743
+        width: 126
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31cd6a3991ba01640800000000000000
+      internalID: 5048723308622044179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_8
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 695
+        width: 213
+        height: 299
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7810b1448551cd50800000000000000
+      internalID: 6755774942558558332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_9
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 799
+        width: 90
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 784b4a69168da70c0800000000000000
+      internalID: -4577108157617884025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_10
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 800
+        width: 90
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d87170c0b2aa9fda0800000000000000
+      internalID: -5910505934084958323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_11
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 803
+        width: 97
+        height: 73
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22b7e740298320390800000000000000
+      internalID: -7853652600388945118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_12
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 807
+        width: 96
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c21f437a2a6adbe0800000000000000
+      internalID: -1451731199317830971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_13
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 809
+        width: 98
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c178193be221dcd50800000000000000
+      internalID: 6759078607543437084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_14
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 799
+        width: 82
+        height: 79
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c351dab5ec32d9f0800000000000000
+      internalID: -445226455776799806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_15
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 719
+        width: 86
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f22c4ad4b6f8ecc30800000000000000
+      internalID: 4381597178504987183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_16
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 727
+        width: 56
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 563567431c345d470800000000000000
+      internalID: 8418709575526929253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_17
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 727
+        width: 60
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2dca3dbbcd695f60800000000000000
+      internalID: 8023564932957785391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_18
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 703
+        width: 112
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dda3bfa19320d2520800000000000000
+      internalID: 2678799797644376797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_19
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 520
+        width: 308
+        height: 278
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a88fcdb5e232b110800000000000000
+      internalID: 1275137606812666024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_20
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 559
+        width: 149
+        height: 171
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3d1598accc90ed90800000000000000
+      internalID: -7070479012156072643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_21
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 623
+        width: 208
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad87f3e51c0468bf0800000000000000
+      internalID: -322499124056327974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_22
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 630
+        width: 80
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6759e577d266aa050800000000000000
+      internalID: 5812570614537295222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_23
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 535
+        width: 179
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e02ce874931a9f640800000000000000
+      internalID: 5114296119241654798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_24
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 535
+        width: 202
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ebd00ae5ceb82150800000000000000
+      internalID: 5848133873384348642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_25
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 543
+        width: 92
+        height: 60
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75946a8670550d2a0800000000000000
+      internalID: -6714773554100549289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_26
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 231
+        width: 280
+        height: 294
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ec5ff16af36f1730800000000000000
+      internalID: 3972003323401166055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_27
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 407
+        width: 189
+        height: 119
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34ccca12ceca108e0800000000000000
+      internalID: -1728910651756327869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_28
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 407
+        width: 120
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d044437d7b1735700800000000000000
+      internalID: 527890615735960589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_29
+      rect:
+        serializedVersion: 2
+        x: 661
+        y: 399
+        width: 156
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bcc6124ea59a9870800000000000000
+      internalID: 8690423006630431925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_30
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 415
+        width: 158
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 773ecb7b55aed2630800000000000000
+      internalID: 3904034105875817335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_31
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 295
+        width: 146
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c86a975f49882b270800000000000000
+      internalID: 8264818439533209228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_32
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 295
+        width: 171
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9b7f7e4644669b60800000000000000
+      internalID: 7752494061692353437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_33
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 215
+        width: 103
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44a4ae3be58bad060800000000000000
+      internalID: 6979093289448917572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_34
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 215
+        width: 106
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdede39934b44c940800000000000000
+      internalID: 5315456213909954268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_35
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 103
+        width: 189
+        height: 122
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d24e3517c46dc970800000000000000
+      internalID: 8776782055032636121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_36
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 90
+        width: 225
+        height: 175
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16e1fbd2269c9de20800000000000000
+      internalID: 3375950819202375265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_37
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 143
+        width: 226
+        height: 122
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9f8b35e37f658510800000000000000
+      internalID: 1550768190256811935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_38
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 31
+        width: 105
+        height: 168
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 650f977353dac25d0800000000000000
+      internalID: -3085901200580022186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_39
+      rect:
+        serializedVersion: 2
+        x: 891
+        y: 31
+        width: 102
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5a950482e20cb500800000000000000
+      internalID: 413208437712067164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_40
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 31
+        width: 74
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2378bd9b62f3a1640800000000000000
+      internalID: 5051419367608911666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_41
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 31
+        width: 72
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7904d232ae559afe0800000000000000
+      internalID: -1177315363479797609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_42
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 31
+        width: 77
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf9c56100eca54210800000000000000
+      internalID: 1316648544171837948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_43
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 31
+        width: 76
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d827925d91f1b8e0800000000000000
+      internalID: -1679295528034686759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_44
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 31
+        width: 58
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 625a77aadaf88ee70800000000000000
+      internalID: 9144717019427874086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_45
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 32
+        width: 58
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0326619a07f8a4d70800000000000000
+      internalID: 9028186117053506096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_46
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 31
+        width: 109
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17cc2db54699871c0800000000000000
+      internalID: -4505682770867860367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: suoi_47
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 31
+        width: 103
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4508322457904b160800000000000000
+      internalID: 7040262516712374356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: b4dbbac4595b32b4fa9cdaf3277ef209
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      suoi_0: 5892124700306386615
+      suoi_1: 648665979700723795
+      suoi_10: -5910505934084958323
+      suoi_11: -7853652600388945118
+      suoi_12: -1451731199317830971
+      suoi_13: 6759078607543437084
+      suoi_14: -445226455776799806
+      suoi_15: 4381597178504987183
+      suoi_16: 8418709575526929253
+      suoi_17: 8023564932957785391
+      suoi_18: 2678799797644376797
+      suoi_19: 1275137606812666024
+      suoi_2: -3449628855440895753
+      suoi_20: -7070479012156072643
+      suoi_21: -322499124056327974
+      suoi_22: 5812570614537295222
+      suoi_23: 5114296119241654798
+      suoi_24: 5848133873384348642
+      suoi_25: -6714773554100549289
+      suoi_26: 3972003323401166055
+      suoi_27: -1728910651756327869
+      suoi_28: 527890615735960589
+      suoi_29: 8690423006630431925
+      suoi_3: -6709894496612244355
+      suoi_30: 3904034105875817335
+      suoi_31: 8264818439533209228
+      suoi_32: 7752494061692353437
+      suoi_33: 6979093289448917572
+      suoi_34: 5315456213909954268
+      suoi_35: 8776782055032636121
+      suoi_36: 3375950819202375265
+      suoi_37: 1550768190256811935
+      suoi_38: -3085901200580022186
+      suoi_39: 413208437712067164
+      suoi_4: 1935257669591806095
+      suoi_40: 5051419367608911666
+      suoi_41: -1177315363479797609
+      suoi_42: 1316648544171837948
+      suoi_43: -1679295528034686759
+      suoi_44: 9144717019427874086
+      suoi_45: 9028186117053506096
+      suoi_46: -4505682770867860367
+      suoi_47: 7040262516712374356
+      suoi_5: -7836735720218610045
+      suoi_6: -3073725289591266500
+      suoi_7: 5048723308622044179
+      suoi_8: 6755774942558558332
+      suoi_9: -4577108157617884025
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

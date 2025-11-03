@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 6f848e4aa7979584ab79c302891a6f26
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8020781518718682403
+    second: cai_nut_trong_game_no_bg_0
+  - first:
+      213: -6315311889945128150
+    second: cai_nut_trong_game_no_bg_1
+  - first:
+      213: 2741079605748623194
+    second: cai_nut_trong_game_no_bg_2
+  - first:
+      213: 7389463476887730759
+    second: cai_nut_trong_game_no_bg_3
+  - first:
+      213: -1303852003817097162
+    second: cai_nut_trong_game_no_bg_4
+  - first:
+      213: 2467216872505144066
+    second: cai_nut_trong_game_no_bg_5
+  - first:
+      213: -6617269380860034233
+    second: cai_nut_trong_game_no_bg_6
+  - first:
+      213: -6565148983017548257
+    second: cai_nut_trong_game_no_bg_7
+  - first:
+      213: -5007620126063522888
+    second: cai_nut_trong_game_no_bg_8
+  - first:
+      213: 1391085728557487206
+    second: cai_nut_trong_game_no_bg_9
+  - first:
+      213: -5878936973511202000
+    second: cai_nut_trong_game_no_bg_10
+  - first:
+      213: 4887846492759859124
+    second: cai_nut_trong_game_no_bg_11
+  - first:
+      213: 5978493032791273316
+    second: cai_nut_trong_game_no_bg_12
+  - first:
+      213: 5791007741183080078
+    second: cai_nut_trong_game_no_bg_13
+  - first:
+      213: -5305378452266951594
+    second: cai_nut_trong_game_no_bg_14
+  - first:
+      213: -2834154470263168297
+    second: cai_nut_trong_game_no_bg_15
+  - first:
+      213: -5264158678265210199
+    second: cai_nut_trong_game_no_bg_16
+  - first:
+      213: -5069275819826385115
+    second: cai_nut_trong_game_no_bg_17
+  - first:
+      213: -5015444194890240240
+    second: cai_nut_trong_game_no_bg_18
+  - first:
+      213: 6592822110183597380
+    second: cai_nut_trong_game_no_bg_19
+  - first:
+      213: -3769208651266013087
+    second: cai_nut_trong_game_no_bg_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 101
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 325ce3c9b4a8f4f60800000000000000
+      internalID: 8020781518718682403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_1
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 101
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a23150acb418b58a0800000000000000
+      internalID: -6315311889945128150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 101
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a57e6b9e0654a0620800000000000000
+      internalID: 2741079605748623194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_3
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 101
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74abd9491e5ac8660800000000000000
+      internalID: 7389463476887730759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_4
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 101
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 638fcc8b289c7ede0800000000000000
+      internalID: -1303852003817097162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_5
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 101
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 203f4857ca05d3220800000000000000
+      internalID: 2467216872505144066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_6
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 101
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 743c4c2de8cba24a0800000000000000
+      internalID: -6617269380860034233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_7
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 51
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f16d8b998c7e3e4a0800000000000000
+      internalID: -6565148983017548257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_8
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 51
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bb03efd60c518ab0800000000000000
+      internalID: -5007620126063522888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_9
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 51
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 664d8ce89112e4310800000000000000
+      internalID: 1391085728557487206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_10
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 51
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03b64f478f1d96ea0800000000000000
+      internalID: -5878936973511202000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_11
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 51
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bf179dfc7e15d340800000000000000
+      internalID: 4887846492759859124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_12
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 51
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46feba7ecbfd7f250800000000000000
+      internalID: 5978493032791273316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_13
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 51
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8631c8cbdacd5050800000000000000
+      internalID: 5791007741183080078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_14
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 0
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65cdd9128628f56b0800000000000000
+      internalID: -5305378452266951594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_15
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 0
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d2e069768f0ba8d0800000000000000
+      internalID: -2834154470263168297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_16
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 0
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9aa56b4a293f1f6b0800000000000000
+      internalID: -5264158678265210199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_17
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 0
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52f65c2008056a9b0800000000000000
+      internalID: -5069275819826385115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_18
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 0
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01fa5c4e310956ab0800000000000000
+      internalID: -5015444194890240240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_19
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 0
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 445a5d867c86e7b50800000000000000
+      internalID: 6592822110183597380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cai_nut_trong_game_no_bg_20
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 0
+        width: 43
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 168c5f8a3b411bbc0800000000000000
+      internalID: -3769208651266013087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      cai_nut_trong_game_no_bg_0: 8020781518718682403
+      cai_nut_trong_game_no_bg_1: -6315311889945128150
+      cai_nut_trong_game_no_bg_10: -5878936973511202000
+      cai_nut_trong_game_no_bg_11: 4887846492759859124
+      cai_nut_trong_game_no_bg_12: 5978493032791273316
+      cai_nut_trong_game_no_bg_13: 5791007741183080078
+      cai_nut_trong_game_no_bg_14: -5305378452266951594
+      cai_nut_trong_game_no_bg_15: -2834154470263168297
+      cai_nut_trong_game_no_bg_16: -5264158678265210199
+      cai_nut_trong_game_no_bg_17: -5069275819826385115
+      cai_nut_trong_game_no_bg_18: -5015444194890240240
+      cai_nut_trong_game_no_bg_19: 6592822110183597380
+      cai_nut_trong_game_no_bg_2: 2741079605748623194
+      cai_nut_trong_game_no_bg_20: -3769208651266013087
+      cai_nut_trong_game_no_bg_3: 7389463476887730759
+      cai_nut_trong_game_no_bg_4: -1303852003817097162
+      cai_nut_trong_game_no_bg_5: 2467216872505144066
+      cai_nut_trong_game_no_bg_6: -6617269380860034233
+      cai_nut_trong_game_no_bg_7: -6565148983017548257
+      cai_nut_trong_game_no_bg_8: -5007620126063522888
+      cai_nut_trong_game_no_bg_9: 1391085728557487206
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
